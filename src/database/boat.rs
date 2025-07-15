@@ -33,7 +33,7 @@ impl Boat {
         Boat { conn }
     }
 
-    pub fn add_boat(&mut self, name: String, startRecord: String, EndRecord: String, dataStruct: serde_json::Value) -> Result<bool, Box<dyn std::error::Error>> {
+    pub fn add_boat(&mut self, name: String, startRecord: String, endRecord: String, dataStruct: serde_json::Value) -> Result<bool, Box<dyn std::error::Error>> {
 
         // add file
         let path_str = format!("./boats/{}", name);
@@ -58,14 +58,16 @@ impl Boat {
         let conn = self.conn.as_mut();
         let conn = conn.ok_or("conn is None")?;
 
-        conn.exec_drop(
-            "INSERT INTO boats (name, path, EndRecord) VALUES (:name, :path, :EndRecord)",
-            params! {
-                "name" => name,
-                "path" => startRecord,
-                "EndRecord" => EndRecord
-            },
-        )?;
+        let result = conn.exec_drop(
+            "INSERT INTO boats (name, path, endRecord) VALUES (?, ?, ?)",
+            (name, startRecord, endRecord),
+        );
+
+        if let Err(e) = result {
+            println!("Erreur lors de l'insertion en base : {e}");
+            return Ok(false);
+        }
+
         Ok(true)
     }
 
@@ -74,10 +76,8 @@ impl Boat {
         let conn = self.conn.as_mut();
         let conn = conn.ok_or("conn is None")?;
         let boat = conn
-            .exec_first("SELECT id, name, path FROM boats WHERE id=:id;", 
-                params! (
-                    "id" => id
-                ),
+            .exec_first("SELECT id, name, path FROM boats WHERE id=?;", 
+                (id, ),
             )?
             .ok_or("Boat not found")?;
 
@@ -104,8 +104,8 @@ impl Boat {
 
         let groupBoats: Vec<BoatCollection> = conn
             .exec_map(
-                "SELECT id, name, path FROM boats WHERE name =:name;",
-                params! ("name" => nameBoat),
+                "SELECT id, name, path FROM boats WHERE name =?;",
+                (nameBoat, ),
                 |(id, name, path) | BoatCollection {id, name, path}
             )?;
         Ok(groupBoats)
