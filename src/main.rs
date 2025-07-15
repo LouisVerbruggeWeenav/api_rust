@@ -89,6 +89,8 @@ async fn index() -> impl Responder {
 }
 
 
+
+
 #[get("/boats/grouped")]
 async fn get_grouped_boats(data: web::Data<AppState>) -> impl Responder {
 
@@ -314,7 +316,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
         .app_data(config.clone())
         .service(
-            web::scope("/api")
+            web::scope("/rust/api")
                 .service(index)
                 //.service(greet)
                 .service(get_boat_one)
@@ -323,8 +325,7 @@ async fn main() -> std::io::Result<()> {
                 .service(raspberryData)
         )
     })
-    // .bind(("127.0.0.1", 8080))?
-    .bind(("0.0.0.0", 8080))?
+    .bind(("127.0.0.1", 8080))?
     .run()
     .await
 }
