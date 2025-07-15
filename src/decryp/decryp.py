@@ -24,4 +24,4 @@ def decryp(tramCan):
         print("ID manquants dans le fichier DBC:")
         print([f"{elem:X}" for elem in fileTrc.getIdManquant()])
 
-    return json.dumps(allData)
+    return json.dumps(allData, default=str)
