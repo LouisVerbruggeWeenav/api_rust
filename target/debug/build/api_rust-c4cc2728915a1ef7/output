@@ -1,2 +1,0 @@
-cargo:rustc-link-lib=python3.8
-cargo:rerun-if-changed=build.rs
