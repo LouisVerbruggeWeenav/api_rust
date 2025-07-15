@@ -5,7 +5,7 @@ use mysql::{Opts, Pool, PooledConn};
 
 pub struct Connection {
     host: String,
-    port: String,
+    port: u16,
     user: String,
     password: String,
     database: String,
@@ -15,7 +15,7 @@ pub struct Connection {
 
 
 impl Connection { 
-    pub fn new(host: String, port: String, user: String, password: String, database: String) -> Self {
+    pub fn new(host: u16, port: String, user: String, password: String, database: String) -> Self {
 
         let url = format!("mysql://{}:{}@{}:{}/{}", user, password, host, port, database);
         Connection { 
