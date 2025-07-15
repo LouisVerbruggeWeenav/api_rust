@@ -1,7 +1,7 @@
 
 
 use mysql::{Opts, Pool, PooledConn};
-
+use urlencoding::encode;
 
 pub struct Connection {
     host: String,
@@ -17,7 +17,7 @@ pub struct Connection {
 impl Connection { 
     pub fn new(host: String, port: String, user: String, password: String, database: String) -> Self {
 
-        let url = format!("mysql://{}:{}@{}:{}/{}", user, password, host, port, database);
+        let url = format!("mysql://{}:{}@{}:{}/{}", encode(&user), encode(&password), host, port, database);
         Connection { 
             host,
             port,
@@ -31,8 +31,6 @@ impl Connection {
     }
 
     pub fn connect(&mut self) -> std::result::Result<(), Box<dyn std::error::Error>> {
-
-        println!("{}", self.url);
 
         let opts: Opts = Opts::from_url(self.url.as_str()).expect("Failed to parse URL");
         let pool: Pool = Pool::new(opts).expect("Failed to create pool");
