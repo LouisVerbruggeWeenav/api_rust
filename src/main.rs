@@ -209,8 +209,6 @@ async fn main() -> std::io::Result<()> {
         .app_data(config.clone())
         .service(
             web::scope("/api")
-                .service(index)
-                //.service(greet)
                 .service(get_boat_one)
                 .service(get_grouped_boats)
                 .service(get_boat_by_id_post)
