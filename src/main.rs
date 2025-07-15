@@ -66,38 +66,15 @@ async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberryp
 
     let data_struct: Value = functionDecryptPython(info.structData.clone()).expect("msg");
     let mut boat = data.boat.lock().unwrap();
-
     boat.add_boat(info.infoBoat.name.clone(), info.infoBoat.startRecord.clone(), data_struct);
-
-    "OK"
+    "Succes"
 }
-
-
-#[get("/")]
-async fn index() -> impl Responder {
-
-    println!("ppppppppppppp");
-
-    let nom_fichier = "../boats/test/test.json";
-
-    let contenu = fs::read_to_string(nom_fichier).expect("Quelque chose s'est mal passé lors de la lecture du fichier");
-    let json: serde_json::Value = serde_json::from_str(&contenu).expect("msg");
-
-    Json(
-        json
-    )
-}
-
-
-
 
 #[get("/boats/grouped")]
 async fn get_grouped_boats(data: web::Data<AppState>) -> impl Responder {
 
-
     let mut json: serde_json::Value = serde_json::Value::Null;
     let mut boat = data.boat.lock().unwrap();
-
     json = match boat.get_grouped_boats() {
         
         Ok(groupBoats) => {
@@ -107,19 +84,14 @@ async fn get_grouped_boats(data: web::Data<AppState>) -> impl Responder {
                     eprintln!("Erreur de sérialisation: {}", e);
                     serde_json::json!({ "error": format!("Erreur de sérialisation: {}", e) })
                 }
-
             }
         }
-
         Err(e) => {
             eprintln!("Erreur GroupBy : {}", e);
             serde_json::json!({ "error": format!("Parsing GroupBy: {}", e) })
         }
-
     };
-
     Json(json)
-
 }
 
 
@@ -128,9 +100,7 @@ async fn get_boat_by_id_post(data: web::Data<AppState>, info: web::Json<InfoFron
 
     let mut json: serde_json::Value = serde_json::Value::Null;
     let mut boat = data.boat.lock().unwrap();
-
     json = match boat.get_boat_by_name(info.name.clone()) {
-        
         Ok(groupBoats) => {
             match serde_json::to_value(&groupBoats) {
                 Ok(val) => val,
@@ -140,22 +110,13 @@ async fn get_boat_by_id_post(data: web::Data<AppState>, info: web::Json<InfoFron
                 }
             }
         }
-
         Err(e) => {
             eprintln!("Erreur SQL byName : {}", e);
             serde_json::json!({ "error": format!("Parsing GroupBy: {}", e) })
         }
-
     };
-
     Json(json)
-
-
 }
-    
-
-
-
 
 #[post("/boats/one")]
 async fn get_boat_one(data: web::Data<AppState>, info: web::Json<InfoFrontOne>) -> impl Responder {
@@ -194,11 +155,6 @@ async fn get_boat_one(data: web::Data<AppState>, info: web::Json<InfoFrontOne>) 
     Json(json)
 }
 
-
-
-
-
-
 fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::Error>> {
     // Lire le fichier Python
     let code_str = fs::read_to_string("./src/decryp/decryp.py")
@@ -224,8 +180,6 @@ fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::
             let result = module.getattr("decryp")?.call1((tram_can, ))?;
             let json_str: String = result.extract()?;
             let value: Value = serde_json::from_str(&json_str).expect("JSON invalide");
-
-            // Affichage utile pour debug
             println!("Résultat JSON : {}", value);
 
             *parsed.borrow_mut() = value;
@@ -233,7 +187,7 @@ fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::
         })();
 
         if let Err(e) = result {
-            e.print(py); // Affiche traceback Python
+            e.print(py);
         }
     });
 
@@ -241,82 +195,20 @@ fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::
 }
 
 
-
-#[actix_web::main] // or #[tokio::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
 // fn main() {
     let mut database = Connection::new("localhost".to_string(), 3306, "root".to_string(), "welcome1".to_string(), "boat_directory".to_string());
     database.connect();
 
-    // get all data boats:
     let mut boat = Boat::new(database.getConn());
-
-
-    // GLOBAL_DATA.with(|text| {
-    //     println!("Global string is {}", *text.borrow());
-    // });
-
-
-
-    // GET ALL:
-    //
-    // match boat.get_all_boats(){
-    //     Ok(boats) => {
-    //         for boat in boats {
-    //             println!("{} | {} | {}", boat.id, boat.name, boat.path);
-    //         }
-    //     },
-    //     Err(e) => {
-    //         eprintln!("Erreur lors de la récupération : {}", e);
-    //     }
-    // }
-
-
-    // GET ONE:
-    //
-    // match boat.get_boat_by_id(15) {
-    //     Ok(boat) => {
-    //         println!("{} | {} | {}", boat.id, boat.name, boat.path);
-    //     },
-    //     Err(e) => {
-    //         eprintln!("Erreur lors de la récupération : {}", e);
-    //     }
-    // }
-
-    // SCRIPT PYTHON:
-
-    // let json_raw = r#"
-    // [
-    //     {
-    //         "timestamp": "11:53:20",
-    //         "id": 419366912,
-    //         "length": "8",
-    //         "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
-    //     },
-    //     {
-    //         "timestamp": "11:53:20",
-    //         "id": 419366912,
-    //         "length": "8",
-    //         "message": "b'\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00'"
-    //     }
-    // ]
-    // "#;
-
-
-    
-    // functionDecryptPython("hee".to_string());
-
-
     let config = web::Data::new(AppState { boat: Mutex::new(boat), });
-
-    
-    
 
     HttpServer::new(move || {
         App::new()
         .app_data(config.clone())
         .service(
-            web::scope("/rust/api")
+            web::scope("/api")
                 .service(index)
                 //.service(greet)
                 .service(get_boat_one)
