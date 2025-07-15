@@ -314,7 +314,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
         .app_data(config.clone())
         .service(
-            web::scope("/rust/api")
+            web::scope("/api")
                 .service(index)
                 //.service(greet)
                 .service(get_boat_one)
