@@ -33,7 +33,7 @@ impl Boat {
         Boat { conn }
     }
 
-    pub fn add_boat(&mut self, name: String, startRecord: String, dataStruct: serde_json::Value) -> Result<bool, Box<dyn std::error::Error>> {
+    pub fn add_boat(&mut self, name: String, startRecord: String, EndRecord: String, dataStruct: serde_json::Value) -> Result<bool, Box<dyn std::error::Error>> {
 
         // add file
         let path_str = format!("./boats/{}", name);
@@ -59,10 +59,11 @@ impl Boat {
         let conn = conn.ok_or("conn is None")?;
 
         conn.exec_drop(
-            "INSERT INTO boats (name, path) VALUES (:name, :path)",
+            "INSERT INTO boats (name, path, EndRecord) VALUES (:name, :path, :EndRecord)",
             params! {
                 "name" => name,
-                "path" => startRecord
+                "path" => startRecord,
+                "EndRecord" => EndRecord
             },
         )?;
         Ok(true)

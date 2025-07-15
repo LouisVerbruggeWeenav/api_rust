@@ -40,28 +40,20 @@ struct InfoFrontOne {
 #[derive(Deserialize, Clone)]
 struct StructInfoBoat {
     name: String,
-    startRecord: String
+    startRecord: String,
+    endRecord: String
 }
 
 
 #[derive(Deserialize, Clone)]
 struct InfoRaspberrypi{
     infoBoat: StructInfoBoat,
-    structData: String,
+    structData: String
 }
 
 #[derive(Deserialize, Clone)]
 struct InfoFrontByName {
     name: String,
-}
-
-#[derive(Debug, Deserialize)]
-
-struct CanFrame {
-    timestamp: String,
-    id: u32,
-    lenght: String,
-    message: String
 }
 
 
@@ -70,7 +62,7 @@ async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberryp
 
     let data_struct: Value = functionDecryptPython(info.structData.clone()).expect("msg");
     let mut boat = data.boat.lock().unwrap();
-    boat.add_boat(info.infoBoat.name.clone(), info.infoBoat.startRecord.clone(), data_struct);
+    boat.add_boat(info.infoBoat.name.clone(), info.infoBoat.startRecord.clone(), info.infoBoat.endRecord.clone(), data_struct);
     "Succes"
 }
 
