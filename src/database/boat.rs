@@ -1,28 +1,18 @@
 
-use std::io;
 
-use actix_web::cookie::time::error;
-use actix_web::Error;
-use mysql::{Pool, PooledConn};
+use mysql::PooledConn;
 use mysql::prelude::*;
 use mysql::params;
 use serde::{Serialize};
-use serde_json::Value;
-use std::io::Write; // <== important !
-
+use std::io::Write;
 use std::fs::{self, File};
-
 use std::path::Path;
-
-
 
 
 #[derive(Debug)]
 pub struct Boat {
     conn: Option<PooledConn>,
 }
-
-
 
 #[derive(Debug, Serialize)]
 pub struct BoatCollection  {
@@ -50,7 +40,6 @@ impl Boat {
         let path = Path::new(&path_str);
 
         if !path.exists() {
-            // Crée le dossier (avec tous les dossiers parents si besoin)
             fs::create_dir_all(path)?;
             println!("Dossier créé : {}", path.display());
         } else {
@@ -58,15 +47,12 @@ impl Boat {
         }
 
         let file_path = path.join(format!("{}.json", startRecord ));
-
         let json_string = serde_json::to_string_pretty(&dataStruct)
             .expect("Erreur lors de la conversion en JSON");
-
         let mut file = File::create(&file_path)?;
         file.write_all(json_string.as_bytes())?;
 
         println!("Données enregistrées dans {}", file_path.display());
-        
 
         // add to database:
         let conn = self.conn.as_mut();
@@ -79,34 +65,13 @@ impl Boat {
                 "path" => startRecord
             },
         )?;
-
-
-        
         Ok(true)
-
-
     }
-    
-    // pub fn get_all_boats(&mut self) -> Result<Vec<BoatCollection>, Box<dyn std::error::Error>> {
-
-    //     let conn = self.conn.as_mut(); // 2e Option<&mut>
-    //     let conn = conn.ok_or("conn is None")?; // on extrait le &mut PooledConn final
-
-    
-    //     let boats: Vec<BoatCollection> = conn
-    //         .query_map(
-    //             "SELECT id, name, path FROM boats",
-    //             |(id, name, path) | BoatCollection {id, name, path}
-    //         )?;
-
-    //     Ok(boats)
-    // }
 
     pub fn get_boat_by_id(&mut self, id: i32) -> Result<BoatCollection, Box<dyn std::error::Error>> {
 
         let conn = self.conn.as_mut();
         let conn = conn.ok_or("conn is None")?;
-
         let boat = conn
             .exec_first("SELECT id, name, path FROM boats WHERE id=:id;", 
                 params! (
@@ -116,8 +81,6 @@ impl Boat {
             .ok_or("Boat not found")?;
 
         let (id, name, path): (u32, String, String) = boat;
-
-
         Ok(BoatCollection { id, name, path })
     }
 
@@ -125,13 +88,11 @@ impl Boat {
 
         let conn = self.conn.as_mut();
         let conn = conn.ok_or("conn is None")?;
-
         let groupBoats: Vec<BoatCount> = conn
             .query_map(
                 "SELECT name, COUNT(name) FROM boats GROUP BY name",
                 |(name, count) | BoatCount {name, count}
             )?;
-
         Ok(groupBoats)
     }
 
@@ -140,17 +101,13 @@ impl Boat {
         let conn = self.conn.as_mut();
         let conn = conn.ok_or("conn is None")?;
 
-        // let request = format!("SELECT * FROM boats WHERE name = {};", name);
-
         let groupBoats: Vec<BoatCollection> = conn
             .exec_map(
                 "SELECT id, name, path FROM boats WHERE name =:name;",
                 params! ("name" => nameBoat),
                 |(id, name, path) | BoatCollection {id, name, path}
             )?;
-
         Ok(groupBoats)
-
     }
     
 }

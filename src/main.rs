@@ -6,7 +6,7 @@ use serde_json;
 
 use pyo3::prelude::*;
 use pyo3::types::PyModule;
-use std::fs;
+use std::{f32::consts::E, fs};
 
 use std::ffi::CString;
 
@@ -20,6 +20,10 @@ use serde::{Serialize, Deserialize};
 mod database;
 use crate::database::{boat::Boat, connection::Connection};
 use std::cell::RefCell;
+
+
+use dotenv::dotenv;
+use std::env;
 
 
 
@@ -156,7 +160,7 @@ async fn get_boat_one(data: web::Data<AppState>, info: web::Json<InfoFrontOne>) 
 }
 
 fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::Error>> {
-    // Lire le fichier Python
+
     let code_str = fs::read_to_string("./src/decryp/decryp.py")
         .expect("Fichier Python introuvable");
 
@@ -164,7 +168,6 @@ fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::
     let filename = CString::new("decryp.py").unwrap();
     let modulename = CString::new("main").unwrap();
 
-    println!("ok dans la fonction dec");
 
     let parsed = RefCell::new(Value::Null);
 
@@ -180,7 +183,6 @@ fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::
             let result = module.getattr("decryp")?.call1((tram_can, ))?;
             let json_str: String = result.extract()?;
             let value: Value = serde_json::from_str(&json_str).expect("JSON invalide");
-            println!("Résultat JSON : {}", value);
 
             *parsed.borrow_mut() = value;
             Ok(())
@@ -198,7 +200,19 @@ fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
 // fn main() {
-    let mut database = Connection::new("localhost".to_string(), 3306, "root".to_string(), "welcome1".to_string(), "boat_directory".to_string());
+
+    dotenv().ok();
+
+    let host = env::var("DB_HOST").expect("DB_HOST must be set");
+    let port = env::var("DB_PORT").expect("DB_PORT must be set");
+    let user = env::var("DB_USER").expect("DB_USER must be set");
+    let password = env::var("DB_PASSWORD").expect("DB_PASSWORD must be set");
+    let database = env::var("DB_DATABASE").expect("DB_DATABASE must be set");
+
+
+    // env::var("DB_USER")
+
+    let mut database = Connection::new(host, port, user, password, database);
     database.connect();
 
     let mut boat = Boat::new(database.getConn());

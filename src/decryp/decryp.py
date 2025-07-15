@@ -10,17 +10,12 @@ from src.decryp.fileDbc import FileDbc
 from src.decryp.fileTrc import FileTrc
 
 import json
-import pprint
 
 def decryp(tramCan):
 
-    print("OUVERTURE DU FICHIER .DBC ")
     fileDbc = FileDbc("./src/decryp/WEENAV.dbc")
-        
-    print("OUVERTURE DU FICHIER .TRC ")
     fileTrc = FileTrc(json.loads(tramCan))
 
-    print("GO LE DECODAGE !")
     allData = fileTrc.find_data(fileDbc.getDataStruct(), fileDbc.getData())  # Extract data from the TRC file at initialization
 
     idManquants = fileTrc.getIdManquant()
@@ -29,8 +24,4 @@ def decryp(tramCan):
         print("ID manquants dans le fichier DBC:")
         print([f"{elem:X}" for elem in fileTrc.getIdManquant()])
 
-    pprint.pprint(allData)
-
     return json.dumps(allData)
-
-print("HELLO DEPUIS LE FICHIER DECREYPT.PY")
