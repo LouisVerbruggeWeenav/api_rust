@@ -59,7 +59,8 @@ impl Connection {
 
     }
 
-    pub fn getConn(&mut self) -> Option<&mut PooledConn> {
-        return self.conn.as_mut();
+    pub fn getConn(&mut self) -> Option<PooledConn> {
+        self.conn.take()
     }
+
 }
