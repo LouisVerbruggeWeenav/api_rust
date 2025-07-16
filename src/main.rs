@@ -15,6 +15,11 @@ use std::sync::Mutex;
 use serde_json::Value;
 use serde::{Serialize, Deserialize};
 
+use actix_web::http::header::{CONTENT_ENCODING, CONTENT_TYPE};
+use flate2::write::GzEncoder;
+use flate2::Compression;
+use std::io::Write;
+
 
 // Ensure the database module is declared
 
@@ -119,29 +124,42 @@ async fn get_boat_by_id_post(data: web::Data<AppState>, info: web::Json<InfoFron
 async fn get_boat_one(data: web::Data<AppState>, info: web::Json<InfoFrontOne>) -> impl Responder {
     let mut boat = data.boat.lock().unwrap();
 
-    if let Ok(boats) = boat.get_boat_by_id(info.id) {
-        let path = format!("./boats/{}/{}.json", boats.name, boats.path);
-        match tokio::fs::read_to_string(&path).await {
-            Ok(contenu) => {
-                // Au lieu de parser puis re-sérialiser JSON, on envoie direct le contenu lu
-                HttpResponse::Ok()
-                    .content_type("application/json")
-                    .body(contenu)
-            }
-            Err(e) => {
-                let err_json = serde_json::json!({ "error": format!("File read failed: {}", e) });
-                let err_bytes = serde_json::to_vec(&err_json).unwrap_or_default();
-                HttpResponse::InternalServerError()
-                    .content_type("application/json")
-                    .body(err_bytes)
+    match boat.get_boat_by_id(info.id) {
+        Ok(boats) => {
+            let path = format!("./boats/{}/{}.json", boats.name, boats.path);
+            match tokio::fs::read(&path).await {
+                Ok(bytes) => {
+                    // Compression gzip
+                    let mut encoder = GzEncoder::new(Vec::new(), Compression::default());
+                    if let Err(e) = encoder.write_all(&bytes) {
+                        eprintln!("Erreur compression gzip: {}", e);
+                        return HttpResponse::InternalServerError().finish();
+                    }
+                    let compressed_bytes = match encoder.finish() {
+                        Ok(data) => data,
+                        Err(e) => {
+                            eprintln!("Erreur fin compression gzip: {}", e);
+                            return HttpResponse::InternalServerError().finish();
+                        }
+                    };
+
+                    HttpResponse::Ok()
+                        .insert_header((CONTENT_TYPE, "application/json"))
+                        .insert_header((CONTENT_ENCODING, "gzip"))
+                        .body(compressed_bytes)
+                }
+                Err(e) => {
+                    eprintln!("Erreur lecture fichier {} : {}", path, e);
+                    HttpResponse::InternalServerError()
+                        .json(serde_json::json!({ "error": format!("File read failed: {}", e) }))
+                }
             }
         }
-    } else {
-        let err_json = serde_json::json!({ "error": "Boat not found" });
-        let err_bytes = serde_json::to_vec(&err_json).unwrap_or_default();
-        HttpResponse::NotFound()
-            .content_type("application/json")
-            .body(err_bytes)
+        Err(e) => {
+            eprintln!("Erreur récupération boat : {}", e);
+            HttpResponse::InternalServerError()
+                .json(serde_json::json!({ "error": format!("{}", e) }))
+        }
     }
 }
 
