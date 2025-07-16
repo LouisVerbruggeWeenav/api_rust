@@ -1,22 +1,19 @@
 
 
 
-use actix_web::{get, post, web, App, HttpServer, Responder, web::Json};
+use actix_web::{get, post, web, App, HttpServer, HttpResponse, Responder, web::Json};
 use serde_json;
 
 use pyo3::prelude::*;
 use pyo3::types::PyModule;
-// use std::{f32::consts::E, fs};
+use std::{f32::consts::E, fs};
+use actix_web::middleware::Compress;
 
 use std::ffi::CString;
 
 use std::sync::Mutex;
 use serde_json::Value;
 use serde::{Serialize, Deserialize};
-use actix_web::{middleware::Compress, HttpResponse};
-use tokio::fs;
-
-
 
 
 // Ensure the database module is declared
@@ -63,8 +60,8 @@ struct InfoFrontByName {
 
 #[post("/raspberrypi/data")]
 async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberrypi>) ->  impl Responder {
-    
-    let data_struct: Value = functionDecryptPython(info.structData.clone()).await.expect("msg");
+
+    let data_struct: Value = functionDecryptPython(info.structData.clone()).expect("msg");
     let mut boat = data.boat.lock().unwrap();
     boat.add_boat(info.infoBoat.name.clone(), info.infoBoat.startRecord.clone(), info.infoBoat.endRecord.clone(), data_struct);
     "Succes"
@@ -119,24 +116,39 @@ async fn get_boat_by_id_post(data: web::Data<AppState>, info: web::Json<InfoFron
 }
 
 #[post("/boats/one")]
-async fn get_boat_one() -> impl Responder {
-    let path = "./boats/some_boat.json";
+async fn get_boat_one(data: web::Data<AppState>, info: web::Json<InfoFrontOne>) -> impl Responder {
+    let mut boat = data.boat.lock().unwrap();
 
-    let content = fs::read_to_string(path).await.unwrap_or_default();
-    let json_value: Value = serde_json::from_str(&content).unwrap_or(Value::Null);
-
-    HttpResponse::Ok()
-        .content_type("application/json")
-        .body(serde_json::to_string(&json_value).unwrap())
+    match boat.get_boat_by_id(info.id) {
+        Ok(boats) => {
+            let path = format!("./boats/{}/{}.json", boats.name, boats.path);
+            match tokio::fs::read(&path).await {
+                Ok(bytes) => {
+                    // Envoie direct du contenu binaire JSON sans parsing
+                    HttpResponse::Ok()
+                        .content_type("application/json")
+                        .body(bytes)
+                }
+                Err(e) => {
+                    eprintln!("Erreur lecture fichier {} : {}", path, e);
+                    HttpResponse::InternalServerError()
+                        .json(serde_json::json!({ "error": format!("File read failed: {}", e) }))
+                }
+            }
+        }
+        Err(e) => {
+            eprintln!("Erreur récupération boat : {}", e);
+            HttpResponse::InternalServerError()
+                .json(serde_json::json!({ "error": format!("{}", e) }))
+        }
+    }
 }
 
-async fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::Error>> {
+
+fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::Error>> {
 
     let code_str = fs::read_to_string("./src/decryp/decryp.py")
-        .await
         .expect("Fichier Python introuvable");
-
-
 
     let code_cstring = CString::new(code_str).expect("CString::new failed");
     let filename = CString::new("decryp.py").unwrap();
@@ -198,6 +210,8 @@ async fn main() -> std::io::Result<()> {
         .app_data(web::PayloadConfig::new(1024 * 1024 * 1024)) // = 1Go
         .service(
             web::scope("/api")
+
+                .wrap(Compress::default())
                 .service(get_boat_one)
                 .service(get_grouped_boats)
                 .service(get_boat_by_id_post)
