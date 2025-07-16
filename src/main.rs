@@ -213,6 +213,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
         .app_data(config.clone())
+        .app_data(web::PayloadConfig::new(1024 * 1024 * 1024)) // = 1Go
         .service(
             web::scope("/api")
                 .service(get_boat_one)
@@ -227,6 +228,7 @@ async fn main() -> std::io::Result<()> {
     .await
 }
 
+#[get("/boats/grouped")]
 
 
 
