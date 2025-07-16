@@ -228,7 +228,4 @@ async fn main() -> std::io::Result<()> {
     .await
 }
 
-#[get("/boats/grouped")]
-
-
 
