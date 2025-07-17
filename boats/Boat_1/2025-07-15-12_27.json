@@ -1,0 +1,22 @@
+[
+  {
+    "GARMIN": [
+      {
+        "OBC_DILONG_COMMAND (ID: 0x1806E5F4)": [
+          {
+            "MaxAllowableChargingVoltageH": [
+              [
+                0.0,
+                1.1
+              ],
+              [
+                "12:30:00",
+                "12:30:01"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

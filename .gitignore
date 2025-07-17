@@ -2,3 +2,6 @@ target
 boat/*
 src/decryp/__pycache__
 .env
+
+test.py
+test2.py

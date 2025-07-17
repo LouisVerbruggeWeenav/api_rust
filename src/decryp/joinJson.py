@@ -36,7 +36,7 @@ def merge_json_objects(json_list):
             if main_key not in merged_result:
                 merged_result[main_key] = []
             merged_result[main_key].extend(main_val)
-
+    
     # Étape 2 : fusionner les commandes CAN (comme "OBC_DILONG_COMMAND ...") dans chaque bloc principal
     for main_key in merged_result:
         combined_entries = {}
@@ -54,4 +54,5 @@ def merge_json_objects(json_list):
 
         merged_result[main_key] = [{k: v} for k, v in combined_entries.items()]
 
-    return [merged_result]
+    return [{k: v} for k, v in merged_result.items()]
+

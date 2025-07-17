@@ -1,5 +1,6 @@
 import pprint
 import json
+import pprint
 
 from src.decryp.joinJson import merge_json_objects
 
@@ -18,6 +19,13 @@ def concatJson(listPath):
 
     return dataFirstFile
 
-data = concatJson(["boats/Boat_1/2025-07-15-12_28.json", "boats/Boat_1/2025-07-15-12_29.json", "boats/Boat_1/2025-07-15-12_30.json"])
+data = concatJson(["boats/Boat_1/2025-07-15-12_25.json", "boats/Boat_1/2025-07-15-12_26.json", "boats/Boat_1/2025-07-15-12_27.json"])
 
-print(json.dumps(data))
+for elem in data:
+    print("\n__\n")
+    print(elem)
+    print("\n__\n")
+
+# print(json.dumps(data))
+
+# json.dumps(data)

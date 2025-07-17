@@ -42,5 +42,4 @@ def concatJson(listPath):
         print("1")
         dataFirstFile = merge_json_objects(dataFirstFile + dataSecondFile)
 
-    pprint.pprint(dataFirstFile)
     return json.dumps(dataFirstFile)
