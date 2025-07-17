@@ -21,11 +21,9 @@ def concatJson(listPath):
 
 data = concatJson(["boats/Boat_1/2025-07-15-12_25.json", "boats/Boat_1/2025-07-15-12_26.json", "boats/Boat_1/2025-07-15-12_27.json"])
 
-for elem in data:
-    print("\n__\n")
-    print(elem)
-    print("\n__\n")
-
+print(data)
+print("\n")
+print(json.dumps(data))
 # print(json.dumps(data))
 
-# json.dumps(data)
+# 
