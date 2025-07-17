@@ -8,13 +8,15 @@ use std::io::Write;
 use std::fs::{self, File};
 use std::path::Path;
 
+use crate::database::boat;
+
 
 #[derive(Debug)]
 pub struct Boat {
     conn: Option<PooledConn>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, FromRow)]
 pub struct BoatCollection  {
     pub id: u32,
     pub name: String,
@@ -76,13 +78,45 @@ impl Boat {
         let conn = self.conn.as_mut();
         let conn = conn.ok_or("conn is None")?;
         let boat = conn
-            .exec_first("SELECT id, name, path FROM boats WHERE id=?;", 
+            .exec_first("SELECT id, name, path FROM boats WHERE id = ?;", 
                 (id, ),
             )?
             .ok_or("Boat not found")?;
 
         let (id, name, path): (u32, String, String) = boat;
         Ok(BoatCollection { id, name, path })
+    }
+
+    pub fn get_boat_by_different_id(&mut self, listId: Vec<i32>) -> Result<Vec<String>, Box<dyn std::error::Error>> {
+
+        let mut in_list = String::from("(");
+        for (i, id) in listId.iter().enumerate() {
+            if i > 0 {
+                in_list.push_str(", ");
+            }
+            in_list.push_str(&id.to_string());
+        }
+        in_list.push(')');
+
+        let query = format!(
+            "SELECT id, name, path FROM boats WHERE id IN {};",
+            in_list
+        );
+
+        let conn = self.conn.as_mut().ok_or("conn is None")?;
+
+        // Exécuter la requête:
+        let rows: Vec<BoatCollection> = conn.query(query)?;
+
+        let mut response: Vec<String> = Vec::new();
+
+        for bo in &rows {
+            response.push(format!("boats/{}/{}.json", bo.name, bo.path));
+        }
+
+
+        Ok(response)
+
     }
 
     pub fn get_grouped_boats(&mut self) -> Result<Vec<BoatCount>, Box<dyn std::error::Error>> {

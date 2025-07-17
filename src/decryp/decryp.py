@@ -1,6 +1,7 @@
 
 import sys
 import os
+import pprint
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 if current_dir not in sys.path:
@@ -8,6 +9,7 @@ if current_dir not in sys.path:
 
 from src.decryp.fileDbc import FileDbc
 from src.decryp.fileTrc import FileTrc
+from src.decryp.joinJson import merge_json_objects
 
 import json
 
@@ -25,3 +27,20 @@ def decryp(tramCan):
         print([f"{elem:X}" for elem in fileTrc.getIdManquant()])
 
     return json.dumps(allData, default=str)
+
+
+def concatJson(listPath):
+
+    with open(listPath[0]) as f:
+        dataFirstFile = json.load(f)
+    
+    for i in range(len(listPath)-1):
+
+        with open(listPath[i+1]) as f:
+            dataSecondFile = json.load(f)
+
+        print("1")
+        dataFirstFile = merge_json_objects(dataFirstFile + dataSecondFile)
+
+    pprint.pprint(dataFirstFile)
+    return json.dumps(dataFirstFile)

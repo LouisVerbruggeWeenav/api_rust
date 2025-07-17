@@ -44,6 +44,11 @@ struct InfoFrontOne {
 }
 
 #[derive(Deserialize, Clone)]
+struct InfoFrontConcatOne {
+    listPath: Vec<i32>
+}
+
+#[derive(Deserialize, Clone)]
 struct StructInfoBoat {
     name: String,
     startRecord: String,
@@ -66,7 +71,7 @@ struct InfoFrontByName {
 #[post("/raspberrypi/data")]
 async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberrypi>) ->  impl Responder {
 
-    let data_struct: Value = functionDecryptPython(info.structData.clone()).expect("msg");
+    let data_struct: Value = functionDecryptPython(info.structData.clone()).expect("Erreur l'hors de l'execution du script python 'decryp'");
     let mut boat = data.boat.lock().unwrap();
     boat.add_boat(info.infoBoat.name.clone(), info.infoBoat.startRecord.clone(), info.infoBoat.endRecord.clone(), data_struct);
     "Succes"
@@ -119,6 +124,32 @@ async fn get_boat_by_id_post(data: web::Data<AppState>, info: web::Json<InfoFron
     };
     Json(json)
 }
+
+// #[get("/test")]
+// async fn test() -> impl Responder {
+
+//     let testliste = ["boats/Boat_1/2025-07-15-12_28.json", "boats/Boat_1/2025-07-15-12_29.json", "boats/Boat_1/2025-07-15-12_30.json"];
+//     let data_concat: serde_json::Value = functionConcatPython(testliste).expect("Erreur l'hors de l'execution du script python 'concat'");
+
+
+//     Json(serde_json::json!(data_concat))
+
+// }
+
+
+#[post("/boats/concatOne")]
+async fn concatOne(data: web::Data<AppState>, info: web::Json<InfoFrontConcatOne>) -> impl Responder {
+
+    let mut boat = data.boat.lock().unwrap();
+
+    let mut boatsId = boat.get_boat_by_different_id(info.listPath.clone()).expect("mm"); //.lock().unwrap();;
+
+    let data_concat: serde_json::Value = functionConcatPython(boatsId).expect("Erreur l'hors de l'execution du script python 'concat'");
+    Json(serde_json::json!(data_concat))
+
+
+}
+
 
 #[post("/boats/one")]
 async fn get_boat_one(data: web::Data<AppState>, info: web::Json<InfoFrontOne>) -> impl Responder {
@@ -201,6 +232,45 @@ fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::
     Ok(parsed.into_inner())
 }
 
+fn functionConcatPython(listPath: Vec<String>) -> Result<serde_json::Value, Box<dyn std::error::Error>> { 
+
+    let code_str = fs::read_to_string("./src/decryp/decryp.py")
+        .expect("Fichier Python introuvable");
+
+    let code_cstring = CString::new(code_str).expect("CString::new failed");
+    let filename = CString::new("decryp.py").unwrap();
+    let modulename = CString::new("main").unwrap();
+
+
+    let parsed = RefCell::new(Value::Null);
+
+    Python::with_gil(|py| {
+        let result = (|| -> PyResult<()> {
+            let module = PyModule::from_code(
+                py,
+                code_cstring.as_c_str(),
+                filename.as_c_str(),
+                modulename.as_c_str(),
+            )?;
+
+            let result = module.getattr("concatJson")?.call1((listPath, ))?;
+            let json_str: String = result.extract().expect("Erreur convert to string");
+            let value: Value = serde_json::from_str(&json_str).expect("JSON invalide");
+
+            *parsed.borrow_mut() = value;
+            Ok(())
+        })();
+
+        if let Err(e) = result {
+            e.print(py);
+        }
+    });
+
+    Ok(parsed.into_inner())
+}
+
+
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -223,6 +293,7 @@ async fn main() -> std::io::Result<()> {
     let mut boat = Boat::new(database.getConn());
     let config = web::Data::new(AppState { boat: Mutex::new(boat), });
 
+
     HttpServer::new(move || {
         App::new()
         .app_data(config.clone())
@@ -235,6 +306,8 @@ async fn main() -> std::io::Result<()> {
                 .service(get_grouped_boats)
                 .service(get_boat_by_id_post)
                 .service(raspberryData)
+
+                .service(concatOne)
         )
     })
     //.bind(("127.0.0.1", 8080))?
