@@ -31,6 +31,7 @@ use std::cell::RefCell;
 use dotenv::dotenv;
 use std::env;
 
+use crate::database::boat::BoatCount;
 
 
 struct AppState {
@@ -79,27 +80,39 @@ async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberryp
 
 #[get("/boats/grouped")]
 async fn get_grouped_boats(data: web::Data<AppState>) -> impl Responder {
+    let data_cloned = data.clone();
 
-    let mut json: serde_json::Value = serde_json::Value::Null;
-    let mut boat = data.boat.lock().unwrap();
-    json = match boat.get_grouped_boats() {
-        
-        Ok(groupBoats) => {
-            match serde_json::to_value(&groupBoats) {
-                Ok(val) => val,
-                Err(e) => {
-                    eprintln!("Erreur de sérialisation: {}", e);
-                    serde_json::json!({ "error": format!("Erreur de sérialisation: {}", e) })
-                }
+    let result = web::block(move || {
+        match data_cloned.boat.try_lock() {
+            Ok(mut boat) => boat.get_grouped_boats(),
+            Err(_) => Err(Box::<dyn std::error::Error + Send + Sync>::from("resource locked")),
+        }
+    })
+    .await;
+
+    let json = match result {
+        Ok(Ok(grouped_boats)) => match serde_json::to_value(&grouped_boats) {
+            Ok(val) => val,
+            Err(e) => {
+                eprintln!("Erreur de sérialisation: {}", e);
+                serde_json::json!({ "error": format!("Erreur de sérialisation: {}", e) })
             }
+        },
+        Ok(Err(e)) => {
+            eprintln!("Erreur dans get_grouped_boats: {}", e);
+            serde_json::json!({ "error": format!("Erreur interne: {}", e) })
         }
         Err(e) => {
-            eprintln!("Erreur GroupBy : {}", e);
-            serde_json::json!({ "error": format!("Parsing GroupBy: {}", e) })
+            eprintln!("Erreur web::block: {:?}", e);
+            serde_json::json!({ "error": "Erreur interne serveur" })
         }
     };
+
     Json(json)
 }
+
+
+
 
 
 #[post("/boats/by-name")]
@@ -287,10 +300,11 @@ async fn main() -> std::io::Result<()> {
 
     // env::var("DB_USER")
 
-    let mut database = Connection::new(host, port, user, password, database);
-    database.connect();
 
-    let mut boat = Boat::new(database.getConn());
+    let database = Connection::new(host, port, user, password, database).expect("Impossible de créer la connexion");
+    let pool = database.get_pool().clone();
+
+    let mut boat = Boat::new(Ok(pool));
     let config = web::Data::new(AppState { boat: Mutex::new(boat), });
 
 
@@ -299,7 +313,7 @@ async fn main() -> std::io::Result<()> {
         .app_data(config.clone())
         .app_data(web::PayloadConfig::new(1024 * 1024 * 1024)) // = 1Go
         .service(
-            web::scope("/api")
+            web::scope("/api")  
 
                 .wrap(Compress::default())
                 .service(get_boat_one)
@@ -311,7 +325,7 @@ async fn main() -> std::io::Result<()> {
         )
     })
     //.bind(("127.0.0.1", 8080))?
-    .bind(("0.0.0.0", 8080))?
+    .bind(("127.0.0.1", 8080))?
     .run()
     .await
 }

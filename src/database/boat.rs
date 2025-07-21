@@ -1,6 +1,6 @@
 
 
-use mysql::PooledConn;
+use mysql::{Pool, PooledConn};
 use mysql::prelude::*;
 use mysql::params;
 use serde::{Serialize};
@@ -8,12 +8,14 @@ use std::io::Write;
 use std::fs::{self, File};
 use std::path::Path;
 
+
+
 use crate::database::boat;
 
 
 #[derive(Debug)]
 pub struct Boat {
-    conn: Option<PooledConn>,
+    conn: Pool,
 }
 
 #[derive(Debug, Serialize, FromRow)]
@@ -23,16 +25,19 @@ pub struct BoatCollection  {
     pub path: String
 }
 
-#[derive(Debug, Serialize)]
-pub struct BoatCount {
-    name: String,
-    count: u32
-}
+    #[derive(Debug, Serialize)]
+    pub struct BoatCount {
+        pub name: String,
+        pub count: u32
+    }
 
 
 impl Boat {
-    pub fn new(conn: Option<PooledConn>) -> Self {
-        Boat { conn }
+    pub fn new(conn_result: Result<Pool, Box<dyn std::error::Error>>) -> Self {
+
+        let conn = conn_result.expect("Impossible de récupérer une connexion");
+
+        Boat { conn, }
     }
 
     pub fn add_boat(&mut self, name: String, startRecord: String, endRecord: String, dataStruct: serde_json::Value) -> Result<bool, Box<dyn std::error::Error>> {
@@ -57,8 +62,7 @@ impl Boat {
         println!("Données enregistrées dans {}", file_path.display());
 
         // add to database:
-        let conn = self.conn.as_mut();
-        let conn = conn.ok_or("conn is None")?;
+        let mut conn = self.conn.get_conn()?;
 
         let result = conn.exec_drop(
             "INSERT INTO boats (name, path, endRecord) VALUES (?, ?, ?)",
@@ -75,8 +79,8 @@ impl Boat {
 
     pub fn get_boat_by_id(&mut self, id: i32) -> Result<BoatCollection, Box<dyn std::error::Error>> {
 
-        let conn = self.conn.as_mut();
-        let conn = conn.ok_or("conn is None")?;
+        let mut conn = self.conn.get_conn()?;
+
         let boat = conn
             .exec_first("SELECT id, name, path FROM boats WHERE id = ?;", 
                 (id, ),
@@ -103,7 +107,7 @@ impl Boat {
             in_list
         );
 
-        let conn = self.conn.as_mut().ok_or("conn is None")?;
+        let mut conn = self.conn.get_conn()?;
 
         // Exécuter la requête:
         let rows: Vec<BoatCollection> = conn.query(query)?;
@@ -119,10 +123,10 @@ impl Boat {
 
     }
 
-    pub fn get_grouped_boats(&mut self) -> Result<Vec<BoatCount>, Box<dyn std::error::Error>> {
+    pub fn get_grouped_boats(&mut self) -> Result<Vec<BoatCount>, Box<dyn std::error::Error + Send + Sync>> {
 
-        let conn = self.conn.as_mut();
-        let conn = conn.ok_or("conn is None")?;
+        let mut conn = self.conn.get_conn()?;
+
         let groupBoats: Vec<BoatCount> = conn
             .query_map(
                 "SELECT name, COUNT(name) FROM boats GROUP BY name",
@@ -133,8 +137,7 @@ impl Boat {
 
     pub fn get_boat_by_name(&mut self, nameBoat: String) -> Result<Vec<BoatCollection>, Box<dyn std::error::Error>> {
 
-        let conn = self.conn.as_mut();
-        let conn = conn.ok_or("conn is None")?;
+        let mut conn = self.conn.get_conn()?;
 
         let groupBoats: Vec<BoatCollection> = conn
             .exec_map(
