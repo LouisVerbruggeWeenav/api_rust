@@ -1,0 +1,3 @@
+[submodule "dbcppp"]
+	path = src/decryptCpp/dbcppp
+	url = https://github.com/LouisVerbruggeWeenav/dbcppp.git
