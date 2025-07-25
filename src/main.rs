@@ -72,7 +72,7 @@ struct InfoFrontByName {
 #[post("/raspberrypi/data")]
 async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberrypi>) ->  impl Responder {
 
-    let data_struct: Value = functionDecryptPython(info.structData.clone()).expect("Erreur l'hors de l'execution du script python 'decryp'");
+    let data_struct: Value = function_decrypt_cpp(info.structData.clone()).expect("Erreur l'hors de l'execution du script python 'decryp'");
     let mut boat = data.boat.lock().unwrap();
     boat.add_boat(info.infoBoat.name.clone(), info.infoBoat.startRecord.clone(), info.infoBoat.endRecord.clone(), data_struct);
     "Succes"
@@ -138,16 +138,72 @@ async fn get_boat_by_id_post(data: web::Data<AppState>, info: web::Json<InfoFron
     Json(json)
 }
 
-// #[get("/test")]
-// async fn test() -> impl Responder {
+#[get("/test")]
+async fn test() -> impl Responder {
 
-//     let testliste = ["boats/Boat_1/2025-07-15-12_28.json", "boats/Boat_1/2025-07-15-12_29.json", "boats/Boat_1/2025-07-15-12_30.json"];
-//     let data_concat: serde_json::Value = functionConcatPython(testliste).expect("Erreur l'hors de l'execution du script python 'concat'");
+let data = serde_json::json!([
+    {
+        "timestamp": "126.5",
+        "id": "18FF0800",
+        "length": "8",
+        "message": "80 32 00 3A 02 28 00 00"
+    },
+    {
+        "timestamp": "176.5",
+        "id": "18FF3000",
+        "length": "8",
+        "message": "35 00 04 00 39 00 39 00"
+    },
+    {
+        "timestamp": "181.5",
+        "id": "0CC8C8C7",
+        "length": "8",
+        "message": "00 00 00 80 0A 0A 00 00"
+    },
+    {
+        "timestamp": "181.8",
+        "id": "0CC7C8C7",
+        "length": "8",
+        "message": "00 80 00 80 00 80 00 00"
+    },
+    {
+        "timestamp": "182.1",
+        "id": "0CC9C8C7",
+        "length": "8",
+        "message": "00 80 00 80 B4 80 32 80"
+    },
+    {
+        "timestamp": "281.5",
+        "id": "18FF0800",
+        "length": "8",
+        "message": "80 32 00 3A 02 28 00 00"
+    },
+    {
+        "timestamp": "426.4",
+        "id": "18FF3000",
+        "length": "8",
+        "message": "35 00 04 00 39 00 39 00"
+    },
+    {
+        "timestamp": "431.4",
+        "id": "0CC8C8C7",
+        "length": "8",
+        "message": "00 00 00 80 0A 0A 00 00"
+    },
+    {
+        "timestamp": "431.8",
+        "id": "0CC7C8C7",
+        "length": "8",
+        "message": "00 80 00 80 00 80 00 00"
+    }
+    ]
+    );
 
-
-//     Json(serde_json::json!(data_concat))
-
-// }
+    match function_decrypt_cpp(data.to_string()) {
+        Ok(value) => HttpResponse::Ok().json(value),
+        Err(e) => HttpResponse::InternalServerError().body(format!("Erreur: {}", e)),
+    }
+}
 
 
 #[post("/boats/concatOne")]
@@ -208,42 +264,68 @@ async fn get_boat_one(data: web::Data<AppState>, info: web::Json<InfoFrontOne>) 
 }
 
 
-fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::Error>> {
 
-    let code_str = fs::read_to_string("./src/decryp/decryp.py")
-        .expect("Fichier Python introuvable");
+use std::process::Command;
 
-    let code_cstring = CString::new(code_str).expect("CString::new failed");
-    let filename = CString::new("decryp.py").unwrap();
-    let modulename = CString::new("main").unwrap();
+fn function_decrypt_cpp(tram_can: String) -> Result<Value, Box<dyn std::error::Error>> {
 
+    let output = Command::new("./src/decryptCpp/main")
+        .arg(&tram_can)
+        .env("LD_LIBRARY_PATH", "./src/decryptCpp/dbcppp/build")
+        .output()?;
 
-    let parsed = RefCell::new(Value::Null);
+    let stdout_str = String::from_utf8_lossy(&output.stdout);
+    let stderr_str = String::from_utf8_lossy(&output.stderr);
 
-    Python::with_gil(|py| {
-        let result = (|| -> PyResult<()> {
-            let module = PyModule::from_code(
-                py,
-                code_cstring.as_c_str(),
-                filename.as_c_str(),
-                modulename.as_c_str(),
-            )?;
+    if !output.status.success() {
+        eprintln!("Erreur d'exécution C++:\n{}", stderr_str);
+        return Err("Erreur de l'exécutable C++".into());
+    }
 
-            let result = module.getattr("decryp")?.call1((tram_can, ))?;
-            let json_str: String = result.extract()?;
-            let value: Value = serde_json::from_str(&json_str).expect("JSON invalide");
-
-            *parsed.borrow_mut() = value;
-            Ok(())
-        })();
-
-        if let Err(e) = result {
-            e.print(py);
-        }
-    });
-
-    Ok(parsed.into_inner())
+    let value: Value = serde_json::from_str(&stdout_str)?;
+    Ok(value)
 }
+
+
+
+// fn functionDecryptPython(tram_can: String) -> Result<Value, Box<dyn std::error::Error>> {
+
+//     let code_str = fs::read_to_string("./src/decryp/decryp.py")
+//         .expect("Fichier Python introuvable");
+
+//     let code_cstring = CString::new(code_str).expect("CString::new failed");
+//     let filename = CString::new("decryp.py").unwrap();
+//     let modulename = CString::new("main").unwrap();
+
+
+//     let parsed = RefCell::new(Value::Null);
+
+//     Python::with_gil(|py| {
+//         let result = (|| -> PyResult<()> {
+//             let module = PyModule::from_code(
+//                 py,
+//                 code_cstring.as_c_str(),
+//                 filename.as_c_str(),
+//                 modulename.as_c_str(),
+//             )?;
+
+//             let result = module.getattr("decryp")?.call1((tram_can, ))?;
+//             let json_str: String = result.extract()?;
+//             let value: Value = serde_json::from_str(&json_str).expect("JSON invalide");
+
+//             *parsed.borrow_mut() = value;
+//             Ok(())
+//         })();
+
+//         if let Err(e) = result {
+//             e.print(py);
+//         }
+//     });
+
+//     Ok(parsed.into_inner())
+// }
+
+
 
 fn functionConcatPython(listPath: Vec<String>) -> Result<serde_json::Value, Box<dyn std::error::Error>> { 
 
@@ -298,7 +380,6 @@ async fn main() -> std::io::Result<()> {
     let database = env::var("DB_DATABASE").expect("DB_DATABASE must be set");
 
 
-    // env::var("DB_USER")
 
 
     let database = Connection::new(host, port, user, password, database).expect("Impossible de créer la connexion");
@@ -306,6 +387,8 @@ async fn main() -> std::io::Result<()> {
 
     let mut boat = Boat::new(Ok(pool));
     let config = web::Data::new(AppState { boat: Mutex::new(boat), });
+   
+    
 
 
     HttpServer::new(move || {
@@ -320,6 +403,7 @@ async fn main() -> std::io::Result<()> {
                 .service(get_grouped_boats)
                 .service(get_boat_by_id_post)
                 .service(raspberryData)
+                .service(test)
 
                 .service(concatOne)
         )

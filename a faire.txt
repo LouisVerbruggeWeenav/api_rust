@@ -1,0 +1,9 @@
+pour compiler le cpp:
+g++ src/decryptCpp/main.cpp -I./src/decryptCpp/dbcppp/include -L./src/decryptCpp/dbcppp/build -ldbcppp -o src/decryptCpp/main
+
+
+
+mettre json:
+sudo apt install nlohmann-json3-dev
+
+recompiler
