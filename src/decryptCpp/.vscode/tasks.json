@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-compilationMain",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-std=c++17",
+                "-I./dbcppp/include",
+                "-g",
+                "main.cpp",
+                "-L./dbcppp/build",
+                "-ldbcppp",
+                "-o",
+                "compilationMain"
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+    ]
+}

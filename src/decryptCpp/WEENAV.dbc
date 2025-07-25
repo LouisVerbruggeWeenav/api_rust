@@ -1,0 +1,1771 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: DCDC_DILONG INVERTER OBC_DILONG GARMIN EVCC_RNL GV851 BMS EVCC_CHARGEBYTE OBC_MTA
+VAL_TABLE_ Supermaster_status 2 "Error" 1 "Operative" 0 "Idle" ;
+VAL_TABLE_ Com2_mod 8 "DC Voltage Mode" 5 "Torque Mode" 3 "AC Current Mode" 0 "Speed Mode" ;
+VAL_TABLE_ Diag3_mode 8 "DC Voltage Mode" 5 "Torque Mode" 3 "AC Current Mode" 0 "Speed Mode" ;
+VAL_TABLE_ Diag2_status 3 "FWC active with angle limitation" 2 "FWC active withcurrentlimitation" 1 "FWC active with no limitation" 0 "FWC not active" ;
+VAL_TABLE_ Limitation_GVI 15 "Switching frequency limitation" 14 "Max voltage angle limitation" 13 "Max current limitation" 12 "Energy limitation" 11 "Heatsink temperature limitation" 10 "External torque limitation" 9 "External current limitation" 8 "Dc power limitation" 7 "no" 6 " High speed limitation" 5 " Low speed limitation" 4 "High DC voltage limitation" 3 " Low DC voltage limitation" 2 "Motor temperature limitation" 1 "Event limitation" 0 "No limitation" ;
+VAL_TABLE_ VALUES_OBC 1 "Description for the value '0x1'" 0 "Description for the value '0x0'" ;
+
+
+BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ LV_notused : 0|2@1- (1,0) [0|1] "" Vector__XXX
+
+BO_ 2453671975 BMS_TEMP_SUPERMASTER: 7 BMS
+ SG_ MaxTempModule : 48|8@1+ (1,0) [0|0] ""  GARMIN
+ SG_ MinTempModule : 40|8@1+ (1,0) [0|0] ""  GARMIN
+ SG_ TimeRemaining : 24|16@1+ (1,0) [0|0] "min"  GARMIN
+ SG_ AverageModuleTemp : 16|8@1- (1,-40) [0|0] "°C"  GARMIN
+ SG_ MaxModuleTemp : 8|8@1- (1,-40) [0|0] "°C"  GARMIN
+ SG_ MinModuleTemp : 0|8@1- (1,-40) [0|0] "°C"  GARMIN
+
+BO_ 2566848767 NAVIGATION_SPEED: 8 GARMIN
+ SG_ InstantPower : 16|32@1- (0.001,0) [0|0] "KW" Vector__XXX
+ SG_ Speed : 0|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2453671969 BMS_STATUS2_SUPERMASTER: 8 BMS
+ SG_ Voltage_bus : 48|16@1+ (0.1,0) [0|6553.6] "V"  GARMIN
+ SG_ Status_SuperMaster : 42|4@1+ (1,0) [0|2] ""  GARMIN
+ SG_ IMD : 30|12@1+ (1,0) [0|4095] "A"  GARMIN
+ SG_ IMR : 16|14@1+ (0.1,0) [0|1638.3] "A"  GARMIN
+ SG_ End_of_charge : 13|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Number_Slave_interbalancing : 8|5@1+ (1,0) [0|31] ""  GARMIN
+ SG_ Number_Slave_balancing : 3|5@1+ (1,0) [0|31] ""  GARMIN
+ SG_ StatusPrecharge : 2|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ PowerContactor_Status : 1|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Contactor_manuallyopen : 0|1@1+ (1,0) [0|1] ""  GARMIN
+
+BO_ 2453671968 BMS_STATUS1_SUPERMASTER: 8 BMS
+ SG_ SOH : 48|16@1+ (0.01,0) [0|100] "%"  GARMIN
+ SG_ SOC : 32|16@1+ (0.01,0) [0|100] "%"  GARMIN
+ SG_ Current : 16|16@1- (0.1,0) [-3276.8|3276.7] "A"  GARMIN
+ SG_ Voltage : 0|16@1+ (0.025,0) [0|1638.375] "V"  GARMIN
+
+BO_ 2551994198 RNL_OBC_STATUS: 2 GARMIN
+ SG_ CF_Obc_ContactorOnReq : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ CF_Obc_Controllable : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ CF_Obc_Ready : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 2629891158 EVCC_TEMP: 4 EVCC_RNL
+ SG_ EVCC_InletTemperature2 : 16|16@1- (1,0) [-60|200] "°C"  GARMIN
+ SG_ EVCC_InletTemperature1 : 0|16@1- (1,0) [-60|200] "°C"  GARMIN
+
+BO_ 2552099926 EVCC_Min: 8 EVCC_RNL
+ SG_ Secc_ACMaxCurrentValue : 57|7@1+ (1,0) [6|80] "A"  GARMIN
+ SG_ EVSE_EVCC_ChgFinished : 56|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Secc_DCAC_ChgMode : 52|2@1+ (1,0) [0|3] ""  GARMIN
+ SG_ EVCC_Lock_alarm : 50|2@1+ (1,0) [0|3] ""  GARMIN
+ SG_ EVCC_Lock_status : 48|2@1+ (1,0) [0|3] ""  GARMIN
+ SG_ Evse_MaxPwr_W : 32|16@1+ (10,0) [0|65000] "W"  GARMIN
+ SG_ Evse_MinCurr_A : 16|16@1+ (0.1,0) [0|400] "A"  GARMIN
+ SG_ Evse_MinVolt_V : 0|16@1+ (0.1,0) [0|1000] "V"  GARMIN
+
+BO_ 2551837782 EVCC_Max: 8 EVCC_RNL
+ SG_ EVSE_OutCurr_A : 48|16@1+ (0.1,0) [0|400] "A"  GARMIN
+ SG_ Evse_OutVolt_V : 32|16@1+ (0.1,0) [0|1000] "V"  GARMIN
+ SG_ Evse_MaxCurr_A : 16|16@1+ (0.1,0) [0|400] "A"  GARMIN
+ SG_ Evse_MaxVolt_V : 0|16@1+ (0.1,0) [0|1000] "V"  GARMIN
+
+BO_ 2417095766 EVCC_STATUS: 8 EVCC_RNL
+ SG_ Evse_MaxDelay : 56|8@1+ (1,0) [0|255] "sec"  GARMIN
+ SG_ EVCC_StepNum : 48|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ EVCC_ErrorCode : 40|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ EVCC_AagValue : 32|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ EVCC_LockStat : 31|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ EVCC_DutyValue : 24|7@1+ (1,0) [0|100] "%"  GARMIN
+ SG_ EVCC_PDStat : 22|2@1+ (1,0) [0|3] ""  GARMIN
+ SG_ EVCC_S2_OnStat : 21|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ EVCC_CPStat : 18|3@1+ (1,0) [0|7] ""  GARMIN
+ SG_ EVCC_ChgFinished : 17|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Evse_PwrDelivery : 16|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Evse_Notification : 14|2@1+ (1,0) [0|2] ""  GARMIN
+ SG_ Evse_TransferType : 10|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Evse_IsolStat : 8|2@1+ (1,0) [0|3] ""  GARMIN
+ SG_ Evse_Processing : 7|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Evse_ChgFinished : 6|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Evse_Stat : 2|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ EVCC_SocketStat : 1|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ EVCC_PwrStat : 0|1@1+ (1,0) [0|1] ""  GARMIN
+
+BO_ 2551994100 RNL_BMS_CR: 4 GARMIN
+ SG_ CR_BMS_BulkSOCREmainTime : 16|16@1+ (1,0) [0|65535] "sec" Vector__XXX
+ SG_ CR_BMS_FullSOCRemainTime : 0|16@1+ (1,0) [0|65535] "sec" Vector__XXX
+
+BO_ 2551731956 RNL_BMS_message2: 6 GARMIN
+ SG_ BMS_EvTargetCurrent : 32|16@1+ (0.1,0) [0|250] "A" Vector__XXX
+ SG_ BMS_EvTargetVolt : 16|16@1+ (0.1,0) [0|1000] "V" Vector__XXX
+ SG_ BMS_BulkSOC : 8|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ BMS_FullSOC : 0|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+
+BO_ 2416989940 RNL_BMS_CHARGE: 8 GARMIN
+ SG_ BMS_EvMaxVolt : 48|16@1+ (0.1,0) [0|1000] "V" Vector__XXX
+ SG_ BMS_EvMaxCurrent : 32|16@1+ (0.1,0) [0|400] "A" Vector__XXX
+ SG_ BMS_EvRessSOC : 24|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ BMS_MatchConfirm : 17|2@1+ (1,0) [0|2] "" Vector__XXX
+ SG_ BMS_ConnectorLockReq : 16|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS_S2_OnReq : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS_TransferType : 11|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ BMS_WeldingDetReq : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS_ChgFinished : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS_FullChgComplete : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS_BulkChgComplete : 7|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS_ReadyToCharge : 6|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS_ContactorOnStat : 5|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BMS_EvStat : 1|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ BMS_EvReady : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 2362034375 INVERTER_Limits: 8 GARMIN
+ SG_ NegDcCurrentLimit : 48|16@1+ (1,-32768) [0|1039] "Adc"  INVERTER
+ SG_ PosDcCurrentLimit : 32|16@1+ (1,-32768) [0|1039] "Adc"  INVERTER
+ SG_ BrakeTorqueLimit : 16|16@1+ (0.1,-3276.8) [0|3148.7] "Nm"  INVERTER
+ SG_ AccTorqueLimit : 0|16@1+ (0.1,-3276.8) [0|3148.7] "Nm"  INVERTER
+
+BO_ 2361903303 INVERTER_Command2: 7 GARMIN
+ SG_ RequestedControlMode : 48|8@1+ (1,0) [0|255] ""  INVERTER
+ SG_ CommandVoltage : 32|16@1+ (0.1,-3276.8) [0|3148.7] "Vdc"  INVERTER
+ SG_ CommandAcCurrent : 16|16@1+ (1,-32768) [-2317|2316] "Arms"  INVERTER
+ SG_ CommandTorque : 0|16@1+ (0.1,-3276.8) [-3276.8|3148.7] "Nm"  INVERTER
+
+BO_ 2361968839 INVERTER_Command1: 6 GARMIN
+ SG_ CommandDecelerationChange : 40|8@1+ (1,0) [0|250] "Rpm/4ms"  INVERTER
+ SG_ CommandAccelerationChange : 32|8@1+ (1,0) [0|250] "Rpm/4ms"  INVERTER
+ SG_ CommandSpeed : 16|16@1+ (1,-32768) [-32768|31478] "Rpm"  INVERTER
+ SG_ OpenDrainOutput6On : 15|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ OpenDrainOutput5On : 14|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ OpenDrainOutput4On : 13|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ OpenDrainOutput3On : 12|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ OpenDrainOutput2On : 11|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ OpenDrainOutput1On : 10|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ EnableHighSideOut : 9|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ IgnoreLowDCBus : 8|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ SpeedRampParameterSet : 6|2@1+ (1,0) [0|3] ""  INVERTER
+ SG_ ActiveCurrentBoost : 5|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ RegulatorSet : 4|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ Enable : 3|1@1+ (1,0) [0|1] ""  INVERTER
+ SG_ SpeedBrakeRampParameterset : 1|2@1+ (1,0) [0|3] ""  INVERTER
+ SG_ Switch_on : 0|1@1+ (1,0) [0|1] ""  INVERTER
+
+BO_ 2563688199 Events: 8 INVERTER
+ SG_ Event4 : 48|16@1+ (1,0) [0|64255] ""  GARMIN
+ SG_ Event3 : 32|16@1+ (1,0) [0|64255] ""  GARMIN
+ SG_ Event2 : 16|16@1+ (1,0) [0|64255] ""  GARMIN
+ SG_ Event1 : 0|16@1+ (1,0) [0|64255] ""  GARMIN
+
+BO_ 2563753735 Diagnostics3: 6 INVERTER
+ SG_ ActiveEvents : 40|8@1+ (1,0) [0|20] ""  GARMIN
+ SG_ ActualControlMode : 32|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ CanSignalInverterTemp : 16|16@1+ (1,-32768) [-32767|210] "°C"  GARMIN
+ SG_ CanSignalMotorTemp : 0|16@1+ (1,-32768) [-32768|210] "°C"  GARMIN
+
+BO_ 2563557127 Diagnostics2: 8 INVERTER
+ SG_ Id : 48|16@1+ (1,-3276) [-3276|3276] "Apk"  GARMIN
+ SG_ Iq : 32|16@1+ (1,-3276) [-3276|3276] "Apk"  GARMIN
+ SG_ SensorAngle : 16|16@1+ (0.1,-3276.8) [-180|179.9] "°C"  GARMIN
+ SG_ RegulatorStatus : 8|8@1+ (1,0) [0|3] ""  GARMIN
+ SG_ ActualLimitationType : 0|8@1+ (1,0) [0|15] ""  GARMIN
+
+BO_ 2563426055 Diagnostics1: 8 INVERTER
+ SG_ HV_MTO_IN1 : 44|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ AbilityAccelerationCurrent : 48|16@1+ (1,0) [0|64255] "Arms"  GARMIN
+ SG_ HV_MTO_IN2 : 45|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ HV_DI4 : 35|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ HV_DI3 : 34|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ HV_DI2 : 33|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ HV_DI1 : 32|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ DcBusCurrent : 16|16@1+ (1,-32768) [-1125|1125] "Adc"  GARMIN
+ SG_ CanSignalActTorque : 0|16@1+ (0.1,-3276.8) [-3276.8|3148.7] "Nm"  GARMIN
+
+BO_ 2563622663 StatusI: 8 INVERTER
+ SG_ CanSignalFilteredVoltage : 48|16@1+ (0.1,-3276.8) [0|3276.7] "Vdc"  GARMIN
+ SG_ CanSignalRmsMotorCurrent : 32|16@1+ (1,0) [0|2316] "Arms"  GARMIN
+ SG_ CanSignalRotorSpeedInRpm : 16|16@1+ (1,-32768) [-32768|31487] "rpm"  GARMIN
+ SG_ OpenDrainOutput6On : 15|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OpenDrainOutput5On : 14|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OpenDrainOutput4On : 13|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OpenDrainOutput3On : 12|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OpenDrainOutput2On : 11|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OpenDrainOutput1On : 10|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Regeneration : 8|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ WarningActive : 7|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ ErrorActive : 6|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ CurrentBoostActivated : 5|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ CurrentAbilityReduced : 4|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Tripped : 3|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Enabled : 2|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ SwitchedOn : 1|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ ReadyToSwitchOn : 0|1@1+ (1,0) [0|1] ""  GARMIN
+
+BO_ 2550199781 DCDC_SETTINGS_MESSAGE: 8 GARMIN
+ SG_ SettingCurrent : 32|16@1+ (0.1,0) [0|0] "A"  DCDC_DILONG
+ SG_ SettingVoltage : 16|16@1+ (0.1,0) [0|0] "V"  DCDC_DILONG
+ SG_ ON_OFF_CONTROL : 8|8@1+ (1,0) [0|0] ""  DCDC_DILONG
+
+BO_ 2566869477 OBC_INPUT_INFO: 8 OBC_DILONG
+ SG_ InputCurrentLowByte : 24|8@1+ (0.1,0) [0|0] "A"  GARMIN
+ SG_ ChargeOrDischarge : 23|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ InputCurrentHighByte : 16|7@1+ (0.1,0) [0|0] "A"  GARMIN
+ SG_ InputVoltageLowByte : 8|8@1+ (0.1,0) [0|0] "V"  GARMIN
+ SG_ InputVoltageHighByte : 0|8@1+ (0.1,0) [0|0] "V"  GARMIN
+
+BO_ 2566869221 OBC_CONTROL_STATUS: 8 OBC_DILONG
+ SG_ InternalTemperature : 48|8@1- (1,-40) [0|0] "°C"  GARMIN
+ SG_ CommunicationStatus : 36|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ StartingState : 35|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ InputVoltage : 34|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ ChargerTemperature : 33|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ HardwareProtection : 32|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ OutputCurrentLowByte : 24|8@1+ (0.1,0) [0|0] "A"  GARMIN
+ SG_ OutputCurrentHighByte : 16|8@1+ (0.1,0) [0|0] "A"  GARMIN
+ SG_ OutputVoltageLowByte : 8|8@1+ (0.1,0) [0|0] "V"  GARMIN
+ SG_ OutputVoltageHighByte : 0|8@1+ (0.1,0) [0|0] "V"  GARMIN
+
+BO_ 2550588916 OBC_DILONG_COMMAND: 8 GARMIN
+ SG_ BatteryOrHeatingMode : 40|8@1+ (1,0) [0|0] ""  OBC_DILONG
+ SG_ ChargeControl : 32|8@1+ (1,0) [0|0] ""  OBC_DILONG
+ SG_ MaxAllowableChargingCurrentL : 24|8@1+ (0.1,0) [0|0] "A"  OBC_DILONG
+ SG_ MaxAllowableChargingCurrentH : 16|8@1+ (0.1,0) [0|0] "A"  OBC_DILONG
+ SG_ MaxAllowableChargingVoltageL : 8|8@1+ (0.1,0) [0|0] "V"  OBC_DILONG
+ SG_ MaxAllowableChargingVoltageH : 0|8@1+ (0.1,0) [0|0] "V"  OBC_DILONG
+
+BO_ 2197821969 BMS_HEATER_MANAGEMENT: 4 GARMIN
+ SG_ DelayHeat : 24|8@1+ (1,0) [0|0] "min" Vector__XXX
+ SG_ RateHeat : 16|8@1- (1,0) [1|10] "" Vector__XXX
+ SG_ TempHeat : 8|8@1- (1,-40) [-20|60] "°C" Vector__XXX
+ SG_ Ctlheat : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2466388485 BMS_MAINTENANCE_MESSAGE: 1 Vector__XXX
+ SG_ AllSlaveStatus : 2|1@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2193620994 BMS_STATUS1_MASTER_MODULE: 7 BMS
+ SG_ SystemFloating : 49|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ SystemEndOfCharge : 48|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ SystemWarning : 47|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ SystemError : 46|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ SystemStatus : 42|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ IMD : 30|12@1+ (1,0) [0|4096] "A"  GARMIN
+ SG_ IMR : 16|14@1+ (0.1,0) [0|16383] "A"  GARMIN
+ SG_ SoC : 0|16@1+ (0.01,0) [0|0] "%"  GARMIN
+
+BO_ 2193620995 BMS_STATUS2_MASTER_MODULE: 6 BMS
+ SG_ SoH : 32|16@1+ (0.01,0) [0|100] "%"  GARMIN
+ SG_ SystemVoltage : 16|16@1+ (0.025,0) [0|16383] "V"  GARMIN
+ SG_ SystemCurrent : 0|16@1- (0.1,0) [-32768|32767] "A"  GARMIN
+
+BO_ 2185232386 BMS_STATUS1_MAINMASTER_MODULE: 7 BMS
+ SG_ SystemEndOfCharge : 48|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ SystemWarning : 47|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ SystemError : 46|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ SystemStatus : 42|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ IMD : 30|12@1+ (1,0) [0|4095] "A"  GARMIN
+ SG_ IMR : 16|14@1+ (0.1,0) [0|16383] "A"  GARMIN
+ SG_ SoC : 0|16@1+ (0.01,0) [0|100] "%"  GARMIN
+
+BO_ 2185232387 BMS_STATUS2_MAINMASTER_MODULE: 6 BMS
+ SG_ SoH : 32|16@1+ (0.01,0) [0|100] "%"  GARMIN
+ SG_ SystemVoltage : 16|16@1+ (0.025,0) [0|1638375] "V"  GARMIN
+ SG_ SystemCurrent : 0|16@1- (0.1,0) [-32768|32767] "A"  GARMIN
+
+BO_ 2449477664 BMS_STATUS1_MASTER_SLAVE: 8 BMS
+ SG_ SoH : 48|16@1+ (0.01,0) [0|100] "%"  GARMIN
+ SG_ SoC : 32|16@1+ (0.01,0) [0|100] "%"  GARMIN
+ SG_ Current : 16|16@1+ (0.01,0) [-32768|32767] "A"  GARMIN
+ SG_ Voltage : 0|16@1+ (0.001,0) [0|65535] "V"  GARMIN
+
+BO_ 2449477665 BMS_STATUS2_MASTER_SLAVE: 8 BMS
+ SG_ TempPackN2 : 56|8@1- (1,-40) [-40|215] "°C"  GARMIN
+ SG_ TempPackN1 : 48|8@1- (1,-40) [-40|215] "°C"  GARMIN
+ SG_ BoardTemp : 40|8@1- (1,-40) [-40|215] "°C"  GARMIN
+ SG_ IMD : 32|8@1+ (1,0) [0|255] "A"  GARMIN
+ SG_ IMR : 16|16@1+ (0.1,0) [0|0] "A"  GARMIN
+ SG_ FloatingMode : 11|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ StatusHeater : 10|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ EndOfCharge : 9|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ StatusBalancingActive : 8|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ NumberCellsInBalancing : 3|5@1+ (1,0) [0|0] ""  GARMIN
+ SG_ StatusPowerContactor : 1|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ OpenPowerContactorManually : 0|1@1+ (1,0) [0|0] ""  GARMIN
+
+BO_ 2550195701 DCDC_STATUS_M0: 8 DCDC_DILONG
+ SG_ DCDC_internal_temp : 56|8@1+ (1,-40) [-40|215] "degC"  GARMIN
+ SG_ Working_status : 48|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ Output_end_voltage : 40|8@1+ (0.2,0) [0|1310.7] "V"  GARMIN
+ SG_ Output_current : 24|16@1+ (0.1,0) [0|6553.5] "A"  GARMIN
+ SG_ Communicationfault_alarm : 16|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Internalfault_alarm : 15|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Output_shortcircuitprotection : 14|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Input_undervoltage_alarm : 13|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Input_overvoltage_alarm : 12|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Output_undervoltage_alarm : 11|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Output_overvoltage_alarm : 10|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Output_overcurrent_alarm : 9|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Overtemperatureshutdown : 8|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Reserved_0 : 0|8@1+ (1,0) [0|255] ""  GARMIN
+
+BO_ 2550326773 DCDC_STATUS_M2: 8 DCDC_DILONG
+ SG_ DCDC_internal_temp_m2 : 56|8@1+ (1,-40) [-40|215] "degC"  GARMIN
+ SG_ Output_voltage_m2 : 40|16@1+ (0.1,0) [0|6553.5] "V"  GARMIN
+ SG_ Output_current_m2 : 24|16@1+ (0.1,0) [0|6553.5] "A"  GARMIN
+ SG_ Input_voltage : 13|11@1+ (1,100) [100|66535] "V"  GARMIN
+ SG_ Working_status_m2 : 9|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Communicationfault_alarm : 8|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Internalfault_alarm : 7|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Output_shortcircuitprotection : 6|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Input_undervoltage_alarm : 5|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Input_overvoltage_alarm : 4|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Output_undervoltage_alarm : 3|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Output_overvoltage_alarm : 2|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Output_overcurrent_alarm : 1|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Overtemperatureshutdown : 0|1@1+ (1,0) [0|1] ""  GARMIN
+
+BO_ 2566855040 EVCC_LimitSettings_ISO20: 8 GARMIN
+ SG_ VCU_EVMaximumDischargeCurrentLim m4 : 40|16@1+ (0.1,0) [0|6500] "A"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMinimumPowerLimit m3 : 40|16@1+ (100,0) [0|3276700] "W"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMinimumDischargePowerLimit m0 : 40|16@1+ (100,0) [0|3276700] "W"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMinimumCurrentLimit m2 : 40|16@1+ (0.1,0) [0|3276] "A"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMaximumV2XEnergyRequestLim m1 : 40|15@1+ (100,-1638300) [-1638300|1638300] "W"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMaximumEnergyRequestLimit m4 : 24|16@1+ (100,-3276700) [-3276700|3276700] "Wh"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMinimumPowerLimit_L2 m3 : 24|16@1+ (100,0) [0|3276700] "W"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMinimumEnergyRequestLimit m2 : 24|16@1+ (100,-3276700) [-3276700|3276700] "Wh"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMaximumPowerLimit_L3 m1 : 24|16@1+ (100,0) [0|3276700] "W"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMaximumDischargePowerLimit m0 : 24|16@1+ (100,0) [0|3276700] "W"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMinimumV2XEnergyRequestLim m4 : 8|15@1+ (100,-1638300) [-1638300|1638300] "Wh"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMinimumPowerLimit_L3 m3 : 8|16@1+ (100,0) [0|3276700] "W"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMinimumVoltageLimit m2 : 8|16@1+ (0.1,0) [0|3276] "V"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMinimumDischargeCurrentLim m0 : 8|16@1+ (0.1,0) [0|6500] "A"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMaximumPowerLimit_L2 m1 : 8|16@1+ (100,0) [0|3276700] "W"  EVCC_CHARGEBYTE
+ SG_ VCU_LimitSettings_ISO20_Mux M : 0|3@1+ (1,0) [0|4] ""  EVCC_CHARGEBYTE
+
+BO_ 2566854784 EVCC_Vdv261: 8 GARMIN
+ SG_ VCU_VDV261_Odo m2 : 32|32@1+ (1,0) [0|4294967294] "km"  EVCC_CHARGEBYTE
+ SG_ VCU_VDV261_Chrg_Stat m3 : 24|16@1+ (1,0) [0|2] ""  EVCC_CHARGEBYTE
+ SG_ VCU_VDV261_Bat_Eamount m4 : 24|16@1+ (1,0) [0|65534] "kWh"  EVCC_CHARGEBYTE
+ SG_ VCU_VDV261_Bat_Reqtime m3 : 16|8@1+ (1,0) [0|254] "min"  EVCC_CHARGEBYTE
+ SG_ VCU_VDV261_Vin2 m2 : 8|24@1+ (1,0) [0|16777215] ""  EVCC_CHARGEBYTE
+ SG_ VCU_VDV261_Vin1 m1 : 8|56@1+ (1,0) [0|7.20575940379279E+16] ""  EVCC_CHARGEBYTE
+ SG_ VCU_VDV261_Vin0 m0 : 8|56@1+ (1,0) [0|7.20575940379279E+16] ""  EVCC_CHARGEBYTE
+ SG_ VCU_VDV261_Prec_Reqtime m3 : 8|8@1+ (1,0) [0|254] "min"  EVCC_CHARGEBYTE
+ SG_ VCU_VDV261_Prec_Eamount m4 : 8|16@1+ (1,0) [0|65534] "kWh"  EVCC_CHARGEBYTE
+ SG_ VCU_VDV261_Mux M : 0|4@1+ (1,0) [0|4] ""  EVCC_CHARGEBYTE
+
+BO_ 2566851714 CCL_Vdv261: 8 EVCC_CHARGEBYTE
+ SG_ EVSE_VDV261_Ambienttemp : 32|8@1+ (1,-50) [-50|205] ""  GARMIN
+ SG_ EVSE_VDV261_Prec_Hvac : 24|2@1+ (1,0) [0|3] ""  GARMIN
+ SG_ EVSE_VDV261_Prec_Dsrd : 16|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ EVSE_VDV261_Driveoff : 0|16@1+ (1,0) [0|65535] ""  GARMIN
+
+BO_ 2566851458 CCL_EVSEAcDcPower: 8 EVCC_CHARGEBYTE
+ SG_ EVSE_TargetReactivePower_L3 m6 : 48|16@1+ (100,-3276700) [-3276700|3276700] "W"  GARMIN
+ SG_ EVSE_TargetActivePower_L3 m5 : 48|16@1+ (100,-3276700) [-3276700|3276700] "W"  GARMIN
+ SG_ EVSE_PresentActivePower_L3 m4 : 48|16@1+ (100,-3276700) [-3276700|3276700] "W"  GARMIN
+ SG_ EVSE_MinimumChargePowerLimit_L3 m2 : 48|16@1+ (100,0) [0|3276700] "W"  GARMIN
+ SG_ EVSE_MaximumChargePowerLimit_L3 m3 : 48|16@1+ (100,0) [0|3276700] "W"  GARMIN
+ SG_ EVSE_MinimumDischargePowerLimit m1 : 32|16@1+ (100,0) [0|3276700] "W"  GARMIN
+ SG_ EVSE_MaximumDischargePowerLimit m0 : 32|16@1+ (100,0) [0|3276700] "W"  GARMIN
+ SG_ EVSE_TargetReactivePower_L2 m6 : 32|16@1+ (100,-3276700) [-3276700|3276700] "W"  GARMIN
+ SG_ EVSE_TargetActivePower_L2 m5 : 32|16@1+ (100,-3276700) [-3276700|3276700] "W"  GARMIN
+ SG_ EVSE_PresentActivePower_L2 m4 : 32|16@1+ (100,-3276700) [-3276700|3276700] "W"  GARMIN
+ SG_ EVSE_MinimumChargePowerLimit_L2 m2 : 32|16@1+ (100,0) [0|3276700] "W"  GARMIN
+ SG_ EVSE_MaximumChargePowerLimit_L2 m3 : 32|16@1+ (100,0) [0|3276700] "W"  GARMIN
+ SG_ EVSE_MinimumDischargeCurrentLim m1 : 16|16@1+ (0.1,0) [0|3250] "A"  GARMIN
+ SG_ EVSE_MaximumDischargeCurrentLim m0 : 16|16@1+ (0.1,0) [0|3250] "A"  GARMIN
+ SG_ EVSE_TargetReactivePower m6 : 16|16@1+ (100,-3276700) [-3276700|3276700] "W"  GARMIN
+ SG_ EVSE_TargetActivePower m5 : 16|16@1+ (100,-3276700) [-3276700|3276700] "W"  GARMIN
+ SG_ EVSE_PresentActivePower m4 : 16|16@1+ (100,-3276700) [-3276700|3276700] "W"  GARMIN
+ SG_ EVSE_MinimumChargePowerLimit m2 : 16|16@1+ (100,0) [0|3276700] "W"  GARMIN
+ SG_ EVSE_MaximumChargePowerLimit m3 : 16|16@1+ (100,0) [0|3276700] "W"  GARMIN
+ SG_ EVSE_ACDCPower_Mux M : 12|4@1+ (1,0) [0|14] ""  GARMIN
+ SG_ EVSE_MaximumPowerAsymmetryLimit m4 : 0|12@1+ (100,0) [0|409400] "W"  GARMIN
+ SG_ EVSE_NominalFrequency m3 : 0|12@1+ (0.1,0) [0|409.4] "Hz"  GARMIN
+ SG_ EVSE_TargetFrequency m5 : 0|12@1+ (0.1,0) [0|409.4] "Hz"  GARMIN
+
+BO_ 2566853504 EVCC_EVEnergyOfferSchedule: 8 GARMIN
+ SG_ VCU_EVPowerSchedulePower : 40|16@1+ (100,-3276700) [-3276700|3276700] "W"  EVCC_CHARGEBYTE
+ SG_ VCU_EVPowerScheduleIndex : 32|8@1+ (1,0) [0|254] ""  EVCC_CHARGEBYTE
+ SG_ VCU_EVPowerScheduleDuration : 0|32@1+ (1,0) [0|4294967294] "ms"  EVCC_CHARGEBYTE
+
+BO_ 2566851202 CCL_External_AC: 8 EVCC_CHARGEBYTE
+ SG_ CCL_InletACTemperature : 32|16@1+ (0.1,-50) [-50|150] "degC"  GARMIN
+ SG_ CCL_ControlPilotDutyCycle : 25|7@1+ (1,0) [0|100] "%"  GARMIN
+ SG_ CCL_ACChargingPossible : 24|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_ControlPilotState : 16|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_ProximityPinState : 8|4@1+ (1,0) [0|0] ""  GARMIN
+
+BO_ 2566850946 CCL_Temperature: 8 EVCC_CHARGEBYTE
+ SG_ CCL_AuxiliaryTemperature : 48|16@1+ (0.1,-50) [-50|150] "degC"  GARMIN
+ SG_ CCL_InletPT2Temperature : 32|16@1+ (0.1,-50) [-50|150] "degC"  GARMIN
+ SG_ CCL_InletPT1Temperature : 16|16@1+ (0.1,-50) [-50|150] "degC"  GARMIN
+ SG_ CCL_InletDCTemperature : 0|16@1+ (0.1,-50) [-50|150] "degC"  GARMIN
+
+BO_ 2566850690 CCL_EVSEID: 8 EVCC_CHARGEBYTE
+ SG_ EVSE_EVSEID_Mux M : 56|4@1+ (1,0) [0|5] ""  GARMIN
+ SG_ EVSE_EVSEID6 m5 : 0|24@1+ (1,0) [0|16777215] ""  GARMIN
+ SG_ EVSE_EVSEID5 m4 : 0|56@1+ (1,0) [0|7.20575940379279E+16] ""  GARMIN
+ SG_ EVSE_EVSEID4 m3 : 0|56@1+ (1,0) [0|7.20575940379279E+16] ""  GARMIN
+ SG_ EVSE_EVSEID3 m2 : 0|56@1+ (1,0) [0|7.20575940379279E+16] ""  GARMIN
+ SG_ EVSE_EVSEID2 m1 : 0|56@1+ (1,0) [0|7.20575940379279E+16] ""  GARMIN
+ SG_ EVSE_EVSEID1 m0 : 0|56@1+ (1,0) [0|7.20575940379279E+16] ""  GARMIN
+
+BO_ 2566854528 EVCC_EVCCID: 8 GARMIN
+ SG_ VCU_EVCCID : 0|64@1+ (1,0) [0|1.84467440737096E+19] ""  EVCC_CHARGEBYTE
+
+BO_ 2566854272 EVCC_LEDControl: 8 GARMIN
+ SG_ VCU_LED4PWM : 48|10@1+ (0.1,0) [0|100] "%"  EVCC_CHARGEBYTE
+ SG_ VCU_LED3PWM : 32|10@1+ (0.1,0) [0|100] "%"  EVCC_CHARGEBYTE
+ SG_ VCU_LED2PWM : 16|10@1+ (0.1,0) [0|100] "%"  EVCC_CHARGEBYTE
+ SG_ VCU_LED1PWM : 0|10@1+ (0.1,0) [0|100] "%"  EVCC_CHARGEBYTE
+
+BO_ 2566850434 CCL_EVSEChargingValues_2: 8 EVCC_CHARGEBYTE
+ SG_ EVSE_PresentVoltage : 16|16@1+ (0.1,0) [0|6500] "V"  GARMIN
+ SG_ EVSE_PresentCurrent : 0|16@1+ (0.1,-3250) [-3250|3250] "A"  GARMIN
+
+BO_ 2566854016 EVCC_SafeSignals: 8 GARMIN
+ SG_ VCU_EmergencySeparation : 48|1@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_InletVoltage : 32|16@1+ (0.1,0) [0|6500] "V"  EVCC_CHARGEBYTE
+ SG_ VCU_VehicleVoltage : 16|16@1+ (0.1,0) [0|6500] "V"  EVCC_CHARGEBYTE
+ SG_ VCU_HVSW2State : 14|2@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_HVSW1State : 12|2@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_SequenceCounter : 8|4@1+ (1,0) [0|15] ""  EVCC_CHARGEBYTE
+ SG_ VCU_CRC : 0|8@1+ (1,0) [0|255] ""  EVCC_CHARGEBYTE
+
+BO_ 2566850178 CCL_SafePlugStates: 8 EVCC_CHARGEBYTE
+ SG_ CCL_EmergencyShutdown : 24|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_IL2State : 22|2@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_IL1State : 20|2@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_PlugState : 16|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_HVSW2StateRequest : 14|2@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_HVSW1StateRequest : 12|2@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_SequenceCounter : 8|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ CCL_CRC : 0|8@1+ (1,0) [0|255] ""  GARMIN
+
+BO_ 2566853760 EVCC_StateOfCharge: 8 GARMIN
+ SG_ VCU_EVFullSOC : 56|8@1+ (0.5,0) [0|100] "%"  EVCC_CHARGEBYTE
+ SG_ VCU_EVBulkChargingComplete : 52|2@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_EVRemainingTimeToFullSoC : 32|18@1+ (1,0) [0|172800] "s"  EVCC_CHARGEBYTE
+ SG_ VCU_EVBulkSOC : 24|8@1+ (0.5,0) [0|100] "%"  EVCC_CHARGEBYTE
+ SG_ VCU_EVRESSConditioning : 20|2@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_EVCabinConditioning : 18|2@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_EVRemainingTimeToBulkSoC : 0|18@1+ (1,0) [0|172800] "s"  EVCC_CHARGEBYTE
+
+BO_ 2566849922 CCL_VersionInformation: 8 EVCC_CHARGEBYTE
+ SG_ CCL_SWMinorVersion : 32|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ CCL_SWBuildVersion : 24|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ CCL_SWMajorVersion : 16|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ CCL_CANVersion : 8|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ CCL_HWVersion : 0|8@1+ (1,0) [0|255] ""  GARMIN
+
+BO_ 2566849666 CCL_EVSEMinLimits: 8 EVCC_CHARGEBYTE
+ SG_ EVSE_MinimumVoltageLimit : 16|16@1+ (0.1,0) [0|6500] "V"  GARMIN
+ SG_ EVSE_MinimumCurrentLimit : 0|16@1+ (0.1,-3250) [-3250|3250] "A"  GARMIN
+
+BO_ 2566849154 CCL_EVSEChargingValues_1: 8 EVCC_CHARGEBYTE
+ SG_ EVSE_VoltageLimitAchieved : 38|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ EVSE_CurrentLimitAchieved : 37|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ EVSE_PowerLimitAchieved : 36|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ EVSE_State : 32|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ EVSE_CurrentRegTolerance : 24|8@1+ (0.2,0) [0|50] "A"  GARMIN
+ SG_ EVSE_PeakCurrentRipple : 16|8@1+ (0.2,0) [0|50] "A"  GARMIN
+ SG_ EVSE_EnergyToBeDelivered : 0|16@1+ (100,0) [0|3276700] "Wh"  GARMIN
+
+BO_ 2566848898 CCL_ChargingState: 8 EVCC_CHARGEBYTE
+ SG_ CCL_ProximityPinResistor : 48|8@1+ (20,0) [0|5080] "Ohm"  GARMIN
+ SG_ CCL_ActualChargingProtocol : 40|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_ChargingMode : 32|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_TargetCurrent : 16|16@1+ (0.1,-3250) [-3250|3250] "A"  GARMIN
+ SG_ CCL_State : 12|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_HVSWState : 8|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_LockState : 4|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_WakeUpReason : 0|4@1+ (1,0) [0|0] ""  GARMIN
+
+BO_ 2566849410 CCL_EVSEMaxLimits: 8 EVCC_CHARGEBYTE
+ SG_ EVSE_PowerRampLimitation : 48|8@1+ (1,0) [0|254] "%min"  GARMIN
+ SG_ EVSE_MaximumPowerLimit : 32|16@1+ (100,0) [0|3276700] "W"  GARMIN
+ SG_ EVSE_MaximumVoltageLimit : 16|16@1+ (0.1,0) [0|6500] "V"  GARMIN
+ SG_ EVSE_MaximumCurrentLimit : 0|16@1+ (0.1,0) [0|6500] "A"  GARMIN
+
+BO_ 2566848642 CCL_Shutdown: 8 EVCC_CHARGEBYTE
+ SG_ CCL_ShutdownRequest : 23|1@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_ButtonState : 21|2@1+ (1,0) [0|0] ""  GARMIN
+ SG_ EVSE_StatusCode : 16|4@1+ (1,0) [0|0] ""  GARMIN
+ SG_ CCL_ErrorNumber : 0|16@1+ (1,0) [0|0] ""  GARMIN
+
+BO_ 2566852736 EVCC_ChargingValues: 8 GARMIN
+ SG_ VCU_EVEnergyRequest : 48|16@1+ (100,-3276700) [-3276700|3276700] "Wh"  EVCC_CHARGEBYTE
+ SG_ VCU_EVError : 40|4@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_EVSOC : 32|8@1+ (0.5,0) [0|100] "%"  EVCC_CHARGEBYTE
+ SG_ VCU_EVTargetVoltage : 16|16@1+ (0.1,0) [0|6500] "V"  EVCC_CHARGEBYTE
+ SG_ VCU_EVTargetCurrent : 0|16@1+ (0.1,-3250) [-3250|3250] "A"  EVCC_CHARGEBYTE
+
+BO_ 2566852992 EVCC_LimitsSettings: 8 GARMIN
+ SG_ VCU_EVEnergyCapacity : 48|16@1+ (100,0) [0|3276700] "Wh"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMaximumVoltageLimit : 32|16@1+ (0.1,0) [0|6500] "V"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMaximumPowerLimit : 16|16@1+ (100,0) [0|3276800] "W"  EVCC_CHARGEBYTE
+ SG_ VCU_EVMaximumCurrentLimit : 0|16@1+ (0.1,0) [0|6500] "A"  EVCC_CHARGEBYTE
+
+BO_ 2566853248 EVCC_ChargingPermission: 8 GARMIN
+ SG_ VCU_Renegotiation : 7|1@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_PauseRequest : 6|1@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_RestartChargingCycle : 4|2@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_ChargePermission : 3|1@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_HVReady : 2|1@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_UnlockPermission : 1|1@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+ SG_ VCU_LockPermission : 0|1@1+ (1,0) [0|0] ""  EVCC_CHARGEBYTE
+
+BO_ 2566853376 Status2: 8 OBC_MTA
+ SG_ _3PH_Connected : 1|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ _1PH_Connected : 0|1@1+ (1,0) [0|1] ""  GARMIN
+
+BO_ 2566850816 AC_Variables: 8 OBC_MTA
+ SG_ Pac : 48|16@1+ (1,0) [0|30000] "W"  GARMIN
+ SG_ Iac3 : 32|16@1+ (0.1,0) [0|100] "A"  GARMIN
+ SG_ Iac2 : 16|16@1+ (0.1,0) [0|100] "A"  GARMIN
+ SG_ Iac1 : 0|16@1+ (0.1,0) [0|100] "A"  GARMIN
+
+BO_ 2566874880 Fault: 8 OBC_MTA
+ SG_ Memory_fail : 15|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Internal_CAN_fail : 14|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ ACIL_fail : 13|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ HVIL_fail : 12|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ DCDC_VOUT_OUT_OF_RANGE : 11|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ AFE_MASTER_SYNC_MISSING : 10|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ AFE_VAC_OVP_SW : 9|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ AFE_PHASE_SWITCH_RELAY_FAIL : 8|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OTP_power : 7|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OTP_logic : 6|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OVP_VBulk : 5|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OVP_Vout : 4|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OCP_Iac : 3|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ OCP_Iout : 2|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ VAC_fail : 1|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Plug_FB_fail : 0|1@1+ (1,0) [0|1] ""  GARMIN
+
+BO_ 2566851072 OBC_MTA_SNS: 8 GARMIN
+ SG_ Number11_SNS : 60|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number12_SNS : 56|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number9_SNS : 52|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number10_SNS : 48|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number7_SNS : 44|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number8_SNS : 40|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number5_SNS : 36|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number6_SNS : 32|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number3_SNS : 28|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number4_SNS : 24|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number1_SNS : 20|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ Number2_SNS : 16|4@1+ (1,0) [0|15] ""  OBC_MTA
+ SG_ SecondByte_SNS : 8|8@1+ (1,0) [0|255] ""  OBC_MTA
+ SG_ FirstByte_SNS : 0|8@1+ (1,0) [0|255] ""  OBC_MTA
+
+BO_ 2566853120 Tst2: 8 OBC_MTA
+ SG_ Psw2 : 56|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ SourceAdd : 0|8@1+ (1,0) [0|255] ""  GARMIN
+
+BO_ 2566850304 OBC_MTA_Setup2: 8 GARMIN
+ SG_ SetupPsw2_J1939 : 56|8@1+ (1,0) [0|255] ""  OBC_MTA
+ SG_ SetupIoutMaxDCSet_J1939 : 24|16@1+ (0.1,0) [0|6553.5] "A"  OBC_MTA
+ SG_ SetupVoutMaxDCSet_J1939 : 8|16@1+ (0.1,0) [0|1000] "V"  OBC_MTA
+ SG_ Setup_SourceAdd_J1939 : 0|8@1+ (1,0) [0|255] ""  OBC_MTA
+
+BO_ 2566850048 OBC_MTA_Setup1: 8 GARMIN
+ SG_ SetupPsw_J1939 : 56|8@1+ (1,0) [0|255] ""  OBC_MTA
+ SG_ SetupIoutMaxSet_J1939 : 40|16@1+ (0.1,0) [0|6553.5] "A"  OBC_MTA
+ SG_ SetupVoutMaxSet_J1939 : 24|16@1+ (0.1,0) [0|1000] "V"  OBC_MTA
+ SG_ SetupIacmMaxSet_J1939 : 16|8@1+ (1,0) [0|255] "A"  OBC_MTA
+ SG_ SetupParallelCtrl_J1939 : 15|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ SetupActiveIL_J1939 : 14|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ SetupBaudrate_J1939 : 6|2@1+ (1,0) [0|3] ""  OBC_MTA
+ SG_ SetupIacControl_J1939 : 4|2@1+ (1,0) [0|3] ""  OBC_MTA
+ SG_ SetupRange_J1939 : 3|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ SetupACPlugging_J1939 : 1|2@1+ (1,0) [0|3] ""  OBC_MTA
+ SG_ SetupSlave_J1939 : 0|1@1+ (1,0) [0|1] ""  OBC_MTA
+
+BO_ 2566854912 OBC_MTA_APL_J1939: 8 GARMIN
+ SG_ LED1_J1939 : 7|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ LED2_J1939 : 6|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ LED3_J1939 : 5|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ OpenDrain1_J1939 : 4|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ OpenDrain2_J1939 : 3|1@1- (1,0) [0|1] ""  OBC_MTA
+ SG_ Digital_IO_J1939 : 2|1@1+ (1,0) [0|1] ""  OBC_MTA
+
+BO_ 2566857216 OBC_MTA_ACMaster: 8 GARMIN
+ SG_ Vac_scaling : 48|8@1+ (1,0) [0|100] ""  OBC_MTA
+ SG_ Vac_Target : 40|8@1+ (1,0) [0|255] "V"  OBC_MTA
+ SG_ Current_J1939 : 24|16@1+ (0.1,0) [0|6553.5] ""  OBC_MTA
+ SG_ CH_number_J1939 : 16|8@1+ (1,0) [0|255] ""  OBC_MTA
+ SG_ ID1_present_J1939 : 15|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ ID2_present_J1939 : 14|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ ID3_present_J1939 : 13|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ ID4_present_J1939 : 12|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ ID5_present_J1939 : 11|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ ProxOk_J1939 : 7|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ PilotOk_J1939 : 6|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ Master_fail_J1939 : 4|1@1+ (1,0) [0|1] ""  OBC_MTA
+
+BO_ 2566834688 DM1_Active_DTC: 8 Vector__XXX
+ SG_ CM : 47|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ OC : 40|7@1+ (1,0) [0|127] "" Vector__XXX
+ SG_ FMI : 32|5@1+ (1,0) [0|31] "" Vector__XXX
+ SG_ SPN : 23|19@0+ (1,0) [0|524287] "" Vector__XXX
+ SG_ MalfunctionIndicatorLampStat : 6|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ RedStopLampStat : 4|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ AmberWarningLampStat : 2|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ ProtectLampStat : 0|2@1+ (1,0) [0|3] "" Vector__XXX
+
+BO_ 2566834944 DM2_Previously_Active_DTC: 8 Vector__XXX
+ SG_ CM : 47|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ OC : 40|7@1+ (1,0) [0|127] "" Vector__XXX
+ SG_ FMI : 32|5@1+ (1,0) [0|31] "" Vector__XXX
+ SG_ SPN : 23|19@0+ (1,0) [0|524287] "" Vector__XXX
+ SG_ MalfunctionIndicatorLampStat : 6|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ RedStopLampStat : 4|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ AmberWarningLampStat : 2|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ ProtectLampStat : 0|2@1+ (1,0) [0|3] "" Vector__XXX
+
+BO_ 2566835200 DM3_Data_Clear_DTC: 8 Vector__XXX
+
+BO_ 2566848512 Status: 8 OBC_MTA
+ SG_ PilotcurrentLimit : 48|16@1+ (0.1,0) [0|100] ""  GARMIN
+ SG_ ProxcurrentLimit : 32|16@1+ (0.1,0) [0|100] ""  GARMIN
+ SG_ StopChargeCAN : 31|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ StopChargeHW : 30|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ V2LStatus : 27|3@1+ (1,0) [0|7] ""  GARMIN
+ SG_ OBCStatus : 24|3@1+ (1,0) [0|7] ""  GARMIN
+ SG_ ProxOk : 23|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ PilotOk : 22|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ S2Ok : 21|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Digital_IO : 20|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Locking : 19|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ ACIL_ok : 18|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ HVIL_ok : 17|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ ACMasterRx : 16|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ LLC_enable : 15|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ VoutPresent : 14|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ IoutPresent : 13|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ BMS_wakeup : 12|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ ENkey_ok : 11|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ LVbatt_ok : 10|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ SR_enable : 9|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ LimTemp : 8|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ CAN_enable : 7|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Fault : 6|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ ACok : 5|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ PLLok : 4|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ PrCompl : 3|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Internal_voltagesOK : 2|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ PFC_enable : 1|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Bulk_ok : 0|1@1+ (1,0) [0|1] ""  GARMIN
+
+BO_ 2566848768 DC_Variables: 8 OBC_MTA
+ SG_ Pdc_max : 48|16@1+ (1,0) [0|30000] "W"  GARMIN
+ SG_ Pdc : 32|16@1+ (1,0) [0|30000] "W"  GARMIN
+ SG_ Vdc : 16|16@1+ (0.1,0) [0|1000] "V"  GARMIN
+ SG_ Idc : 0|16@1+ (0.1,0) [0|100] "A"  GARMIN
+
+BO_ 2566849024 AC_Voltages: 8 OBC_MTA
+ SG_ VacN : 48|16@1+ (0.1,0) [0|400] "V"  GARMIN
+ SG_ Vac3 : 32|16@1+ (0.1,0) [0|400] "V"  GARMIN
+ SG_ Vac2 : 16|16@1+ (0.1,0) [0|400] "V"  GARMIN
+ SG_ Vac1 : 0|16@1+ (0.1,0) [0|400] "V"  GARMIN
+
+BO_ 2566849280 Temp: 8 OBC_MTA
+ SG_ PT1000ext2 : 56|8@1+ (1,-40) [-40|215] ""  GARMIN
+ SG_ PT1000ext1 : 48|8@1+ (1,-40) [-40|215] ""  GARMIN
+ SG_ Temp_uC_SELV : 40|8@1+ (1,-40) [-40|215] ""  GARMIN
+ SG_ Temp_uC_LLC : 32|8@1+ (1,-40) [-40|215] "°C"  GARMIN
+ SG_ Temp_uC_PFC : 24|8@1+ (1,-40) [-40|215] "°C"  GARMIN
+ SG_ TempMosfetSec : 16|8@1+ (1,-40) [-40|215] "°C"  GARMIN
+ SG_ TempMosfetPrim : 8|8@1+ (1,-40) [-40|215] "°C"  GARMIN
+ SG_ TempMosfetPFC : 0|8@1+ (1,-40) [-40|215] "°C"  GARMIN
+
+BO_ 2566849536 Internal: 8 OBC_MTA
+ SG_ cntHours : 48|16@1+ (1,0) [0|65535] "h"  GARMIN
+ SG_ LVBattery : 32|16@1+ (0.1,0) [0|6553.5] "V"  GARMIN
+ SG_ TwelveVdc : 24|8@1+ (0.1,0) [0|20] "V"  GARMIN
+ SG_ FiveVdc : 16|8@1+ (0.1,0) [0|20] "V"  GARMIN
+ SG_ Vbulk : 0|16@1+ (0.1,0) [0|1000] "V"  GARMIN
+
+BO_ 2566852864 Tst1: 8 OBC_MTA
+ SG_ Psw : 56|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ SetupIoutMaxSet : 40|16@1+ (0.1,0) [0|6553.5] "A"  GARMIN
+ SG_ VoutMaxSet : 24|16@1+ (0.1,0) [0|1000] "V"  GARMIN
+ SG_ IacmMaxSet : 16|8@1+ (1,0) [0|255] "A"  GARMIN
+ SG_ ParallelCtrl : 15|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ ActiveIL : 14|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ Baudrate : 6|2@1+ (1,0) [0|3] ""  GARMIN
+ SG_ IacControl : 4|2@1+ (1,0) [0|3] ""  GARMIN
+ SG_ SetupRange : 3|1@1+ (1,0) [0|1] ""  GARMIN
+ SG_ ACPlugging : 1|2@1+ (1,0) [0|3] ""  GARMIN
+ SG_ Slave : 0|1@1+ (1,0) [0|1] ""  GARMIN
+
+BO_ 2566852352 SN: 8 OBC_MTA
+ SG_ Number11 : 60|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number12 : 56|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number9 : 52|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number10 : 48|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number7 : 44|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number8 : 40|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number5 : 36|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number6 : 32|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number3 : 28|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number4 : 24|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number1 : 20|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ Number2 : 16|4@1+ (1,0) [0|15] ""  GARMIN
+ SG_ SecondByte : 8|8@1+ (1,0) [0|255] ""  GARMIN
+ SG_ FirstByte : 0|8@1+ (1,0) [0|255] ""  GARMIN
+
+BO_ 2566850560 OBC_MTA_Control: 8 GARMIN
+ SG_ CtlIoutMaxSet : 40|16@1+ (0.1,0) [0|100] "A"  OBC_MTA
+ SG_ CtlVoutMaxSet : 24|16@1+ (0.1,0) [0|1000] "V"  OBC_MTA
+ SG_ CtlIacMaxSet : 8|16@1+ (0.1,0) [0|100] "A"  OBC_MTA
+ SG_ CtlCANEnable : 7|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ CtlRmode : 5|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ CtlStopCharge : 0|1@1+ (1,0) [0|1] ""  OBC_MTA
+
+BO_ 2566852608 OBC_MTA_V2XControl: 8 GARMIN
+ SG_ V2XFrequencySet : 40|8@1+ (1,0) [0|255] "Hz"  OBC_MTA
+ SG_ V2XVoutSet : 24|16@1+ (1,0) [0|1000] "V"  OBC_MTA
+ SG_ V2XIoutMaxSet : 8|16@1+ (0.1,0) [0|100] "A"  OBC_MTA
+ SG_ _1PH_Control : 3|1@1+ (1,0) [0|1] ""  OBC_MTA
+ SG_ V2XCANEnable : 7|1@0+ (1,0) [0|1] ""  OBC_MTA
+
+BO_ 2566856960 OBC_MTA_ACSlave: 1 GARMIN
+ SG_ SlaveID : 0|8@1+ (1,0) [0|255] ""  OBC_MTA
+
+BO_ 2566836992 DM11_Data_Clear_Active_DTC: 8 Vector__XXX
+
+BO_ 2564816384 DM13_Stop_Start_Broadcast: 8 Vector__XXX
+ SG_ SuspendDuration : 32|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ SuspendSignal : 28|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ HoldSignal : 24|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ CurrentDataLink : 6|2@1+ (1,0) [0|3] "" Vector__XXX
+
+BO_TX_BU_ 2566857216 : OBC_MTA,GARMIN;
+BO_TX_BU_ 2566856960 : OBC_MTA,GARMIN;
+
+
+CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
+CM_ SG_ 3221225472 LV_notused "HV: not usedHV: MTO_IN2 (Pull_down)HV: not used";
+CM_ SG_ 2453671969 Voltage_bus "Voltage bus measured by SuperMaster ";
+CM_ SG_ 2453671969 IMD "Recommended max discharge current ";
+CM_ SG_ 2453671969 IMR "Recommended max charge current ";
+CM_ SG_ 2453671969 End_of_charge "1: end of charge. Battery full";
+CM_ SG_ 2453671969 Number_Slave_interbalancing "Number of slave in inter balancing by Super Master";
+CM_ SG_ 2453671969 StatusPrecharge "1: Precharge active 
+0: Precharge not active ";
+CM_ SG_ 2453671969 PowerContactor_Status "1: Power Contactor closed 
+0: Power Contactor open";
+CM_ SG_ 2453671969 Contactor_manuallyopen "Contactor is manually opened by message 0x30C";
+CM_ SG_ 2551994198 CF_Obc_ContactorOnReq " Contactor on request to BMS.
+ 1: on request";
+CM_ SG_ 2551994198 CF_Obc_Controllable "OBC status which is controlled BMS
+ in voltage and current.
+ 0: uncontrollable / 1: controllable";
+CM_ SG_ 2551994198 CF_Obc_Ready "0: stop / 1: run";
+CM_ SG_ 2629891158 EVCC_InletTemperature2 "120 ? : Charging Stop
+ 90 ~ 100 ? : Reduce charging current by a half of current value";
+CM_ SG_ 2629891158 EVCC_InletTemperature1 "120 ? : Charging Stop
+ 90 ~ 100 ? : Reduce charging current by a half of current value";
+CM_ SG_ 2552099926 Secc_DCAC_ChgMode " 0: Standby, 1: DC Charging, 2: AC Charging
+";
+CM_ SG_ 2552099926 EVCC_Lock_alarm " 0: no alarm / 1: lock failure alarm /
+ 2: unlock failure alarm / 3: reserved";
+CM_ SG_ 2552099926 EVCC_Lock_status " 0: unlock / 1: lock / 2: reserved / 3: reserved
+";
+CM_ SG_ 2417095766 Evse_MaxDelay " EVSE Notification shall be proceeded within the Max Delay time.";
+CM_ SG_ 2417095766 EVCC_StepNum " Refer to CR_EVCC_StepNum in appendix.
+";
+CM_ SG_ 2417095766 EVCC_ErrorCode " Refer to EvccErrorCode in appendix";
+CM_ SG_ 2417095766 EVCC_AagValue "Threshold value is < 40";
+CM_ SG_ 2417095766 EVCC_LockStat " 0: unlock / 1: locked
+";
+CM_ SG_ 2417095766 EVCC_DutyValue "PWM Duty value.";
+CM_ SG_ 2417095766 EVCC_PDStat "Type2 ï¿½ 0: unplugged / 2: plug-in
+Type1 ï¿½ 0: unplugged / 1: S3 open / 2: plug-in";
+CM_ SG_ 2417095766 EVCC_S2_OnStat " 0: open(OFF) / 1: close(ON)
+";
+CM_ SG_ 2417095766 EVCC_CPStat " 0: A(unplugged) / 1: B1 / 2: B2 / 3: C1 / 4: C2";
+CM_ SG_ 2417095766 EVCC_ChgFinished "Charge finish request by SECC.";
+CM_ SG_ 2417095766 Evse_PwrDelivery " 0: contactor open / 1: contactor close(start charging)";
+CM_ SG_ 2417095766 Evse_Notification " 0: none / 1: stop charging /2: re-negotiation(15118 only)";
+CM_ SG_ 2417095766 Evse_TransferType " Refer to EnergyTransferType code in appendix.
+";
+CM_ SG_ 2417095766 Evse_IsolStat " 0: Invalid / 1: Valid / 2: Warning / 3: Fault
+";
+CM_ SG_ 2417095766 Evse_Processing " 0: finished / 1: ongoing(wait)
+";
+CM_ SG_ 2417095766 Evse_ChgFinished " Charge finish request by EVSE.";
+CM_ SG_ 2417095766 Evse_Stat " Refer to EVSE status code in appendix.
+";
+CM_ SG_ 2417095766 EVCC_SocketStat " 0: close / 1: open 
+";
+CM_ SG_ 2417095766 EVCC_PwrStat " 0: not run / 1: run
+";
+CM_ SG_ 2551994100 CR_BMS_BulkSOCREmainTime " Time remaining untill bulk SOC
+";
+CM_ SG_ 2551994100 CR_BMS_FullSOCRemainTime " Time remaining untill full SOC
+";
+CM_ SG_ 2551731956 BMS_EvTargetCurrent "EVï¿½s requested Current
+ In Precharge and CurrentDemand session.";
+CM_ SG_ 2551731956 BMS_EvTargetVolt " EVï¿½s requested Voltage
+ In Precharge and CurrentDemand session.";
+CM_ SG_ 2551731956 BMS_BulkSOC "Battery's Bulk SOC value";
+CM_ SG_ 2551731956 BMS_FullSOC "Battery's Full SOC value";
+CM_ SG_ 2416989940 BMS_EvMaxVolt "Battery's maximum voltage value";
+CM_ SG_ 2416989940 BMS_EvMaxCurrent " Battery's maximum current value";
+CM_ SG_ 2416989940 BMS_EvRessSOC " Battery's current SOC value";
+CM_ SG_ 2416989940 BMS_MatchConfirm " 0: default / 1: OK / 2: FAIL
+";
+CM_ SG_ 2416989940 BMS_ConnectorLockReq " 0: unlock / 1: lock
+";
+CM_ SG_ 2416989940 BMS_S2_OnReq " 0: S2 open / 1: S2 Close";
+CM_ SG_ 2416989940 BMS_TransferType " Refer to energy transfer type code in appendix.";
+CM_ SG_ 2416989940 BMS_WeldingDetReq " 0: skip weldingdetection 1:weldingdetection request
+
+";
+CM_ SG_ 2416989940 BMS_ChgFinished " 0: not finisjed 1: finished
+";
+CM_ SG_ 2416989940 BMS_FullChgComplete " 0: incomplete / 1: complete
+
+";
+CM_ SG_ 2416989940 BMS_BulkChgComplete "0: incomplete / 1: complete
+";
+CM_ SG_ 2416989940 BMS_ReadyToCharge "0: stop / 1: start
+
+";
+CM_ SG_ 2416989940 BMS_ContactorOnStat " 0: open / 1: close
+
+";
+CM_ SG_ 2416989940 BMS_EvStat " 0: not ready / 1: no error / 
+2 or more: Refer to EvStatCode in appendix
+";
+CM_ SG_ 2416989940 BMS_EvReady " 0: S2 open / 1: S2 close and contactor open
+";
+CM_ SG_ 2563557127 RegulatorStatus "FWC = Field weakening control";
+CM_ SG_ 2563426055 HV_MTO_IN1 "HV: MTO IN2 (Pull_down)";
+CM_ SG_ 2563426055 HV_MTO_IN2 "HV: MTO IN1 (Pull_up)";
+CM_ SG_ 2563426055 HV_DI4 "HV: DI4";
+CM_ SG_ 2563426055 HV_DI3 "HV: DI3";
+CM_ SG_ 2563426055 HV_DI1 "LV_DI1";
+CM_ SG_ 2563622663 CanSignalRotorSpeedInRpm "The actual filtered speed. Filter parameter: CanSignalSpeedFilterGain";
+CM_ BO_ 2550199781 "Message de commande du module DCDC pour charger la batterie 12V avec les batteries HV";
+CM_ SG_ 2550199781 ON_OFF_CONTROL "1:Power on command
+0:Shutdown command";
+CM_ SG_ 2566869477 InputCurrentLowByte "Input Current Low Byte";
+CM_ SG_ 2566869477 ChargeOrDischarge "0 for charge
+1 for discharge";
+CM_ SG_ 2566869477 InputCurrentHighByte "Input Current High Byte";
+CM_ SG_ 2566869477 InputVoltageLowByte "Input Voltage Low Byte";
+CM_ SG_ 2566869477 InputVoltageHighByte "Input Voltage High Byte";
+CM_ SG_ 2566869221 CommunicationStatus "0: Communication is normal
+1: Communication reception timeout";
+CM_ SG_ 2566869221 StartingState "0:Chargerdetectsthebatteryvoltageintostart-upstate
+1:Off(topreventbatteryreverseconnection)";
+CM_ SG_ 2566869221 InputVoltage "0: Inputvoltageisnormal
+1: Input voltage faulty,chargerstopsworking";
+CM_ SG_ 2566869221 ChargerTemperature "0:Normal 1:Chargertemperaturetoohighprotection";
+CM_ SG_ 2566869221 HardwareProtection "0:Normal 1:Hardwareprotection";
+CM_ SG_ 2566869221 OutputCurrentLowByte "Output Current Low Byte";
+CM_ SG_ 2566869221 OutputCurrentHighByte "Output CurrentHigh Byte";
+CM_ SG_ 2566869221 OutputVoltageLowByte "Output Voltage Low Byte";
+CM_ SG_ 2566869221 OutputVoltageHighByte "Output Voltage High Byte";
+CM_ SG_ 2550588916 BatteryOrHeatingMode "0 : Battery Mode
+1 : Heating Mode";
+CM_ SG_ 2550588916 ChargeControl "0:Thecharger starts to recharge
+1:  Battery protection, charger shut out (If with CCCP function, send this command to keep S2 closed)
+2 : Charging is complete (if with CCCP function, sending this command will disconnect S2)";
+CM_ BO_ 2193620994 "This message is sent by the Master module to provide aggregated information of all slaves present in the system. The information includes errors, warnings and general status, IMR (maximum charge current), IMD (maximum discharge current) and SOH (state of charge) of the system.";
+CM_ SG_ 2193620994 SystemFloating "Floating system";
+CM_ SG_ 2193620994 SystemEndOfCharge "End of charge system";
+CM_ SG_ 2193620994 SystemWarning "At least one slave has warning";
+CM_ SG_ 2193620994 SystemError "At least one slave has error";
+CM_ SG_ 2193620994 SystemStatus "0 : Idle (Internal code : #100) 1: Operative (#101) 2 : Error (#102) 4 : Part Operative";
+CM_ SG_ 2193620994 IMD "Max discharge current";
+CM_ SG_ 2193620994 IMR "Max charge current";
+CM_ SG_ 2193620994 SoC "System SOC";
+CM_ BO_ 2193620995 "This message is sent by the Master module and complements the information provided by Global Status 1. The information includes current, voltage and SOH (State of Health) of the current system.";
+CM_ SG_ 2193620995 SoH "State of Health total 0% > 100.00%";
+CM_ SG_ 2193620995 SystemVoltage "Voltage total 0 > 1638.375V";
+CM_ SG_ 2193620995 SystemCurrent "Current total -3276.8 > +3276.7A";
+CM_ BO_ 2185232386 "This message is sent by the MainMaster (SuperMaster #1) to provide aggregated information of all slaves present in the system. The information includes errors, warnings and general status, IMR (maximum charge current), IMD (maximum discharge current) and SOC (state of charge) of the system";
+CM_ SG_ 2185232386 SystemEndOfCharge "System end of charge";
+CM_ SG_ 2185232386 SystemWarning "At least one rack has warning";
+CM_ SG_ 2185232386 SystemError "At least one rack has error";
+CM_ SG_ 2185232386 SystemStatus "0: Idle 1: Operative 2: Error 3: Precharge 4: Part operative";
+CM_ SG_ 2185232386 IMD "Current max discharge
+0 > 4095A";
+CM_ SG_ 2185232386 IMR "Current max charge
+0 > 1638.3A";
+CM_ SG_ 2185232386 SoC "System SoC value";
+CM_ BO_ 2185232387 "This message is sent by the MainMaster (SuperMaster #1) and it completes the information provided by Global Status 1. The information includes current, voltage and SOH (State of Health) of the current system";
+CM_ SG_ 2185232387 SoH "State of Health 0 > 100.00%";
+CM_ SG_ 2185232387 SystemVoltage "Voltage Total 0 > 1638.375V";
+CM_ SG_ 2185232387 SystemCurrent "Current Total -3276.8 > +3276.7A";
+CM_ BO_ 2449477664 "sent by the Master and Slave modules. provide status information like voltage, current, SOC, SOH of each module.";
+CM_ SG_ 2449477664 SoH "State of Health value 0 > 100.00%";
+CM_ SG_ 2449477664 SoC "State of Charge value 0 > 100.00%";
+CM_ SG_ 2449477664 Current "Current IN or OUT value, This data is signed. Current IN is positive, Current OUT is negative -327.68 > +327.67A";
+CM_ SG_ 2449477664 Voltage "Battery Pack Voltage mV 0 > 65.535V";
+CM_ BO_ 2449477665 "This message is sent by the Master and Slave modules. It is identical to Status 1 and contains additional information.  ï¿½y1 y2 y3 ï¿½ represents the transmitter ID, module ID and stack ID concerned by the message.";
+CM_ SG_ 2566855040 VCU_EVMaximumDischargeCurrentLim "Maximum current limit for discharge ISO-20";
+CM_ SG_ 2566855040 VCU_EVMinimumPowerLimit "Minimum Power limit for charge ISO-20";
+CM_ SG_ 2566855040 VCU_EVMinimumDischargePowerLimit "Minimum power limit for discharge ISO-20";
+CM_ SG_ 2566855040 VCU_EVMinimumCurrentLimit "Minumum current limit for charge ISO-20";
+CM_ SG_ 2566855040 VCU_EVMaximumV2XEnergyRequestLim "maximum possible Energy drawn by EV from V2X";
+CM_ SG_ 2566855040 VCU_EVMaximumEnergyRequestLimit "maximum possible Power drawn by EV";
+CM_ SG_ 2566855040 VCU_EVMinimumPowerLimit_L2 "Indicated the EV's minimum charging power.";
+CM_ SG_ 2566855040 VCU_EVMinimumEnergyRequestLimit "Minimum energy limit for charge ISO-20";
+CM_ SG_ 2566855040 VCU_EVMaximumPowerLimit_L3 "Indicated the EV's maximum charging power capability for L3 on ISO-20-AC.";
+CM_ SG_ 2566855040 VCU_EVMaximumDischargePowerLimit "Maximum power  limit for discharge ISO-20";
+CM_ SG_ 2566855040 VCU_EVMinimumV2XEnergyRequestLim "Minimum possible Energy drawn by EV from V2X";
+CM_ SG_ 2566855040 VCU_EVMinimumPowerLimit_L3 "aIndicated the EV's minimum charging power.";
+CM_ SG_ 2566855040 VCU_EVMinimumVoltageLimit "Minimum Voltage Limit for EV in ISO 15118-20";
+CM_ SG_ 2566855040 VCU_EVMinimumDischargeCurrentLim "Minimum current limit for discharge ISO-20";
+CM_ SG_ 2566855040 VCU_EVMaximumPowerLimit_L2 "Indicated the EV's maximum charging power capability for L2 on ISO-20-AC.";
+CM_ SG_ 2566855040 VCU_LimitSettings_ISO20_Mux "Muxingentry for the limit settings of ISO 15118-20";
+CM_ SG_ 2566854784 VCU_VDV261_Odo "ODO-Meter Value";
+CM_ SG_ 2566854784 VCU_VDV261_Chrg_Stat "This signal represents the EVs Charging state";
+CM_ SG_ 2566854784 VCU_VDV261_Bat_Eamount "This signal represents the additional energy amount for temper EVs Battery";
+CM_ SG_ 2566854784 VCU_VDV261_Bat_Reqtime "This signal represents the duration in min for reaching the battery precondition of the EV";
+CM_ SG_ 2566854784 VCU_VDV261_Vin2 "This signal represents the EVs 128Bit VehicleIdentificationNumber part 3/3";
+CM_ SG_ 2566854784 VCU_VDV261_Vin1 "This signal represents the EVs 128Bi VehicleIdentificationNumber part 2/3";
+CM_ SG_ 2566854784 VCU_VDV261_Vin0 "This signal represents the EVs 128Bit VehicleIdentificationNumber part 1/3";
+CM_ SG_ 2566854784 VCU_VDV261_Prec_Reqtime "This signal represents the maximum duration in min to reach precondition";
+CM_ SG_ 2566854784 VCU_VDV261_Prec_Eamount "This signal represents the EVs energy amount to reach temper precondition";
+CM_ SG_ 2566854784 VCU_VDV261_Mux "Mux message for VDV261 to switch through the messages.";
+CM_ SG_ 2566851714 EVSE_VDV261_Ambienttemp "This signal represents the Ambient temperature of the EVSE";
+CM_ SG_ 2566851714 EVSE_VDV261_Prec_Hvac "This signal represents the AirConditioning precondition to the EV";
+CM_ SG_ 2566851714 EVSE_VDV261_Prec_Dsrd "This signal represents a desired precondition by the EVSE";
+CM_ SG_ 2566851714 EVSE_VDV261_Driveoff "This signal represents the Time until drive off sent by the EVSE";
+CM_ BO_ 2566851458 "This message contains relevant AC and DC min/max Values relevant for ISO-20";
+CM_ SG_ 2566851458 EVSE_TargetReactivePower_L3 "This signal indicates the EVSE's target reactive power on AC charging for phases L3";
+CM_ SG_ 2566851458 EVSE_TargetActivePower_L3 "This signal indicates the EVSE's target active power on AC charging for phase L3";
+CM_ SG_ 2566851458 EVSE_PresentActivePower_L3 "This signal indicates the EVSE's present active power on AC charging for phases L3";
+CM_ SG_ 2566851458 EVSE_MinimumChargePowerLimit_L3 "This signal indicates the EVSE's min charge power on AC charging for phases L3";
+CM_ SG_ 2566851458 EVSE_MaximumChargePowerLimit_L3 "This signal indicates the EVSE's charge power on AC charging for phases L3";
+CM_ SG_ 2566851458 EVSE_MinimumDischargePowerLimit "Indicated the EV's minimum charging power.";
+CM_ SG_ 2566851458 EVSE_MaximumDischargePowerLimit "Indicated the EV's minimum charging power.";
+CM_ SG_ 2566851458 EVSE_TargetReactivePower_L2 "This signal indicates the EVSE's target reactive power on AC charging for phase L2";
+CM_ SG_ 2566851458 EVSE_TargetActivePower_L2 "This signal indicates the EVSE's target active power on AC charging for phases L2";
+CM_ SG_ 2566851458 EVSE_PresentActivePower_L2 "This signal indicates the EVSE's present active power on AC charging for phases L3";
+CM_ SG_ 2566851458 EVSE_MinimumChargePowerLimit_L2 "This signal indicates the EVSE's min charge power on AC charging for phases L2";
+CM_ SG_ 2566851458 EVSE_MaximumChargePowerLimit_L2 "This signal indicates the EVSE's charge power on AC charging for phases L2";
+CM_ SG_ 2566851458 EVSE_MinimumDischargeCurrentLim "This signal indicates the EVSE's lowest charge current capability.";
+CM_ SG_ 2566851458 EVSE_MaximumDischargeCurrentLim "This signal indicates the EVSE's lowest charge current capability.";
+CM_ SG_ 2566851458 EVSE_TargetReactivePower "This signal indicates the EVSE's target reactive power on AC charging for all phases, or phase L1, when L2 and L3 are not SNA";
+CM_ SG_ 2566851458 EVSE_TargetActivePower "This signal indicates the EVSE's target active power on AC charging for all phases, or phase L1, when L2 and L3 are not SNA";
+CM_ SG_ 2566851458 EVSE_PresentActivePower "This signal indicates the EVSE's present active power on AC charging for all phases, or phase L1, when L2 and L3 are not SNA";
+CM_ SG_ 2566851458 EVSE_MinimumChargePowerLimit "This signal indicates the EVSE's min charge power on AC charging for all phases, or phase L1, when L2 and L3 are not SNA";
+CM_ SG_ 2566851458 EVSE_MaximumChargePowerLimit "This signal indicates the EVSE's charge power on AC charging for all phases, or phase L1, when L2 and L3 are not SNA";
+CM_ SG_ 2566851458 EVSE_ACDCPower_Mux "Muxing entry for different PowerTyps";
+CM_ SG_ 2566851458 EVSE_MaximumPowerAsymmetryLimit "This signal indicates the EVSE's maximum power asymmetry between the 3 possible phases";
+CM_ SG_ 2566851458 EVSE_NominalFrequency "This signal indicates the EVSE's nominal frequency on AC charging in Hz";
+CM_ SG_ 2566851458 EVSE_TargetFrequency "This signal indicates the EVSE's target frequency for AC charging in Hz";
+CM_ SG_ 2566853504 VCU_EVPowerSchedulePower "Popwer of current schedule index entry ";
+CM_ SG_ 2566853504 VCU_EVPowerScheduleIndex "Index chrging schedule ";
+CM_ SG_ 2566853504 VCU_EVPowerScheduleDuration "Duration of current schedule index entry ";
+CM_ SG_ 2566851202 CCL_InletACTemperature "actual AC inlet temperature could be used to limit target current to reduce temperature";
+CM_ SG_ 2566851202 CCL_ControlPilotDutyCycle "Measured CP Dutycycle";
+CM_ SG_ 2566851202 CCL_ACChargingPossible "Signals, that the CCL is ready that the VCU can contol the OBC to charge";
+CM_ SG_ 2566851202 CCL_ControlPilotState "measured control pilot state";
+CM_ SG_ 2566851202 CCL_ProximityPinState "CCS Rype of plug and max current measured at PP Resistor";
+CM_ SG_ 2566850946 CCL_AuxiliaryTemperature "actual DC inlet temperature could be used to limit target current to reduce temperature";
+CM_ SG_ 2566850946 CCL_InletPT2Temperature "actual DC inlet temperature of PT2";
+CM_ SG_ 2566850946 CCL_InletPT1Temperature "actual DC inlet temperature of PT1 ";
+CM_ SG_ 2566850946 CCL_InletDCTemperature "actual DC inlet temperature could be used to limit target current to reduce temperature";
+CM_ SG_ 2566850690 EVSE_EVSEID_Mux "The EVSEID is split in 6 signals, so all 37 bytes can be sent over can. This is the multiplexor signal to split the signal in 6 messages.";
+CM_ SG_ 2566850690 EVSE_EVSEID6 "Any ID that uniquely identifies the EVSE. The format of this message element is defined in DIN SPEC 91286. If an SECC cannot provide such ID data, the value of the EVSEID is set to zero (00hex).
+It is split in 6 parts, to fit the length of up to 37 bytes";
+CM_ SG_ 2566850690 EVSE_EVSEID5 "Any ID that uniquely identifies the EVSE. The format of this message element is defined in DIN SPEC 91286. If an SECC cannot provide such ID data, the value of the EVSEID is set to zero (00hex).
+It is split in 6 parts, to fit the length of up to 37 bytes";
+CM_ SG_ 2566850690 EVSE_EVSEID4 "Any ID that uniquely identifies the EVSE. The format of this message element is defined in DIN SPEC 91286. If an SECC cannot provide such ID data, the value of the EVSEID is set to zero (00hex).
+It is split in 6 parts, to fit the length of up to 37 bytes";
+CM_ SG_ 2566850690 EVSE_EVSEID3 "Any ID that uniquely identifies the EVSE. The format of this message element is defined in DIN SPEC 91286. If an SECC cannot provide such ID data, the value of the EVSEID is set to zero (00hex).
+It is split in 6 parts, to fit the length of up to 37 bytes";
+CM_ SG_ 2566850690 EVSE_EVSEID2 "Any ID that uniquely identifies the EVSE. The format of this message element is defined in DIN SPEC 91286. If an SECC cannot provide such ID data, the value of the EVSEID is set to zero (00hex).
+It is split in 6 parts, to fit the length of up to 37 bytes";
+CM_ SG_ 2566850690 EVSE_EVSEID1 "Any ID that uniquely identifies the EVSE. The format of this message element is defined in DIN SPEC 91286. If an SECC cannot provide such ID data, the value of the EVSEID is set to zero (00hex).
+It is split in 6 parts, to fit the length of up to 37 bytes";
+CM_ SG_ 2566854528 VCU_EVCCID "Specifies the EV's identification in a readable format. It contains the MAC address of the EVCC as six hexBinary encoded bytes, i.e. the element shall have a length of six bytes.";
+CM_ SG_ 2566854272 VCU_LED4PWM "optional signal:
+CCL provides 4 LEDs which can be controlled external.
+if external control is requested (Parameter) the VCU can provide actual PWM value for LED4";
+CM_ SG_ 2566854272 VCU_LED3PWM "optional signal:
+CCL provides 4 LEDs which can be controlled external.
+if external control is requested (Parameter) the VCU can provide actual PWM value for LED3";
+CM_ SG_ 2566854272 VCU_LED2PWM "optional signal:
+CCL provides 4 LEDs which can be controlled external.
+if external control is requested (Parameter) the VCU can provide actual PWM value for LED2 ";
+CM_ SG_ 2566854272 VCU_LED1PWM "optional signal:
+CCL provides 4 LEDs which can be controlled external.
+if external control is requested (Parameter) the VCU can provide actual PWM value for LED1 ";
+CM_ SG_ 2566850434 EVSE_PresentVoltage "Present voltage of EVSE";
+CM_ SG_ 2566850434 EVSE_PresentCurrent "Present current of EVSE";
+CM_ SG_ 2566854016 VCU_EmergencySeparation "Safety signal:(parametrizable)
+Send cyclic from VCU to the CCL if no FALSE is received, the CCL switches to safe state ";
+CM_ SG_ 2566854016 VCU_InletVoltage "optional safety signal
+if CCL does not measure the inlet voltage the VCU can provide the measured voltage via this signal.";
+CM_ SG_ 2566854016 VCU_VehicleVoltage "optional safety signal
+if CCL does not measure the vehicle voltage the VCU can provide the measured voltage via this signal.";
+CM_ SG_ 2566854016 VCU_HVSW2State "The signal represents the state of VCU controlled HVSW2";
+CM_ SG_ 2566854016 VCU_HVSW1State "The signal represents the state of VCU controlled HVSW1";
+CM_ SG_ 2566854016 VCU_SequenceCounter "part of safety message validation";
+CM_ SG_ 2566854016 VCU_CRC "CRC for safety message (only necessary if safety is required";
+CM_ SG_ 2566850178 CCL_EmergencyShutdown "With this signal the CCL informs the VCU, that there is an active reason for an emergency shutdown";
+CM_ SG_ 2566850178 CCL_IL2State "Optioanl safety signal
+The CCL informs the VCU about the correct connected HV-Plug inter lock to the inlet.";
+CM_ SG_ 2566850178 CCL_IL1State "Optioanl safety signal
+The CCL informs the VCU about the correct connected HV-Plug inter lock to the vehicle-grid.";
+CM_ SG_ 2566850178 CCL_PlugState "Safety Signal (Prevent drive off). Based on CCL drive off possible im NO_PLUG is received.
+The CCL reports if a plug is present at the inlet or not. The CCL differs between only PP detected (mode 1 AC charging) and CP and PP detected (AC /DC)";
+CM_ SG_ 2566850178 CCL_HVSW2StateRequest "The signal represents the requested state of VCU controlled HVSW2";
+CM_ SG_ 2566850178 CCL_HVSW1StateRequest "The signal represents the requested state of VCU controlled HVSW1";
+CM_ SG_ 2566850178 CCL_SequenceCounter "part of safety message validation";
+CM_ SG_ 2566850178 CCL_CRC "CRC for safety message (only necessary if safety is required";
+CM_ SG_ 2566853760 VCU_EVFullSOC "Optional Element:
+SOC at which the EV considers the battery to be fully charged";
+CM_ SG_ 2566853760 VCU_EVBulkChargingComplete "Optional Element for UI Purpose: (fast charging)
+If set to TRUE, the EV indicates that bulk charge (EVBulkSOC) is complete.";
+CM_ SG_ 2566853760 VCU_EVRemainingTimeToFullSoC "Optional Element:
+Estimated or calculated time until full charge (EVFULLSOC) is complete";
+CM_ SG_ 2566853760 VCU_EVBulkSOC "Optional Element for UI purpose:
+will be displayed on EVSE (if supported) to provide the charging state to the user for fast charging.";
+CM_ SG_ 2566853760 VCU_EVRESSConditioning "Optional Element for UI Purpose:
+To signal  that REDDConditioning is active";
+CM_ SG_ 2566853760 VCU_EVCabinConditioning "Optional Element for UI Purpose:
+To signal  that CabinConditioning is active";
+CM_ SG_ 2566853760 VCU_EVRemainingTimeToBulkSoC "Optional Element:
+Estimated or calculated time until bulk charge (EVBulkSOC) is complete";
+CM_ SG_ 2566849922 CCL_SWMinorVersion "SW minor version to identify SW version";
+CM_ SG_ 2566849922 CCL_SWBuildVersion "SW built to identify SW version";
+CM_ SG_ 2566849922 CCL_SWMajorVersion "SW major version to identify SW version";
+CM_ SG_ 2566849922 CCL_CANVersion "The CCL provides the implemented and supported Version of the CAN Matrix.";
+CM_ SG_ 2566849922 CCL_HWVersion "Informative signal
+Hardware version of the CCL ";
+CM_ SG_ 2566849666 EVSE_MinimumVoltageLimit "Minimum voltage the EVSE can deliver with the expected accuracy";
+CM_ SG_ 2566849666 EVSE_MinimumCurrentLimit "Minimum current the EVSE can deliver with the expected accuracy";
+CM_ SG_ 2566849154 EVSE_VoltageLimitAchieved "If set to TRUE, the EVSE has reached its voltage limit";
+CM_ SG_ 2566849154 EVSE_CurrentLimitAchieved "True if the EVSE can not provide more current";
+CM_ SG_ 2566849154 EVSE_PowerLimitAchieved "If set to TRUE, the EVSE has reached its power limit";
+CM_ SG_ 2566849154 EVSE_State "Indicates if the internal state of the EVSE.";
+CM_ SG_ 2566849154 EVSE_CurrentRegTolerance "Optional Element:
+Absolute magnitude of the regulation tolerance of the EVSE";
+CM_ SG_ 2566849154 EVSE_PeakCurrentRipple "Peak-to-peak magnitude of the current ripple of the EVSE";
+CM_ SG_ 2566849154 EVSE_EnergyToBeDelivered "Optional Element:
+Amount of energy to be delivered by the EVSE";
+CM_ SG_ 2566848898 CCL_ProximityPinResistor "measured resistor Value between PP and PE for V2L detektion and debugging";
+CM_ SG_ 2566848898 CCL_ActualChargingProtocol "Actual charging protocol agreed between CCL and EV";
+CM_ SG_ 2566848898 CCL_ChargingMode "Informative signal
+The CCL can support AC (with additional OBC) and DC charging and provides the choosen charging mode to the VCU.
+If the the connected EVSE is not compatible the signal will switch to not_supported.";
+CM_ SG_ 2566848898 CCL_TargetCurrent "Actual target current send to EVSE:
+PreCharging-> PreChargeCurrent
+PowerReduction-> lowered current
+normal-> From VCU receive target current";
+CM_ SG_ 2566848898 CCL_State "informative signal
+internal state of the CCL";
+CM_ SG_ 2566848898 CCL_HVSWState "The signal represents the summarised state of the controlled HVSWs which is send via CAN";
+CM_ SG_ 2566848898 CCL_LockState "Informative signal about the inlet lock state based on lock fbk signal.
+The CCL supports a lock fbk measurement with a closed feedback and optional additional fbk for open.
+If no dedicated open fbk is detectable motor position is used
+";
+CM_ SG_ 2566848898 CCL_WakeUpReason "informative signal
+Wake up source of the CCL
+Plug connected/disconnected
+CAN-communication (VCU/CHARGING)
+wake up pin
+";
+CM_ SG_ 2566849410 EVSE_PowerRampLimitation "Limit for power increase and decrease";
+CM_ SG_ 2566849410 EVSE_MaximumPowerLimit "Optional Element:
+Maximum power the EVSE can deliver";
+CM_ SG_ 2566849410 EVSE_MaximumVoltageLimit "Maximum voltage the EVSE can deliver";
+CM_ SG_ 2566849410 EVSE_MaximumCurrentLimit "Maximum current the EVSE can deliver";
+CM_ SG_ 2566848642 CCL_ShutdownRequest "informative signal
+This signal combines an internal (CCL) and external (EVSE) shutdown signal (button press) to inform the VCU, that a shutdown is triggered.
+A shutdown can be denied by the VCU (based on parameter), an emergency shutdown not.";
+CM_ SG_ 2566848642 CCL_ButtonState "Informative signal.
+The CCL measures the state of the charge stop button and provides the signal to the VCU.
+The Button is an optional user interface to wake up the CCL and to quit a charging sequence.
+
+";
+CM_ SG_ 2566848642 EVSE_StatusCode "abstract state of EVSE from external view
+";
+CM_ SG_ 2566848642 CCL_ErrorNumber "Message to provide error reason";
+CM_ SG_ 2566852736 VCU_EVEnergyRequest "Optional Element:
+Amount of energy the EV requests from the EVSE. In ISO-20 the value can be negative for discharge";
+CM_ SG_ 2566852736 VCU_EVError "Indicates the EV internal status and errors mandatory for the EVSE.
+
+";
+CM_ SG_ 2566852736 VCU_EVSOC "State of charge of the EV's battery";
+CM_ SG_ 2566852736 VCU_EVTargetVoltage "Target Voltage requested by EV";
+CM_ SG_ 2566852736 VCU_EVTargetCurrent "Current demanded by EV";
+CM_ SG_ 2566852992 VCU_EVEnergyCapacity "Optional Element:
+Maximum energy capacity supported by the EV";
+CM_ SG_ 2566852992 VCU_EVMaximumVoltageLimit "Maximum voltage supported by the EV";
+CM_ SG_ 2566852992 VCU_EVMaximumPowerLimit "Optional Element:
+Maximum power supported by the EV";
+CM_ SG_ 2566852992 VCU_EVMaximumCurrentLimit "Maximum current supported by the EV";
+CM_ SG_ 2566853248 VCU_Renegotiation "Optional signal:
+VCU->CCL
+Request to renegotiate charging parameter";
+CM_ SG_ 2566853248 VCU_PauseRequest "Optional Signal
+VCU-> CCL to request a charge pause";
+CM_ SG_ 2566853248 VCU_RestartChargingCycle "Optional Signal
+VCU->CCL
+Request to restart paused charging cycle";
+CM_ SG_ 2566853248 VCU_ChargePermission "Mandatory Signal:
+Permission to connect EV/ EVSE HV-Systems by closing HV-Switches";
+CM_ SG_ 2566853248 VCU_HVReady "Mandatory Signal
+VCU-> CCL to communicate, that the HV-System of the vehicle is started up and measured voltage of HV-Grid is valid";
+CM_ SG_ 2566853248 VCU_UnlockPermission "Mandatory signal:
+VCU->CCL
+Permission to open the Lock
+For AC Charging the charging cable is removable so the closed lock is a kind of thief protection.";
+CM_ SG_ 2566853248 VCU_LockPermission "Mandatory Signal
+VCU->CCL
+Permission to close the inlet lock.";
+CM_ BO_ 2566853376 "Charger realtime parameters";
+CM_ BO_ 2566850816 "Actual Iout & Vout of the charger";
+CM_ BO_ 2566848512 "Charger realtime parameters";
+CM_ BO_ 2566848768 "Actual Iout & Vout of the charger";
+CM_ BO_ 2566849024 "Actual Iout & Vout of the charger";
+CM_ BO_ 2566849280 "Actual Mosfet Temperature";
+CM_ BO_ 2566850560 "Iac, Iout & Vout reference value, Output Power enable control bits";
+CM_ BO_ 2566852608 "Output Voltage selection, Output current, V2X Output Power enable control bits";
+BA_DEF_ BU_  "NmStationAddress" HEX 0 255;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 65535;
+BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","J1939PG","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","StandardCAN_FD","ExtendedCAN_FD";
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","IfActive","NoMsgSendType","OnWrite","OnWriteWithRepetition";
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","IfActive","NoMsgSendType","OnWrite","OnWriteWithRepetition";
+BA_DEF_ SG_  "GenSigStartValue" FLOAT 0 100000000000;
+BA_DEF_DEF_  "NmStationAddress" 0;
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "VFrameFormat" "ExtendedCAN_FD";
+BA_DEF_DEF_  "GenMsgSendType" "Cyclic";
+BA_DEF_DEF_  "GenSigSendType" "";
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_ "NmStationAddress" BU_ OBC_MTA 0;
+BA_ "VFrameFormat" BO_ 2453671975 1;
+BA_ "VFrameFormat" BO_ 2566848767 1;
+BA_ "VFrameFormat" BO_ 2453671969 1;
+BA_ "VFrameFormat" BO_ 2453671968 1;
+BA_ "VFrameFormat" BO_ 2551994198 1;
+BA_ "VFrameFormat" BO_ 2629891158 1;
+BA_ "VFrameFormat" BO_ 2552099926 1;
+BA_ "VFrameFormat" BO_ 2551837782 1;
+BA_ "VFrameFormat" BO_ 2417095766 1;
+BA_ "VFrameFormat" BO_ 2551994100 1;
+BA_ "VFrameFormat" BO_ 2551731956 1;
+BA_ "VFrameFormat" BO_ 2416989940 1;
+BA_ "VFrameFormat" BO_ 2362034375 1;
+BA_ "VFrameFormat" BO_ 2361903303 1;
+BA_ "VFrameFormat" BO_ 2361968839 1;
+BA_ "VFrameFormat" BO_ 2563688199 1;
+BA_ "VFrameFormat" BO_ 2563753735 1;
+BA_ "VFrameFormat" BO_ 2563557127 1;
+BA_ "VFrameFormat" BO_ 2563426055 1;
+BA_ "VFrameFormat" BO_ 2563622663 1;
+BA_ "VFrameFormat" BO_ 2550199781 1;
+BA_ "VFrameFormat" BO_ 2566869477 1;
+BA_ "VFrameFormat" BO_ 2566869221 1;
+BA_ "VFrameFormat" BO_ 2550588916 1;
+BA_ "VFrameFormat" BO_ 2197821969 1;
+BA_ "VFrameFormat" BO_ 2466388485 1;
+BA_ "VFrameFormat" BO_ 2193620994 1;
+BA_ "VFrameFormat" BO_ 2193620995 1;
+BA_ "VFrameFormat" BO_ 2185232386 1;
+BA_ "VFrameFormat" BO_ 2185232387 1;
+BA_ "VFrameFormat" BO_ 2449477664 1;
+BA_ "VFrameFormat" BO_ 2449477665 1;
+BA_ "VFrameFormat" BO_ 2550195701 1;
+BA_ "VFrameFormat" BO_ 2550326773 1;
+BA_ "GenMsgCycleTime" BO_ 2566855040 100;
+BA_ "VFrameFormat" BO_ 2566855040 1;
+BA_ "GenMsgSendType" BO_ 2566854784 0;
+BA_ "GenMsgCycleTime" BO_ 2566854784 1000;
+BA_ "VFrameFormat" BO_ 2566854784 1;
+BA_ "GenMsgSendType" BO_ 2566851714 0;
+BA_ "GenMsgCycleTime" BO_ 2566851714 1000;
+BA_ "VFrameFormat" BO_ 2566851714 1;
+BA_ "GenMsgCycleTime" BO_ 2566851458 100;
+BA_ "GenMsgSendType" BO_ 2566851458 0;
+BA_ "VFrameFormat" BO_ 2566851458 1;
+BA_ "GenMsgSendType" BO_ 2566853504 0;
+BA_ "GenMsgCycleTime" BO_ 2566853504 100;
+BA_ "VFrameFormat" BO_ 2566853504 1;
+BA_ "GenMsgCycleTime" BO_ 2566851202 100;
+BA_ "GenMsgSendType" BO_ 2566851202 0;
+BA_ "VFrameFormat" BO_ 2566851202 1;
+BA_ "GenMsgCycleTime" BO_ 2566850946 100;
+BA_ "GenMsgSendType" BO_ 2566850946 0;
+BA_ "VFrameFormat" BO_ 2566850946 1;
+BA_ "GenMsgSendType" BO_ 2566850690 0;
+BA_ "GenMsgCycleTime" BO_ 2566850690 1000;
+BA_ "VFrameFormat" BO_ 2566850690 1;
+BA_ "GenMsgSendType" BO_ 2566854528 0;
+BA_ "GenMsgCycleTime" BO_ 2566854528 100;
+BA_ "VFrameFormat" BO_ 2566854528 1;
+BA_ "GenMsgSendType" BO_ 2566854272 0;
+BA_ "GenMsgCycleTime" BO_ 2566854272 100;
+BA_ "VFrameFormat" BO_ 2566854272 1;
+BA_ "GenMsgCycleTime" BO_ 2566850434 100;
+BA_ "GenMsgSendType" BO_ 2566850434 0;
+BA_ "VFrameFormat" BO_ 2566850434 1;
+BA_ "GenMsgSendType" BO_ 2566854016 0;
+BA_ "GenMsgCycleTime" BO_ 2566854016 20;
+BA_ "VFrameFormat" BO_ 2566854016 1;
+BA_ "GenMsgSendType" BO_ 2566850178 0;
+BA_ "GenMsgCycleTime" BO_ 2566850178 20;
+BA_ "VFrameFormat" BO_ 2566850178 1;
+BA_ "GenMsgCycleTime" BO_ 2566853760 100;
+BA_ "GenMsgSendType" BO_ 2566853760 0;
+BA_ "VFrameFormat" BO_ 2566853760 1;
+BA_ "GenMsgCycleTime" BO_ 2566849922 100;
+BA_ "GenMsgSendType" BO_ 2566849922 0;
+BA_ "VFrameFormat" BO_ 2566849922 1;
+BA_ "GenMsgCycleTime" BO_ 2566849666 100;
+BA_ "GenMsgSendType" BO_ 2566849666 0;
+BA_ "VFrameFormat" BO_ 2566849666 1;
+BA_ "GenMsgCycleTime" BO_ 2566849154 100;
+BA_ "GenMsgSendType" BO_ 2566849154 0;
+BA_ "VFrameFormat" BO_ 2566849154 1;
+BA_ "GenMsgCycleTime" BO_ 2566848898 100;
+BA_ "GenMsgSendType" BO_ 2566848898 0;
+BA_ "VFrameFormat" BO_ 2566848898 1;
+BA_ "GenMsgCycleTime" BO_ 2566849410 100;
+BA_ "GenMsgSendType" BO_ 2566849410 0;
+BA_ "VFrameFormat" BO_ 2566849410 1;
+BA_ "GenMsgCycleTime" BO_ 2566848642 100;
+BA_ "GenMsgSendType" BO_ 2566848642 0;
+BA_ "VFrameFormat" BO_ 2566848642 1;
+BA_ "GenMsgCycleTime" BO_ 2566852736 100;
+BA_ "GenMsgSendType" BO_ 2566852736 0;
+BA_ "VFrameFormat" BO_ 2566852736 1;
+BA_ "GenMsgCycleTime" BO_ 2566852992 100;
+BA_ "GenMsgSendType" BO_ 2566852992 0;
+BA_ "VFrameFormat" BO_ 2566852992 1;
+BA_ "GenMsgCycleTime" BO_ 2566853248 100;
+BA_ "GenMsgSendType" BO_ 2566853248 0;
+BA_ "VFrameFormat" BO_ 2566853248 1;
+BA_ "GenMsgSendType" BO_ 2566853376 0;
+BA_ "GenMsgCycleTime" BO_ 2566853376 150;
+BA_ "VFrameFormat" BO_ 2566853376 3;
+BA_ "GenMsgSendType" BO_ 2566850816 0;
+BA_ "GenMsgCycleTime" BO_ 2566850816 150;
+BA_ "VFrameFormat" BO_ 2566850816 3;
+BA_ "GenMsgCycleTime" BO_ 2566874880 150;
+BA_ "GenMsgSendType" BO_ 2566874880 0;
+BA_ "VFrameFormat" BO_ 2566874880 3;
+BA_ "VFrameFormat" BO_ 2566851072 3;
+BA_ "VFrameFormat" BO_ 2566853120 3;
+BA_ "VFrameFormat" BO_ 2566850304 3;
+BA_ "VFrameFormat" BO_ 2566850048 3;
+BA_ "VFrameFormat" BO_ 2566854912 3;
+BA_ "VFrameFormat" BO_ 2566857216 3;
+BA_ "GenMsgCycleTime" BO_ 2566834688 1000;
+BA_ "VFrameFormat" BO_ 2566834688 3;
+BA_ "GenMsgCycleTime" BO_ 2566834944 1000;
+BA_ "VFrameFormat" BO_ 2566834944 3;
+BA_ "VFrameFormat" BO_ 2566835200 3;
+BA_ "GenMsgCycleTime" BO_ 2566848512 150;
+BA_ "GenMsgSendType" BO_ 2566848512 0;
+BA_ "VFrameFormat" BO_ 2566848512 3;
+BA_ "GenMsgCycleTime" BO_ 2566848768 150;
+BA_ "GenMsgSendType" BO_ 2566848768 0;
+BA_ "VFrameFormat" BO_ 2566848768 3;
+BA_ "GenMsgCycleTime" BO_ 2566849024 150;
+BA_ "GenMsgSendType" BO_ 2566849024 0;
+BA_ "VFrameFormat" BO_ 2566849024 3;
+BA_ "GenMsgCycleTime" BO_ 2566849280 150;
+BA_ "GenMsgSendType" BO_ 2566849280 0;
+BA_ "VFrameFormat" BO_ 2566849280 3;
+BA_ "GenMsgCycleTime" BO_ 2566849536 150;
+BA_ "GenMsgSendType" BO_ 2566849536 0;
+BA_ "VFrameFormat" BO_ 2566849536 3;
+BA_ "VFrameFormat" BO_ 2566852864 3;
+BA_ "VFrameFormat" BO_ 2566852352 3;
+BA_ "GenMsgCycleTime" BO_ 2566850560 150;
+BA_ "GenMsgSendType" BO_ 2566850560 0;
+BA_ "VFrameFormat" BO_ 2566850560 3;
+BA_ "GenMsgCycleTime" BO_ 2566852608 150;
+BA_ "GenMsgSendType" BO_ 2566852608 0;
+BA_ "VFrameFormat" BO_ 2566852608 3;
+BA_ "VFrameFormat" BO_ 2566856960 3;
+BA_ "VFrameFormat" BO_ 2566836992 3;
+BA_ "VFrameFormat" BO_ 2564816384 3;
+BA_ "GenSigStartValue" SG_ 2453671975 AverageModuleTemp 40;
+BA_ "GenSigStartValue" SG_ 2453671975 MaxModuleTemp 40;
+BA_ "GenSigStartValue" SG_ 2453671975 MinModuleTemp 40;
+BA_ "GenSigStartValue" SG_ 2361903303 CommandAcCurrent 32768;
+BA_ "GenSigStartValue" SG_ 2563753735 CanSignalInverterTemp 1;
+BA_ "GenSigStartValue" SG_ 2563753735 CanSignalMotorTemp 1;
+BA_ "GenSigStartValue" SG_ 2563557127 SensorAngle 32768;
+BA_ "GenSigStartValue" SG_ 2563426055 DcBusCurrent 32768;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMaximumDischargeCurrentLim 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMinimumPowerLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMinimumDischargePowerLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMinimumCurrentLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMaximumV2XEnergyRequestLim 32767;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMaximumEnergyRequestLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMinimumPowerLimit_L2 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMinimumEnergyRequestLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMaximumPowerLimit_L3 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMaximumDischargePowerLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMinimumV2XEnergyRequestLim 32767;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMinimumPowerLimit_L3 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMinimumVoltageLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMinimumDischargeCurrentLim 65535;
+BA_ "GenSigStartValue" SG_ 2566855040 VCU_EVMaximumPowerLimit_L2 65535;
+BA_ "GenSigStartValue" SG_ 2566854784 VCU_VDV261_Odo 4294967294;
+BA_ "GenSigStartValue" SG_ 2566854784 VCU_VDV261_Chrg_Stat 255;
+BA_ "GenSigStartValue" SG_ 2566854784 VCU_VDV261_Bat_Eamount 65535;
+BA_ "GenSigStartValue" SG_ 2566854784 VCU_VDV261_Bat_Reqtime 255;
+BA_ "GenSigStartValue" SG_ 2566854784 VCU_VDV261_Vin2 255;
+BA_ "GenSigStartValue" SG_ 2566854784 VCU_VDV261_Vin1 0;
+BA_ "GenSigStartValue" SG_ 2566854784 VCU_VDV261_Vin0 0;
+BA_ "GenSigStartValue" SG_ 2566854784 VCU_VDV261_Prec_Reqtime 255;
+BA_ "GenSigStartValue" SG_ 2566854784 VCU_VDV261_Prec_Eamount 65535;
+BA_ "GenSigStartValue" SG_ 2566854784 VCU_VDV261_Mux 15;
+BA_ "GenSigStartValue" SG_ 2566851714 EVSE_VDV261_Ambienttemp 255;
+BA_ "GenSigStartValue" SG_ 2566851714 EVSE_VDV261_Prec_Hvac 3;
+BA_ "GenSigStartValue" SG_ 2566851714 EVSE_VDV261_Prec_Dsrd 255;
+BA_ "GenSigStartValue" SG_ 2566851714 EVSE_VDV261_Driveoff 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_TargetReactivePower_L3 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_TargetActivePower_L3 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_PresentActivePower_L3 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MinimumChargePowerLimit_L3 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MaximumChargePowerLimit_L3 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MinimumDischargePowerLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MaximumDischargePowerLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_TargetReactivePower_L2 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_TargetActivePower_L2 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_PresentActivePower_L2 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MinimumChargePowerLimit_L2 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MaximumChargePowerLimit_L2 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MinimumDischargeCurrentLim 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MaximumDischargeCurrentLim 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_TargetReactivePower 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_TargetActivePower 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_PresentActivePower 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MinimumChargePowerLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MaximumChargePowerLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_ACDCPower_Mux 15;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_MaximumPowerAsymmetryLimit 4095;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_NominalFrequency 4095;
+BA_ "GenSigStartValue" SG_ 2566851458 EVSE_TargetFrequency 4095;
+BA_ "GenSigStartValue" SG_ 2566853504 VCU_EVPowerSchedulePower 65535;
+BA_ "GenSigStartValue" SG_ 2566853504 VCU_EVPowerScheduleIndex 255;
+BA_ "GenSigStartValue" SG_ 2566851202 CCL_InletACTemperature 65535;
+BA_ "GenSigStartValue" SG_ 2566851202 CCL_ControlPilotDutyCycle 127;
+BA_ "GenSigStartValue" SG_ 2566851202 CCL_ControlPilotState 15;
+BA_ "GenSigStartValue" SG_ 2566851202 CCL_ProximityPinState 15;
+BA_ "GenSigStartValue" SG_ 2566850946 CCL_AuxiliaryTemperature 65535;
+BA_ "GenSigStartValue" SG_ 2566850946 CCL_InletPT2Temperature 65535;
+BA_ "GenSigStartValue" SG_ 2566850946 CCL_InletPT1Temperature 65535;
+BA_ "GenSigStartValue" SG_ 2566850946 CCL_InletDCTemperature 65535;
+BA_ "GenSigStartValue" SG_ 2566850690 EVSE_EVSEID_Mux 15;
+BA_ "GenSigStartValue" SG_ 2566854272 VCU_LED4PWM 1023;
+BA_ "GenSigStartValue" SG_ 2566854272 VCU_LED3PWM 1023;
+BA_ "GenSigStartValue" SG_ 2566854272 VCU_LED2PWM 1023;
+BA_ "GenSigStartValue" SG_ 2566854272 VCU_LED1PWM 1023;
+BA_ "GenSigStartValue" SG_ 2566850434 EVSE_PresentVoltage 65535;
+BA_ "GenSigStartValue" SG_ 2566850434 EVSE_PresentCurrent 65535;
+BA_ "GenSigSendType" SG_ 2566854016 VCU_EmergencySeparation 0;
+BA_ "GenSigStartValue" SG_ 2566854016 VCU_InletVoltage 65535;
+BA_ "GenSigStartValue" SG_ 2566854016 VCU_VehicleVoltage 65535;
+BA_ "GenSigStartValue" SG_ 2566854016 VCU_HVSW2State 3;
+BA_ "GenSigStartValue" SG_ 2566854016 VCU_HVSW1State 3;
+BA_ "GenSigSendType" SG_ 2566850178 CCL_EmergencyShutdown 0;
+BA_ "GenSigStartValue" SG_ 2566850178 CCL_IL2State 3;
+BA_ "GenSigStartValue" SG_ 2566850178 CCL_IL1State 3;
+BA_ "GenSigStartValue" SG_ 2566850178 CCL_PlugState 15;
+BA_ "GenSigStartValue" SG_ 2566850178 CCL_HVSW2StateRequest 3;
+BA_ "GenSigStartValue" SG_ 2566850178 CCL_HVSW1StateRequest 3;
+BA_ "GenSigStartValue" SG_ 2566853760 VCU_EVFullSOC 255;
+BA_ "GenSigStartValue" SG_ 2566853760 VCU_EVBulkChargingComplete 3;
+BA_ "GenSigSendType" SG_ 2566853760 VCU_EVBulkChargingComplete 0;
+BA_ "GenSigStartValue" SG_ 2566853760 VCU_EVRemainingTimeToFullSoC 262143;
+BA_ "GenSigSendType" SG_ 2566853760 VCU_EVRemainingTimeToFullSoC 0;
+BA_ "GenSigStartValue" SG_ 2566853760 VCU_EVBulkSOC 255;
+BA_ "GenSigStartValue" SG_ 2566853760 VCU_EVRESSConditioning 3;
+BA_ "GenSigStartValue" SG_ 2566853760 VCU_EVCabinConditioning 3;
+BA_ "GenSigStartValue" SG_ 2566853760 VCU_EVRemainingTimeToBulkSoC 262143;
+BA_ "GenSigSendType" SG_ 2566853760 VCU_EVRemainingTimeToBulkSoC 0;
+BA_ "GenSigSendType" SG_ 2566849922 CCL_SWMinorVersion 0;
+BA_ "GenSigSendType" SG_ 2566849922 CCL_SWBuildVersion 0;
+BA_ "GenSigSendType" SG_ 2566849922 CCL_SWMajorVersion 0;
+BA_ "GenSigSendType" SG_ 2566849922 CCL_CANVersion 0;
+BA_ "GenSigSendType" SG_ 2566849922 CCL_HWVersion 0;
+BA_ "GenSigStartValue" SG_ 2566849666 EVSE_MinimumVoltageLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566849666 EVSE_MinimumCurrentLimit 65535;
+BA_ "GenSigSendType" SG_ 2566849154 EVSE_VoltageLimitAchieved 0;
+BA_ "GenSigSendType" SG_ 2566849154 EVSE_CurrentLimitAchieved 0;
+BA_ "GenSigSendType" SG_ 2566849154 EVSE_PowerLimitAchieved 0;
+BA_ "GenSigStartValue" SG_ 2566849154 EVSE_State 15;
+BA_ "GenSigSendType" SG_ 2566849154 EVSE_State 0;
+BA_ "GenSigStartValue" SG_ 2566849154 EVSE_CurrentRegTolerance 255;
+BA_ "GenSigStartValue" SG_ 2566849154 EVSE_PeakCurrentRipple 255;
+BA_ "GenSigStartValue" SG_ 2566849154 EVSE_EnergyToBeDelivered 65535;
+BA_ "GenSigStartValue" SG_ 2566848898 CCL_ProximityPinResistor 255;
+BA_ "GenSigStartValue" SG_ 2566848898 CCL_ActualChargingProtocol 15;
+BA_ "GenSigStartValue" SG_ 2566848898 CCL_ChargingMode 15;
+BA_ "GenSigStartValue" SG_ 2566848898 CCL_TargetCurrent 65535;
+BA_ "GenSigStartValue" SG_ 2566848898 CCL_State 15;
+BA_ "GenSigSendType" SG_ 2566848898 CCL_State 0;
+BA_ "GenSigStartValue" SG_ 2566848898 CCL_HVSWState 15;
+BA_ "GenSigSendType" SG_ 2566848898 CCL_HVSWState 0;
+BA_ "GenSigStartValue" SG_ 2566848898 CCL_LockState 15;
+BA_ "GenSigSendType" SG_ 2566848898 CCL_LockState 0;
+BA_ "GenSigStartValue" SG_ 2566848898 CCL_WakeUpReason 15;
+BA_ "GenSigStartValue" SG_ 2566849410 EVSE_PowerRampLimitation 255;
+BA_ "GenSigStartValue" SG_ 2566849410 EVSE_MaximumPowerLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566849410 EVSE_MaximumVoltageLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566849410 EVSE_MaximumCurrentLimit 65535;
+BA_ "GenSigSendType" SG_ 2566848642 CCL_ShutdownRequest 0;
+BA_ "GenSigStartValue" SG_ 2566848642 CCL_ButtonState 3;
+BA_ "GenSigSendType" SG_ 2566848642 CCL_ButtonState 0;
+BA_ "GenSigStartValue" SG_ 2566848642 EVSE_StatusCode 15;
+BA_ "GenSigSendType" SG_ 2566848642 EVSE_StatusCode 0;
+BA_ "GenSigStartValue" SG_ 2566848642 CCL_ErrorNumber 65535;
+BA_ "GenSigSendType" SG_ 2566848642 CCL_ErrorNumber 0;
+BA_ "GenSigStartValue" SG_ 2566852736 VCU_EVEnergyRequest 65535;
+BA_ "GenSigSendType" SG_ 2566852736 VCU_EVEnergyRequest 0;
+BA_ "GenSigStartValue" SG_ 2566852736 VCU_EVError 11;
+BA_ "GenSigSendType" SG_ 2566852736 VCU_EVError 0;
+BA_ "GenSigStartValue" SG_ 2566852736 VCU_EVSOC 255;
+BA_ "GenSigStartValue" SG_ 2566852736 VCU_EVTargetVoltage 65535;
+BA_ "GenSigStartValue" SG_ 2566852736 VCU_EVTargetCurrent 65535;
+BA_ "GenSigStartValue" SG_ 2566852992 VCU_EVEnergyCapacity 65535;
+BA_ "GenSigStartValue" SG_ 2566852992 VCU_EVMaximumVoltageLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566852992 VCU_EVMaximumPowerLimit 65535;
+BA_ "GenSigStartValue" SG_ 2566852992 VCU_EVMaximumCurrentLimit 65535;
+BA_ "GenSigSendType" SG_ 2566853248 VCU_Renegotiation 0;
+BA_ "GenSigSendType" SG_ 2566853248 VCU_PauseRequest 0;
+BA_ "GenSigSendType" SG_ 2566853248 VCU_RestartChargingCycle 0;
+BA_ "GenSigSendType" SG_ 2566853248 VCU_ChargePermission 0;
+BA_ "GenSigSendType" SG_ 2566853248 VCU_HVReady 0;
+BA_ "GenSigSendType" SG_ 2566853248 VCU_UnlockPermission 0;
+BA_ "GenSigSendType" SG_ 2566853248 VCU_LockPermission 0;
+BA_ "GenSigStartValue" SG_ 2566853376 _3PH_Connected 0;
+BA_ "GenSigStartValue" SG_ 2566853376 _1PH_Connected 0;
+BA_ "GenSigStartValue" SG_ 2566850816 Pac 0;
+BA_ "GenSigStartValue" SG_ 2566850816 Iac3 0;
+BA_ "GenSigStartValue" SG_ 2566850816 Iac2 0;
+BA_ "GenSigStartValue" SG_ 2566850816 Iac1 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number11_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number12_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number9_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number10_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number7_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number8_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number5_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number6_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number3_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number4_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number1_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566851072 Number2_SNS 0;
+BA_ "GenSigStartValue" SG_ 2566834688 CM 0;
+BA_ "GenSigStartValue" SG_ 2566834688 OC 0;
+BA_ "GenSigStartValue" SG_ 2566834688 FMI 0;
+BA_ "GenSigStartValue" SG_ 2566834688 SPN 0;
+BA_ "GenSigStartValue" SG_ 2566834688 MalfunctionIndicatorLampStat 0;
+BA_ "GenSigStartValue" SG_ 2566834688 RedStopLampStat 0;
+BA_ "GenSigStartValue" SG_ 2566834688 AmberWarningLampStat 0;
+BA_ "GenSigStartValue" SG_ 2566834688 ProtectLampStat 0;
+BA_ "GenSigStartValue" SG_ 2566834944 CM 0;
+BA_ "GenSigStartValue" SG_ 2566834944 OC 0;
+BA_ "GenSigStartValue" SG_ 2566834944 FMI 0;
+BA_ "GenSigStartValue" SG_ 2566834944 SPN 0;
+BA_ "GenSigStartValue" SG_ 2566834944 MalfunctionIndicatorLampStat 0;
+BA_ "GenSigStartValue" SG_ 2566834944 RedStopLampStat 0;
+BA_ "GenSigStartValue" SG_ 2566834944 AmberWarningLampStat 0;
+BA_ "GenSigStartValue" SG_ 2566834944 ProtectLampStat 0;
+BA_ "GenSigStartValue" SG_ 2566848512 PilotcurrentLimit 0;
+BA_ "GenSigStartValue" SG_ 2566848512 ProxcurrentLimit 0;
+BA_ "GenSigStartValue" SG_ 2566848512 StopChargeCAN 0;
+BA_ "GenSigStartValue" SG_ 2566848512 StopChargeHW 0;
+BA_ "GenSigStartValue" SG_ 2566848512 V2LStatus 0;
+BA_ "GenSigStartValue" SG_ 2566848512 OBCStatus 0;
+BA_ "GenSigStartValue" SG_ 2566848512 ProxOk 0;
+BA_ "GenSigStartValue" SG_ 2566848512 PilotOk 0;
+BA_ "GenSigStartValue" SG_ 2566848512 S2Ok 0;
+BA_ "GenSigStartValue" SG_ 2566848512 Digital_IO 0;
+BA_ "GenSigStartValue" SG_ 2566848512 Locking 0;
+BA_ "GenSigStartValue" SG_ 2566848512 ACIL_ok 0;
+BA_ "GenSigStartValue" SG_ 2566848512 HVIL_ok 0;
+BA_ "GenSigStartValue" SG_ 2566848512 ACMasterRx 0;
+BA_ "GenSigStartValue" SG_ 2566848512 LLC_enable 0;
+BA_ "GenSigStartValue" SG_ 2566848512 VoutPresent 0;
+BA_ "GenSigStartValue" SG_ 2566848512 IoutPresent 0;
+BA_ "GenSigStartValue" SG_ 2566848512 BMS_wakeup 0;
+BA_ "GenSigStartValue" SG_ 2566848512 ENkey_ok 0;
+BA_ "GenSigStartValue" SG_ 2566848512 LVbatt_ok 0;
+BA_ "GenSigStartValue" SG_ 2566848512 SR_enable 0;
+BA_ "GenSigStartValue" SG_ 2566848512 LimTemp 0;
+BA_ "GenSigStartValue" SG_ 2566848512 CAN_enable 0;
+BA_ "GenSigStartValue" SG_ 2566848512 Fault 0;
+BA_ "GenSigStartValue" SG_ 2566848512 ACok 0;
+BA_ "GenSigStartValue" SG_ 2566848512 PLLok 0;
+BA_ "GenSigStartValue" SG_ 2566848512 PrCompl 0;
+BA_ "GenSigStartValue" SG_ 2566848512 Internal_voltagesOK 0;
+BA_ "GenSigStartValue" SG_ 2566848512 PFC_enable 0;
+BA_ "GenSigStartValue" SG_ 2566848512 Bulk_ok 0;
+BA_ "GenSigStartValue" SG_ 2566848768 Pdc_max 0;
+BA_ "GenSigStartValue" SG_ 2566848768 Pdc 0;
+BA_ "GenSigStartValue" SG_ 2566848768 Vdc 0;
+BA_ "GenSigStartValue" SG_ 2566848768 Idc 0;
+BA_ "GenSigStartValue" SG_ 2566849024 VacN 0;
+BA_ "GenSigStartValue" SG_ 2566849024 Vac3 0;
+BA_ "GenSigStartValue" SG_ 2566849024 Vac2 0;
+BA_ "GenSigStartValue" SG_ 2566849024 Vac1 0;
+BA_ "GenSigStartValue" SG_ 2566849280 PT1000ext2 40;
+BA_ "GenSigStartValue" SG_ 2566849280 PT1000ext1 40;
+BA_ "GenSigStartValue" SG_ 2566849280 Temp_uC_SELV 40;
+BA_ "GenSigStartValue" SG_ 2566849280 Temp_uC_LLC 40;
+BA_ "GenSigStartValue" SG_ 2566849280 Temp_uC_PFC 40;
+BA_ "GenSigStartValue" SG_ 2566849280 TempMosfetSec 40;
+BA_ "GenSigStartValue" SG_ 2566849280 TempMosfetPrim 40;
+BA_ "GenSigStartValue" SG_ 2566849280 TempMosfetPFC 40;
+BA_ "GenSigStartValue" SG_ 2566849536 cntHours 0;
+BA_ "GenSigStartValue" SG_ 2566849536 LVBattery 0;
+BA_ "GenSigStartValue" SG_ 2566849536 TwelveVdc 0;
+BA_ "GenSigStartValue" SG_ 2566849536 FiveVdc 0;
+BA_ "GenSigStartValue" SG_ 2566849536 Vbulk 0;
+BA_ "GenSigStartValue" SG_ 2566852864 Psw 0;
+BA_ "GenSigStartValue" SG_ 2566852864 SetupIoutMaxSet 0;
+BA_ "GenSigStartValue" SG_ 2566852864 VoutMaxSet 0;
+BA_ "GenSigStartValue" SG_ 2566852864 IacmMaxSet 0;
+BA_ "GenSigStartValue" SG_ 2566852864 ParallelCtrl 0;
+BA_ "GenSigStartValue" SG_ 2566852864 ActiveIL 0;
+BA_ "GenSigStartValue" SG_ 2566852864 Baudrate 0;
+BA_ "GenSigStartValue" SG_ 2566852864 IacControl 0;
+BA_ "GenSigStartValue" SG_ 2566852864 SetupRange 0;
+BA_ "GenSigStartValue" SG_ 2566852864 ACPlugging 0;
+BA_ "GenSigStartValue" SG_ 2566852864 Slave 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number11 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number12 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number9 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number10 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number7 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number8 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number5 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number6 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number3 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number4 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number1 0;
+BA_ "GenSigStartValue" SG_ 2566852352 Number2 0;
+BA_ "GenSigStartValue" SG_ 2566850560 CtlIoutMaxSet 0;
+BA_ "GenSigStartValue" SG_ 2566850560 CtlVoutMaxSet 0;
+BA_ "GenSigStartValue" SG_ 2566850560 CtlIacMaxSet 0;
+BA_ "GenSigStartValue" SG_ 2566850560 CtlCANEnable 0;
+BA_ "GenSigStartValue" SG_ 2566850560 CtlRmode 0;
+BA_ "GenSigStartValue" SG_ 2566850560 CtlStopCharge 0;
+BA_ "GenSigStartValue" SG_ 2566852608 V2XFrequencySet 0;
+BA_ "GenSigStartValue" SG_ 2566852608 V2XVoutSet 0;
+BA_ "GenSigStartValue" SG_ 2566852608 V2XIoutMaxSet 0;
+BA_ "GenSigStartValue" SG_ 2566852608 V2XCANEnable 0;
+BA_ "GenSigStartValue" SG_ 2566856960 SlaveID 0;
+BA_ "GenSigStartValue" SG_ 2564816384 SuspendDuration 0;
+BA_ "GenSigStartValue" SG_ 2564816384 SuspendSignal 0;
+BA_ "GenSigStartValue" SG_ 2564816384 HoldSignal 0;
+BA_ "GenSigStartValue" SG_ 2564816384 CurrentDataLink 0;
+VAL_ 2453671969 Status_SuperMaster 2 "Error" 1 "Operative" 0 "Idle" ;
+VAL_ 2361903303 RequestedControlMode 8 "DC Voltage Mode" 5 "Torque Mode" 3 "AC Current Mode" 0 "Speed Mode" ;
+VAL_ 2563753735 ActualControlMode 8 "DC Voltage Mode" 5 "Torque Mode" 3 "AC Current Mode" 0 "Speed Mode" ;
+VAL_ 2563557127 RegulatorStatus 3 "FWC active with angle limitation" 2 "FWC active withcurrentlimitation" 1 "FWC active with no limitation" 0 "FWC not active" ;
+VAL_ 2563557127 ActualLimitationType 15 "Switching frequency limitation" 14 "Max voltage angle limitation" 13 "Max current limitation" 12 "Energy limitation" 11 "Heatsink temperature limitation" 10 "External torque limitation" 9 "External current limitation" 8 "Dc power limitation" 7 "no" 6 " High speed limitation" 5 " Low speed limitation" 4 "High DC voltage limitation" 3 " Low DC voltage limitation" 2 "Motor temperature limitation" 1 "Event limitation" 0 "No limitation" ;
+VAL_ 2566855040 VCU_EVMaximumDischargeCurrentLim 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMinimumPowerLimit 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMinimumDischargePowerLimit 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMinimumCurrentLimit 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMaximumV2XEnergyRequestLim 32767 "SNA" ;
+VAL_ 2566855040 VCU_EVMaximumEnergyRequestLimit 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMinimumPowerLimit_L2 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMinimumEnergyRequestLimit 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMaximumPowerLimit_L3 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMaximumDischargePowerLimit 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMinimumV2XEnergyRequestLim 32767 "SNA" ;
+VAL_ 2566855040 VCU_EVMinimumPowerLimit_L3 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMinimumVoltageLimit 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMinimumDischargeCurrentLim 65535 "SNA" ;
+VAL_ 2566855040 VCU_EVMaximumPowerLimit_L2 65535 "SNA" ;
+VAL_ 2566854784 VCU_VDV261_Odo -1 "SNA" ;
+VAL_ 2566854784 VCU_VDV261_Chrg_Stat 255 "SNA" 2 "charging impossible" 1 "charging" 0 "ready to charge" ;
+VAL_ 2566854784 VCU_VDV261_Bat_Eamount 65535 "SNA" ;
+VAL_ 2566854784 VCU_VDV261_Bat_Reqtime 255 "SNA" ;
+VAL_ 2566854784 VCU_VDV261_Vin2 16777215 "SNA" ;
+VAL_ 2566854784 VCU_VDV261_Prec_Reqtime 255 "SNA" ;
+VAL_ 2566854784 VCU_VDV261_Prec_Eamount 65535 "SNA" ;
+VAL_ 2566854784 VCU_VDV261_Mux 15 "SNA" 4 "Multiplexed Message No 4" 3 "Multiplexed Message No 3" 2 "Multiplexed Message No 2" 1 "Multiplexed Message No 1" 0 "Multiplexed Message No 0" ;
+VAL_ 2566851714 EVSE_VDV261_Ambienttemp 255 "SNA" ;
+VAL_ 2566851714 EVSE_VDV261_Prec_Hvac 3 "SNA" 2 "no hot water, cooling or vent" 1 "hot water & heating" 0 "only warm water & ventilation" ;
+VAL_ 2566851714 EVSE_VDV261_Prec_Dsrd 255 "SNA" 1 "yes" 0 "no" ;
+VAL_ 2566851714 EVSE_VDV261_Driveoff 65535 "SNA" ;
+VAL_ 2566851458 EVSE_TargetReactivePower_L3 65535 "SNA" ;
+VAL_ 2566851458 EVSE_TargetActivePower_L3 65535 "SNA" ;
+VAL_ 2566851458 EVSE_PresentActivePower_L3 65535 "SNA" ;
+VAL_ 2566851458 EVSE_MinimumChargePowerLimit_L3 65535 "SNA" ;
+VAL_ 2566851458 EVSE_MaximumChargePowerLimit_L3 65535 "SNA" ;
+VAL_ 2566851458 EVSE_MinimumDischargePowerLimit 65535 "SNA" ;
+VAL_ 2566851458 EVSE_MaximumDischargePowerLimit 65535 "SNA" ;
+VAL_ 2566851458 EVSE_TargetReactivePower_L2 65535 "SNA" ;
+VAL_ 2566851458 EVSE_TargetActivePower_L2 65535 "SNA" ;
+VAL_ 2566851458 EVSE_PresentActivePower_L2 65535 "SNA" ;
+VAL_ 2566851458 EVSE_MinimumChargePowerLimit_L2 65535 "SNA" ;
+VAL_ 2566851458 EVSE_MaximumChargePowerLimit_L2 65535 "SNA" ;
+VAL_ 2566851458 EVSE_MinimumDischargeCurrentLim 65535 "SNA" ;
+VAL_ 2566851458 EVSE_MaximumDischargeCurrentLim 65535 "SNA" ;
+VAL_ 2566851458 EVSE_TargetReactivePower 65535 "SNA" ;
+VAL_ 2566851458 EVSE_TargetActivePower 65535 "SNA" ;
+VAL_ 2566851458 EVSE_PresentActivePower 65535 "SNA" ;
+VAL_ 2566851458 EVSE_MinimumChargePowerLimit 65535 "SNA" ;
+VAL_ 2566851458 EVSE_MaximumChargePowerLimit 65535 "SNA" ;
+VAL_ 2566851458 EVSE_ACDCPower_Mux 7 "muxLen" 6 "AC TargetReactivePower" 5 "AC TargetActivePower" 4 "AC PresentActivePower" 3 "AC Max ChargePower" 2 "AC/DC MinChargePower" 1 "DC Min Discharge Values" 0 "DC Max Discharge Values" 15 "SNA" ;
+VAL_ 2566851458 EVSE_MaximumPowerAsymmetryLimit 4095 "SNA" ;
+VAL_ 2566851458 EVSE_NominalFrequency 4095 "SNA" ;
+VAL_ 2566851458 EVSE_TargetFrequency 4095 "SNA" ;
+VAL_ 2566853504 VCU_EVPowerSchedulePower 65535 "SNA" ;
+VAL_ 2566853504 VCU_EVPowerScheduleIndex 255 "Description for the value '0x0'" ;
+VAL_ 2566853504 VCU_EVPowerScheduleDuration -1 "SNA" ;
+VAL_ 2566851202 CCL_InletACTemperature 65534 "Error" 65520 "Low" 65505 "High" 65535 "SNA" ;
+VAL_ 2566851202 CCL_ControlPilotDutyCycle 126 "Invalid" 127 "SNA" ;
+VAL_ 2566851202 CCL_ACChargingPossible 0 "False" 1 "True" ;
+VAL_ 2566851202 CCL_ControlPilotState 15 "SNA" 14 "Invalid" 5 "F" 4 "E" 3 "D" 2 "C" 1 "B" 0 "A" ;
+VAL_ 2566851202 CCL_ProximityPinState 14 "Invalid" 15 "SNA" 6 "Type2_Connected63A" 5 "Type2_Connected32A" 4 "Type2_Connected20A" 3 "Type2_Connected13A" 2 "Type1_Latched" 1 "Type1_Not_Latched" 0 "Not_Connected" ;
+VAL_ 2566850946 CCL_AuxiliaryTemperature 65534 "Error" 65520 "Low" 65505 "High" 65535 "SNA" ;
+VAL_ 2566850946 CCL_InletPT2Temperature 65534 "Error" 65520 "Low" 65505 "High" 65535 "SNA" ;
+VAL_ 2566850946 CCL_InletPT1Temperature 65534 "Error" 65520 "Low" 65505 "High" 65535 "SNA" ;
+VAL_ 2566850946 CCL_InletDCTemperature 65534 "Error" 65520 "Low" 65505 "High" 65535 "SNA" ;
+VAL_ 2566850690 EVSE_EVSEID_Mux 15 "SNA" 6 "muxLen" 5 "EVSEID6" 4 "EVSEID5" 3 "EVSEID4" 2 "EVSEID3" 1 "EVSEID2" 0 "EVSEID1" ;
+VAL_ 2566854272 VCU_LED4PWM 1023 "SNA" ;
+VAL_ 2566854272 VCU_LED3PWM 1023 "SNA" ;
+VAL_ 2566854272 VCU_LED2PWM 1023 "SNA" ;
+VAL_ 2566854272 VCU_LED1PWM 1023 "SNA" ;
+VAL_ 2566850434 EVSE_PresentVoltage 65535 "SNA" ;
+VAL_ 2566850434 EVSE_PresentCurrent 65535 "SNA" ;
+VAL_ 2566854016 VCU_EmergencySeparation 0 "False" 1 "True" ;
+VAL_ 2566854016 VCU_InletVoltage 65535 "SNA" ;
+VAL_ 2566854016 VCU_VehicleVoltage 65535 "SNA" ;
+VAL_ 2566854016 VCU_HVSW2State 0 "Open" 1 "Closed" 2 "Error" 3 "SNA" ;
+VAL_ 2566854016 VCU_HVSW1State 0 "Open" 1 "Closed" 2 "Error" 3 "SNA" ;
+VAL_ 2566850178 CCL_EmergencyShutdown 0 "False" 1 "True" ;
+VAL_ 2566850178 CCL_IL2State 3 "SNA" 2 "ERROR" 1 "CLOSED" 0 "OPEN" ;
+VAL_ 2566850178 CCL_IL1State 3 "SNA" 2 "ERROR" 1 "CLOSED" 0 "OPEN" ;
+VAL_ 2566850178 CCL_PlugState 0 "NoPlug" 1 "PlugPresent" 2 "ACPlugPresent" 3 "Defect" 15 "SNA" ;
+VAL_ 2566850178 CCL_HVSW2StateRequest 3 "SNA" 1 "CLOSED" 0 "OPEN" ;
+VAL_ 2566850178 CCL_HVSW1StateRequest 3 "SNA" 1 "CLOSED" 0 "OPEN" ;
+VAL_ 2566853760 VCU_EVFullSOC 255 "SNA" ;
+VAL_ 2566853760 VCU_EVBulkChargingComplete 3 "SNA" 0 "False" 1 "True" ;
+VAL_ 2566853760 VCU_EVRemainingTimeToFullSoC 262143 "SNA" ;
+VAL_ 2566853760 VCU_EVBulkSOC 255 "SNA" ;
+VAL_ 2566853760 VCU_EVRESSConditioning 3 "SNA" 0 "False" 1 "True" ;
+VAL_ 2566853760 VCU_EVCabinConditioning 3 "SNA" 0 "False" 1 "True" ;
+VAL_ 2566853760 VCU_EVRemainingTimeToBulkSoC 262143 "SNA" ;
+VAL_ 2566849666 EVSE_MinimumVoltageLimit 65535 "SNA" ;
+VAL_ 2566849666 EVSE_MinimumCurrentLimit 65535 "SNA" ;
+VAL_ 2566849154 EVSE_VoltageLimitAchieved 0 "False" 1 "True" ;
+VAL_ 2566849154 EVSE_CurrentLimitAchieved 0 "False" 1 "True" ;
+VAL_ 2566849154 EVSE_PowerLimitAchieved 0 "False" 1 "True" ;
+VAL_ 2566849154 EVSE_State 13 "Resume" 15 "SNA" 0 "Default" 1 "Init" 2 "Authentification" 3 "Parameter" 4 "Isolation" 5 "PreCharge" 6 "Charge" 7 "Welding" 8 "StopCharge" 9 "SessionStop" 10 "ShutOff" 11 "Paused" 12 "Error" ;
+VAL_ 2566849154 EVSE_CurrentRegTolerance 255 "SNA" ;
+VAL_ 2566849154 EVSE_PeakCurrentRipple 255 "SNA" ;
+VAL_ 2566849154 EVSE_EnergyToBeDelivered 65535 "SNA" ;
+VAL_ 2566848898 CCL_ProximityPinResistor 255 "SNA" ;
+VAL_ 2566848898 CCL_ActualChargingProtocol 15 "SNA" 5 "ISO15118-20_AC" 4 "ISO15118-20_DC" 3 "Not_Supported" 2 "ISO15118" 1 "DIN70121" 0 "Not_Defined" ;
+VAL_ 2566848898 CCL_ChargingMode 7 "SNA" 5 "Mode4" 4 "Mode3" 3 "Mode2" 2 "Mode1" 1 "NotSupported" 0 "None" ;
+VAL_ 2566848898 CCL_TargetCurrent 65535 "SNA" ;
+VAL_ 2566848898 CCL_State 7 "AC_Sleep" 6 "Diagnostic_CMS" 5 "Diagnostic_CCL" 0 "StartUp" 1 "StandBy" 2 "Connected" 3 "Charging" 4 "SafeState" 15 "SNA" ;
+VAL_ 2566848898 CCL_HVSWState 0 "Open" 1 "ReadyToClose" 2 "Closed" 3 "Error" 15 "SNA" ;
+VAL_ 2566848898 CCL_LockState 0 "LockOpen" 1 "LockClosed" 2 "Error" 3 "Moving" 4 "Unclear" 15 "SNA" ;
+VAL_ 2566848898 CCL_WakeUpReason 15 "SNA" 10 "LongDurationTimer" 9 "AutoWakeUp" 8 "McuFaultPin" 7 "EVSE" 6 "PlugRelease" 5 "PlugConnect" 4 "CHARGING_CAN" 3 "VCU_CAN" 2 "PlugConnectRelease" 1 "WU_IN" 0 "Unknown" ;
+VAL_ 2566849410 EVSE_PowerRampLimitation 255 "Description for the value '0x0'" ;
+VAL_ 2566849410 EVSE_MaximumPowerLimit 65535 "SNA" ;
+VAL_ 2566849410 EVSE_MaximumVoltageLimit 65535 "SNA" ;
+VAL_ 2566849410 EVSE_MaximumCurrentLimit 65535 "SNA" ;
+VAL_ 2566848642 CCL_ShutdownRequest 0 "False" 1 "True" ;
+VAL_ 2566848642 CCL_ButtonState 0 "NotPressed" 1 "Pressed" 2 "Error" 3 "SNA" ;
+VAL_ 2566848642 EVSE_StatusCode 14 "Invalid" 15 "SNA" 6 "EVSE_Malfunction" 0 "EVSE_NotReady" 1 "EVSE_Ready" 2 "EVSE_Shutdown" 3 "EVSE_UtilityInterruptEvent" 4 "EVSE_IsolationMonitoringActive" 5 "EVSE_EmergencyShutdown" ;
+VAL_ 2566848642 CCL_ErrorNumber 51 "LockError" 49 "ACUnintendedUnlockpermisson" 99 "SafeState_ApplStateError" 48 "LostOfHvReady" 47 "WeldingTimeout" 46 "UnlockPermissionFailure" 45 "WeldingSequenceError" 44 "MissingChargePermission" 43 "EVSEIncompatible" 42 "MissingCpSignal" 41 "EVErrorDetected" 40 "NormalShutdownTimeout" 39 "BCBNotSucessful" 38 "PPMeasuringError" 37 "CHARGING_CANComIntermitted" 36 "VCU_CANComIntermitted" 118 "SafeState_SafetySupervisor" 117 "SafeState_InterlockCtrl" 116 "SafeState_OutDatedBootloader" 115 "SafeState_ParamCheck" 114 "SafeState_EmergencyDisconnect" 113 "SafeState_PlatformOvertemp" 112 "SafeState_E2EProtection_SEQ" 111 "SafeState_E2EProtection_CRC" 110 "SafeState_Overcurrent" 109 "SafeState_Undervoltage" 108 "SafeState_Overvoltage" 107 "SafeState_NoPlugWhileCharging" 106 "SafeState_Overtemp" 105 "SafeState_NegCurWhileCharging" 104 "SafeState_NoLockWhileHV" 103 "SafeState_CPPlugCtrl" 102 "SafeState_TempCtrl" 101 "SafeState_InletCtrl" 100 "SafeState_SwitchCtrl" 35 "UnknownChargingCurrent" 34 "UnknownInletVoltage" 33 "UnknownVehicleVoltage" 32 "MissingEVSELimits" 31 "MissingDCHighlevelcommunication" 30 "MissingEVMaxVoltage" 29 "MissingEVMaxCurrent" 28 "MissingLockPermission" 27 "ExternalSwitchFailure" 26 "StopReceivedByCommunication" 25 "MaxVoltageIncompatible" 24 "MinVoltageIncompatible" 23 "MinCurrentIncompatible" 22 "S2OpenRequestReceived" 21 "HVSWStartupError" 20 "CP_ValueOutOfRange" 19 "EmergencyDisconnectReceived" 18 "ReverseCurrentFlowOverLimit" 17 "LockLost" 65535 "SNA" 16 "UnknownStatemachineState" 15 "UnknownSwitchState" 14 "UnknownACTemperature" 13 "HVSWTimeout" 12 "IsolationTimeout" 11 "HVReadyTimeout" 10 "SECC_ERROR" 9 "LockingNotPossible" 8 "UnknownDCTemperature" 7 "PreChargeError" 6 "PaymentIncompatible" 5 "IsolationError" 4 "TemperatureToHigh" 3 "PlugNotDetected" 2 "CommunicationIntermitted" 1 "CommnicationIncompatible" 0 "NoError" 50 "SwitchNotClosedWhileCharging" ;
+VAL_ 2566852736 VCU_EVEnergyRequest 65535 "SNA" ;
+VAL_ 2566852736 VCU_EVError 11 "NoData" 10 "FAILED_ChargingSystemIncom" 6 "FAILED_ChargingVoltageOOR" 5 "FAILED_ChargingCurrentdiff" 9 "Reserved_C" 8 "Reserved_B" 7 "Reserved_A" 0 "NO_ERROR" 1 "FAILED_RESSTemperatureInhibit" 2 "FAILED_EVShiftPosition" 3 "FAILED_ChargerConnectorLockFault" 4 "FAILED_EVRESSMalfunction" ;
+VAL_ 2566852736 VCU_EVSOC 255 "SNA" ;
+VAL_ 2566852736 VCU_EVTargetVoltage 65535 "SNA" ;
+VAL_ 2566852736 VCU_EVTargetCurrent 65535 "SNA" ;
+VAL_ 2566852992 VCU_EVEnergyCapacity 65535 "SNA" ;
+VAL_ 2566852992 VCU_EVMaximumVoltageLimit 65535 "SNA" ;
+VAL_ 2566852992 VCU_EVMaximumPowerLimit 65535 "SNA" ;
+VAL_ 2566852992 VCU_EVMaximumCurrentLimit 65535 "SNA" ;
+VAL_ 2566853248 VCU_Renegotiation 0 "False" 1 "True" ;
+VAL_ 2566853248 VCU_PauseRequest 0 "False" 1 "True" ;
+VAL_ 2566853248 VCU_RestartChargingCycle 2 "Abort" 0 "False" 1 "True" ;
+VAL_ 2566853248 VCU_ChargePermission 0 "False" 1 "True" ;
+VAL_ 2566853248 VCU_HVReady 0 "False" 1 "True" ;
+VAL_ 2566853248 VCU_UnlockPermission 0 "False" 1 "True" ;
+VAL_ 2566853248 VCU_LockPermission 0 "False" 1 "True" ;
+VAL_ 2566874880 Memory_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 Internal_CAN_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 ACIL_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 HVIL_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 OTP_power 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 OTP_logic 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 OVP_VBulk 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 OVP_Vout 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 OCP_Iac 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 OCP_Iout 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 VAC_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566874880 Plug_FB_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566854912 Digital_IO_J1939 1 "ON" 0 "OFF" ;
+VAL_ 2566834688 FMI 3 "Voltage_above_normal" 4 "Voltage_below_normal" 6 "Current_above_normal" 12 "Failure" 16 "Data_valid_but_above_normal_range_moderate_severity" ;
+VAL_ 2566834688 SPN 516096 "Temp_power" 516097 "Temp_logic" 516098 "Vbulk" 516099 "Vout" 516100 "Iout" 516101 "Vac" 516102 "Iac" 516103 "Plug_FB" 516104 "Memory" 516105 "Internal_CAN" 516106 "ACIL" 516107 "HVIL" ;
+VAL_ 2566834688 MalfunctionIndicatorLampStat 0 "Lamp_OFF" 1 "Lamp_steady_ON" 2 "Lamp_flashing_1Hz" 3 "Lamp_flashing_2Hz" ;
+VAL_ 2566834688 RedStopLampStat 0 "Lamp_OFF" 1 "Lamp_steady_ON" 2 "Lamp_flashing_1Hz" 3 "Lamp_flashing_2Hz" ;
+VAL_ 2566834688 AmberWarningLampStat 0 "Lamp_OFF" 1 "Lamp_steady_ON" 2 "Lamp_flashing_1Hz" 3 "Lamp_flashing_2Hz" ;
+VAL_ 2566834688 ProtectLampStat 0 "Lamp_OFF" 1 "Lamp_steady_ON" 2 "Lamp_flashing_1Hz" 3 "Lamp_flashing_2Hz" ;
+VAL_ 2566834944 FMI 3 "Voltage_above_normal" 4 "Voltage_below_normal" 6 "Current_above_normal" 12 "Failure" 16 "Data_valid_but_above_normal_range_moderate_severity" ;
+VAL_ 2566834944 SPN 516096 "Temp_power" 516097 "Temp_logic" 516098 "Vbulk" 516099 "Vout" 516100 "Iout" 516101 "Vac" 516102 "Iac" 516103 "Plug_FB" 516104 "Memory" 516105 "Internal_CAN" 516106 "ACIL" 516107 "HVIL" ;
+VAL_ 2566834944 MalfunctionIndicatorLampStat 0 "Lamp_OFF" 1 "Lamp_steady_ON" 2 "Lamp_flashing_1Hz" 3 "Lamp_flashing_2Hz" ;
+VAL_ 2566834944 RedStopLampStat 0 "Lamp_OFF" 1 "Lamp_steady_ON" 2 "Lamp_flashing_1Hz" 3 "Lamp_flashing_2Hz" ;
+VAL_ 2566834944 AmberWarningLampStat 0 "Lamp_OFF" 1 "Lamp_steady_ON" 2 "Lamp_flashing_1Hz" 3 "Lamp_flashing_2Hz" ;
+VAL_ 2566834944 ProtectLampStat 0 "Lamp_OFF" 1 "Lamp_steady_ON" 2 "Lamp_flashing_1Hz" 3 "Lamp_flashing_2Hz" ;
+VAL_ 2566848512 V2LStatus 0 "NotActive" 1 "Idle" 2 "ReadyToSupply" 3 "Supplying" 4 "Fault" ;
+VAL_ 2566848512 OBCStatus 0 "Not Active" 1 "Idle" 2 "ReadyToCharge" 3 "Charging" 4 "Fault" ;
+VAL_ 2566852864 ParallelCtrl 0 "OFF" 1 "ON" ;
+VAL_ 2566852864 ActiveIL 0 "OFF" 1 "ON" ;
+VAL_ 2566850560 CtlCANEnable 0 "OFF" 1 "ON" ;
+VAL_ 2566850560 CtlRmode 0 "OFF" 1 "ON" ;
+VAL_ 2566850560 CtlStopCharge 0 "OFF" 1 "ON" ;
+VAL_ 2566852608 V2XVoutSet 0 "OFF" 1 "ON" ;
+VAL_ 2566852608 V2XCANEnable 0 "OFF" 1 "ON" ;
+VAL_ 2564816384 CurrentDataLink 0 "Stop_broadcast" 1 "Start_broadcast" 2 "Reserved" 3 "Dont_care" ;
+
