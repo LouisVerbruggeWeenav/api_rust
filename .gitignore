@@ -1,7 +1,7 @@
 target
-boat/*
+boats/*
 src/decryp/__pycache__
 .env
-
-test.py
-test2.py
+Cargo.toml
+build.rs
+src\decryptCpp\main
