@@ -301,7 +301,7 @@ extern "C" const typeDataStructData decrypt_cpp(json tram_can_json)
 
 
             string length_str = line["length"].get<std::string>();
-            string timee      = line["timestamp"].get<std::string>();
+            string timee = line["timestamp"].get<std::string>();
 
             std::string message_str = line["message"].get<std::string>();
 
