@@ -300,13 +300,10 @@ extern "C" const typeDataStructData decrypt_cpp(json tram_can_json)
             std::string idCanHexStr = oss.str();
 
 
-            string length_str = line["length"].get<std::string>();
             string timee = line["timestamp"].get<std::string>();
 
             std::string message_str = line["message"].get<std::string>();
 
-            int len;
-            std::istringstream(length_str) >> len;
 
             std::vector<uint8_t> raw_bytes = parse_escaped_bytes(message_str);
 
