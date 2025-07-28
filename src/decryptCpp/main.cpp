@@ -293,9 +293,12 @@ extern "C" const typeDataStructData decrypt_cpp(json tram_can_json)
     {
         for (const auto& line : tram_can_json) {
                     
-            ostringstream oss;
-            oss << "0x" << line["id"].get<std::string>();
-            unsigned long idCan = std::stoul(oss.str(), nullptr, 0);
+            unsigned long idCan = line["id"].get<unsigned long>();
+
+            std::ostringstream oss;
+            oss << "0x" << std::hex << idCan;
+            std::string idCanHexStr = oss.str();
+
 
             string length_str = line["length"].get<std::string>();
             string timee      = line["timestamp"].get<std::string>();

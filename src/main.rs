@@ -144,55 +144,55 @@ async fn test() -> impl Responder {
 let data = serde_json::json!([
     {
         "timestamp": "126.5",
-        "id": "18FF0800",
+        "id": 403105268,
         "length": "8",
         "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "176.5",
-        "id": "18FF3000",
+        "id": 403105268,
         "length": "8",
         "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "181.5",
-        "id": "0CC8C8C7",
+        "id": 403105268,
         "length": "8",
         "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "181.8",
-        "id": "0CC7C8C7",
+        "id": 403105268,
         "length": "8",
         "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "182.1",
-        "id": "0CC9C8C7",
+        "id": 403105268,
         "length": "8",
         "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "281.5",
-        "id": "18FF0800",
+        "id": 403105268,
         "length": "8",
         "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "426.4",
-        "id": "18FF3000",
+        "id": 403105268,
         "length": "8",
         "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "431.4",
-        "id": "0CC8C8C7",
+        "id": 403105268,
         "length": "8",
         "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "431.8",
-        "id": "0CC7C8C7",
+        "id": 403105268,
         "length": "8",
         "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     }
@@ -369,29 +369,29 @@ fn functionConcatPython(listPath: Vec<String>) -> Result<serde_json::Value, Box<
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    dotenv().ok();
+    // dotenv().ok();
 
-    let host = env::var("DB_HOST").expect("DB_HOST must be set");
-    let port = env::var("DB_PORT").expect("DB_PORT must be set");
-    let user = env::var("DB_USER").expect("DB_USER must be set");
-    let password = env::var("DB_PASSWORD").expect("DB_PASSWORD must be set");
-    let database = env::var("DB_DATABASE").expect("DB_DATABASE must be set");
-
-
+    // let host = env::var("DB_HOST").expect("DB_HOST must be set");
+    // let port = env::var("DB_PORT").expect("DB_PORT must be set");
+    // let user = env::var("DB_USER").expect("DB_USER must be set");
+    // let password = env::var("DB_PASSWORD").expect("DB_PASSWORD must be set");
+    // let database = env::var("DB_DATABASE").expect("DB_DATABASE must be set");
 
 
-    let database = Connection::new(host, port, user, password, database).expect("Impossible de créer la connexion");
-    let pool = database.get_pool().clone();
 
-    let mut boat = Boat::new(Ok(pool));
-    let config = web::Data::new(AppState { boat: Mutex::new(boat), });
+
+    // let database = Connection::new(host, port, user, password, database).expect("Impossible de créer la connexion");
+    // let pool = database.get_pool().clone();
+
+    // let mut boat = Boat::new(Ok(pool));
+    // let config = web::Data::new(AppState { boat: Mutex::new(boat), });
    
     
 
 
     HttpServer::new(move || {
         App::new()
-        .app_data(config.clone())
+        // .app_data(config.clone())
         .app_data(web::PayloadConfig::new(1024 * 1024 * 1024)) // = 1Go
         .service(
             web::scope("/api")  
