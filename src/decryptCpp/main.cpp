@@ -310,7 +310,6 @@ extern "C" const typeDataStructData decrypt_cpp(json tram_can_json)
 
             std::vector<uint8_t> raw_bytes = parse_escaped_bytes(message_str);
 
-            
             // std::istringstream stream(message_str);
             // std::string byte_str;
             // while (stream >> byte_str) {
