@@ -7,3 +7,9 @@ mettre json:
 sudo apt install nlohmann-json3-dev
 
 recompiler
+
+
+pour clone:
+
+git clone
+git submodule update --init --recursive
