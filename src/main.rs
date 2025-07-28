@@ -146,55 +146,55 @@ let data = serde_json::json!([
         "timestamp": "126.5",
         "id": "18FF0800",
         "length": "8",
-        "message": "80 32 00 3A 02 28 00 00"
+        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "176.5",
         "id": "18FF3000",
         "length": "8",
-        "message": "35 00 04 00 39 00 39 00"
+        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "181.5",
         "id": "0CC8C8C7",
         "length": "8",
-        "message": "00 00 00 80 0A 0A 00 00"
+        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "181.8",
         "id": "0CC7C8C7",
         "length": "8",
-        "message": "00 80 00 80 00 80 00 00"
+        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "182.1",
         "id": "0CC9C8C7",
         "length": "8",
-        "message": "00 80 00 80 B4 80 32 80"
+        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "281.5",
         "id": "18FF0800",
         "length": "8",
-        "message": "80 32 00 3A 02 28 00 00"
+        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "426.4",
         "id": "18FF3000",
         "length": "8",
-        "message": "35 00 04 00 39 00 39 00"
+        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "431.4",
         "id": "0CC8C8C7",
         "length": "8",
-        "message": "00 00 00 80 0A 0A 00 00"
+        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     },
     {
         "timestamp": "431.8",
         "id": "0CC7C8C7",
         "length": "8",
-        "message": "00 80 00 80 00 80 00 00"
+        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
     }
     ]
     );
@@ -369,8 +369,6 @@ fn functionConcatPython(listPath: Vec<String>) -> Result<serde_json::Value, Box<
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-// fn main() {
-
     dotenv().ok();
 
     let host = env::var("DB_HOST").expect("DB_HOST must be set");

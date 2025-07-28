@@ -90,6 +90,28 @@ void to_json(json& j, const typeStructNode& node) {
     };
 }
 
+std::vector<uint8_t> parse_escaped_bytes(const std::string& escaped) {
+    std::vector<uint8_t> result;
+
+    auto start = escaped.find('\'');
+    auto end   = escaped.rfind('\'');
+    if (start == std::string::npos || end == std::string::npos || end <= start)
+        return result;
+
+    std::string hex = escaped.substr(start + 1, end - start - 1);
+
+    for (size_t i = 0; i + 3 < hex.size(); i += 4) {
+        if (hex[i] == '\\' && hex[i+1] == 'x') {
+            std::string byte_str = hex.substr(i + 2, 2);
+            uint8_t byte = static_cast<uint8_t>(std::stoi(byte_str, nullptr, 16));
+            result.push_back(byte);
+        }
+    }
+
+    return result;
+}
+
+
 
 vector<typeStructNode> traiterDBC(const unique_ptr<dbcppp::INetwork>& network, vector<typeStructNode> data) {
     for (const auto& msg : network->Messages()) {
@@ -283,12 +305,14 @@ extern "C" const typeDataStructData decrypt_cpp(json tram_can_json)
             int len;
             std::istringstream(length_str) >> len;
 
-            std::vector<uint8_t> raw_bytes;
-            std::istringstream stream(message_str);
-            std::string byte_str;
-            while (stream >> byte_str) {
-                raw_bytes.push_back(static_cast<uint8_t>(std::stoul(byte_str, nullptr, 16)));
-            }
+            std::vector<uint8_t> raw_bytes = parse_escaped_bytes(message_str);
+
+            
+            // std::istringstream stream(message_str);
+            // std::string byte_str;
+            // while (stream >> byte_str) {
+            //     raw_bytes.push_back(static_cast<uint8_t>(std::stoul(byte_str, nullptr, 16)));
+            // }
 
 
             int index = structInList(data, "0x"+to_string(idCan));
