@@ -71,7 +71,6 @@ struct InfoFrontByName {
 
 #[post("/raspberrypi/data")]
 async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberrypi>) ->  impl Responder {
-    print!("RaspberryPi data receive");
     let data_struct: Value = function_decrypt_cpp(info.structData.clone()).expect("Erreur l'hors de l'execution du script python 'decryp'");
     
     let mut boat = data.boat.lock().unwrap();
@@ -392,7 +391,7 @@ async fn main() -> std::io::Result<()> {
     
     HttpServer::new(move || {
         App::new()
-        // .app_data(config.clone())
+        .app_data(config.clone())
         .app_data(web::PayloadConfig::new(1024 * 1024 * 1024)) // = 1Go
         .service(
             web::scope("/api")  
