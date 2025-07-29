@@ -499,7 +499,7 @@ async fn main() -> std::io::Result<()> {
         .service(
             web::scope("/api")  
                 .wrap(Compress::default())
-                .app_data(cors_firebase)
+                .wrap(cors_firebase)
 
                 .service(get_firebase_data)
         )
