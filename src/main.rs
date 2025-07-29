@@ -20,6 +20,9 @@ use flate2::write::GzEncoder;
 use flate2::Compression;
 use std::io::Write;
 
+use actix_cors::Cors;
+
+
 
 // Ensure the database module is declared
 
@@ -137,6 +140,27 @@ async fn get_boat_by_id_post(data: web::Data<AppState>, info: web::Json<InfoFron
     };
     Json(json)
 }
+
+
+#[get("/firebase/getData")]
+async fn get_firebase_data() -> impl Responder {
+
+    Json(serde_json::json!({
+        "data": [
+            {
+                "name": "Boat1",
+                "startRecord": "2023-01-01T00:00:00Z",
+                "endRecord": "2023-01-02T00:00:00Z"
+            },
+            {
+                "name": "Boat2",
+                "startRecord": "2023-01-03T00:00:00Z",
+                "endRecord": "2023-01-04T00:00:00Z"
+            }
+        ]
+    }))
+}
+
 
 #[get("/test")]
 async fn test() -> impl Responder {
@@ -367,10 +391,46 @@ fn functionConcatPython(listPath: Vec<String>) -> Result<serde_json::Value, Box<
 }
 
 
+// verif token JWT
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Claims {
+    pub sub: String,
+    pub name: Option<String>,
+    pub admin: Option<bool>,
+    pub iat: Option<usize>,
+    pub exp: Option<usize>,
+}
+
+
+use jsonwebtoken::{DecodingKey, Validation};
+use jsonwebtoken::errors::ErrorKind;
+use jsonwebtoken::decode;
+
+
+pub fn decode_jwt(token: &String) -> Result<Claims, Box<dyn std::error::Error>> {
+    let mut validation = Validation::default();
+    validation.required_spec_claims.remove("exp"); // Désactive l'obligation du champ exp
+
+    let token_data = jsonwebtoken::decode::<Claims>(
+        token,
+        &DecodingKey::from_secret("your-jwt-secret-dsdsdssssssssssskey".as_ref()),
+        &validation,
+    )?;
+    Ok(token_data.claims)
+}
+
+
 
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+
+    println!("go test decode jwt\n");
+    println!("decode jwt, {:?}", decode_jwt(&"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIDIiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTE2MjM5MDIyfQ.gqGiEtvFHOOhQar-bkR_XKEkdYe7Zjdi-WWpadxCEgg".to_string()));
+
+
+
     dotenv().ok();
 
     let host = env::var("DB_HOST").expect("DB_HOST must be set");
@@ -388,22 +448,60 @@ async fn main() -> std::io::Result<()> {
     let mut boat = Boat::new(Ok(pool));
     let config = web::Data::new(AppState { boat: Mutex::new(boat), });
    
+
+
+
+
     
     HttpServer::new(move || {
+
+        let cors_frontWeb = Cors::default()
+            .allowed_origin("https://web-can-lemon.vercel.app/")
+            .allowed_methods(vec!["GET", "POST"])
+            // .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
+            .max_age(3600);
+
+        let cors_firebase = Cors::default()
+            .allowed_origin("https://web-can-lemon.vercel.app/")
+            .allowed_methods(vec!["GET", "POST"])
+            // .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
+            .max_age(3600);
+
+        let cors_raspberrypi = Cors::default()
+            .allowed_origin("*")
+            .allowed_methods(vec!["POST"])
+            .max_age(3600);
+
         App::new()
         .app_data(config.clone())
         .app_data(web::PayloadConfig::new(1024 * 1024 * 1024)) // = 1Go
+
         .service(
             web::scope("/api")  
-
                 .wrap(Compress::default())
+                .wrap(cors_raspberrypi)
+
+                .service(raspberryData)
+        )
+
+        .service(
+            web::scope("/api")
+                .wrap(Compress::default())
+                .wrap(cors_frontWeb)
+
                 .service(get_boat_one)
                 .service(get_grouped_boats)
                 .service(get_boat_by_id_post)
-                .service(raspberryData)
                 .service(test)
-
                 .service(concatOne)
+        )
+
+        .service(
+            web::scope("/api")  
+                .wrap(Compress::default())
+                .app_data(cors_firebase)
+
+                .service(get_firebase_data)
         )
     })
     
