@@ -84,11 +84,17 @@ std::vector<std::string> split(const std::string& str) {
 }
 
 void to_json(json& j, const typeStructNode& node) {
+    json signals_json = json::array();
+    for (const auto& [signalName, values] : node.signals) {
+        signals_json.push_back({ {signalName, values} });
+    }
+
     j = {
-        {"name", node.name},
-        {"signals", node.signals}
+        { node.name, signals_json }  // ici on force un tableau
     };
 }
+
+
 
 std::vector<uint8_t> parse_escaped_bytes(const std::string& escaped) {
     std::vector<uint8_t> result;
@@ -146,8 +152,8 @@ void addSignal(FastSignalMap& signalMap,
         signalMap[nameDecode] = std::vector<std::vector<std::string>>(2);
     }
 
-    signalMap[nameDecode][0].push_back(dateTime);
-    signalMap[nameDecode][1].push_back(valuesDecode);
+    signalMap[nameDecode][0].push_back(valuesDecode);
+    signalMap[nameDecode][1].push_back(dateTime); 
 }
 
 
@@ -349,17 +355,14 @@ int main(int argc, char* argv[]) {
 
     const typeDataStructData result = decrypt_cpp(json::parse(argv[1]));
 
-    json json_result = {
-        {"result", result},
-        
-    };
-
+    json json_result = json::array({ result });
 
     // pour envoyer les données vers le rust, je dois les afficher, sauf que je perds du temps,
     // donc je désactive le print, je l'envoie et le réactive
-    #ifndef DISABLE_OUTPUT
+
+    // #ifndef DISABLE_OUTPUT
     std::cout << json_result.dump();
-    #endif
+    // #endif
 
 
     return 0;

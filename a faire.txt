@@ -12,4 +12,7 @@ recompiler
 pour clone:
 
 git clone
-git submodule update --init --recursive
+git submodule update --init --recursivecd
+
+
+git submodule init
