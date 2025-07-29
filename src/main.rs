@@ -477,7 +477,7 @@ async fn main() -> std::io::Result<()> {
         .app_data(web::PayloadConfig::new(1024 * 1024 * 1024)) // = 1Go
 
         .service(
-            web::scope("/api-raspberrypi")  
+            web::scope("/api/raspberrypi")  
                 .wrap(Compress::default())
                 .wrap(cors_raspberrypi)
 
@@ -485,7 +485,7 @@ async fn main() -> std::io::Result<()> {
         )
 
         .service(
-            web::scope("/api-frontWeb")
+            web::scope("/api/frontWeb")
                 .wrap(Compress::default())
                 .wrap(cors_frontWeb)
 
@@ -497,7 +497,7 @@ async fn main() -> std::io::Result<()> {
         )
 
         .service(
-            web::scope("/api")  
+            web::scope("/api/firebase")  
                 .wrap(Compress::default())
                 .wrap(cors_firebase)
 
