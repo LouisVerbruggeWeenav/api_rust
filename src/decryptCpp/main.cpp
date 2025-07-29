@@ -41,9 +41,6 @@ long long getTimeDifferenceMs(const std::chrono::steady_clock::time_point& t1,
 
 using FastSignalMap = std::unordered_map<std::string, std::vector<std::vector<std::string>>>;
 
-// using typeDataStructData = std::unordered_map<std::string, std::vector<typeStructNode>>;
-
-
 struct typeStructNode {
     string name;
     FastSignalMap signals;

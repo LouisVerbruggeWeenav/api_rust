@@ -70,14 +70,12 @@ struct InfoFrontByName {
 
 
 #[post("/raspberrypi/data")]
-// async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberrypi>) ->  impl Responder {
-async fn raspberryData(info: web::Json<InfoRaspberrypi>) ->  impl Responder {
-
+async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberrypi>) ->  impl Responder {
     print!("RaspberryPi data receive");
     let data_struct: Value = function_decrypt_cpp(info.structData.clone()).expect("Erreur l'hors de l'execution du script python 'decryp'");
     
-    // let mut boat = data.boat.lock().unwrap();
-    // boat.add_boat(info.infoBoat.name.clone(), info.infoBoat.startRecord.clone(), info.infoBoat.endRecord.clone(), data_struct);
+    let mut boat = data.boat.lock().unwrap();
+    boat.add_boat(info.infoBoat.name.clone(), info.infoBoat.startRecord.clone(), info.infoBoat.endRecord.clone(), data_struct);
     "Succes"
 }
 
@@ -374,26 +372,24 @@ fn functionConcatPython(listPath: Vec<String>) -> Result<serde_json::Value, Box<
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // dotenv().ok();
+    dotenv().ok();
 
-    // let host = env::var("DB_HOST").expect("DB_HOST must be set");
-    // let port = env::var("DB_PORT").expect("DB_PORT must be set");
-    // let user = env::var("DB_USER").expect("DB_USER must be set");
-    // let password = env::var("DB_PASSWORD").expect("DB_PASSWORD must be set");
-    // let database = env::var("DB_DATABASE").expect("DB_DATABASE must be set");
-
-
+    let host = env::var("DB_HOST").expect("DB_HOST must be set");
+    let port = env::var("DB_PORT").expect("DB_PORT must be set");
+    let user = env::var("DB_USER").expect("DB_USER must be set");
+    let password = env::var("DB_PASSWORD").expect("DB_PASSWORD must be set");
+    let database = env::var("DB_DATABASE").expect("DB_DATABASE must be set");
 
 
-    // let database = Connection::new(host, port, user, password, database).expect("Impossible de créer la connexion");
-    // let pool = database.get_pool().clone();
 
-    // let mut boat = Boat::new(Ok(pool));
-    // let config = web::Data::new(AppState { boat: Mutex::new(boat), });
+
+    let database = Connection::new(host, port, user, password, database).expect("Impossible de créer la connexion");
+    let pool = database.get_pool().clone();
+
+    let mut boat = Boat::new(Ok(pool));
+    let config = web::Data::new(AppState { boat: Mutex::new(boat), });
    
     
-
-
     HttpServer::new(move || {
         App::new()
         // .app_data(config.clone())
