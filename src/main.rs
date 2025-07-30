@@ -21,6 +21,7 @@ use flate2::Compression;
 use std::io::Write;
 
 use actix_cors::Cors;
+use actix_web::http::header;
 
 
 
@@ -72,7 +73,7 @@ struct InfoFrontByName {
 }
 
 
-#[post("/raspberrypi/data")]
+#[post("/data")]
 async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberrypi>) ->  impl Responder {
     let data_struct: Value = function_decrypt_cpp(info.structData.clone()).expect("Erreur l'hors de l'execution du script python 'decryp'");
     
@@ -426,11 +427,6 @@ pub fn decode_jwt(token: &String) -> Result<Claims, Box<dyn std::error::Error>> 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
 
-    println!("go test decode jwt\n");
-    println!("decode jwt, {:?}", decode_jwt(&"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIDIiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTE2MjM5MDIyfQ.gqGiEtvFHOOhQar-bkR_XKEkdYe7Zjdi-WWpadxCEgg".to_string()));
-
-
-
     dotenv().ok();
 
     let host = env::var("DB_HOST").expect("DB_HOST must be set");
@@ -441,7 +437,6 @@ async fn main() -> std::io::Result<()> {
 
 
 
-
     let database = Connection::new(host, port, user, password, database).expect("Impossible de créer la connexion");
     let pool = database.get_pool().clone();
 
@@ -449,26 +444,25 @@ async fn main() -> std::io::Result<()> {
     let config = web::Data::new(AppState { boat: Mutex::new(boat), });
    
 
-
-
-
     
     HttpServer::new(move || {
 
         let cors_frontWeb = Cors::default()
             .allowed_origin("https://web-can-lemon.vercel.app/")
+            .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
             .allowed_methods(vec!["GET", "POST"])
-            // .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
             .max_age(3600);
 
         let cors_firebase = Cors::default()
             .allowed_origin("https://web-can-lemon.vercel.app/")
+            .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
             .allowed_methods(vec!["GET", "POST"])
-            // .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
             .max_age(3600);
 
+
         let cors_raspberrypi = Cors::default()
-            .allowed_origin("*")
+            .allow_any_origin() // j'accepte toutes les IP car je ne connais pas l'IP du/des Raspberry Pi
+            .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
             .allowed_methods(vec!["POST"])
             .max_age(3600);
 
@@ -481,7 +475,6 @@ async fn main() -> std::io::Result<()> {
                 .wrap(Compress::default())
                 .wrap(cors_raspberrypi)
 
-                .service(raspberryData)
         )
 
         .service(
