@@ -458,6 +458,9 @@ use jsonwebtoken::decode;
 
     
 pub fn decode_jwt(token: &String) -> Result<Claims, Box<dyn std::error::Error>> {
+
+
+
     let mut validation = Validation::default();
     validation.required_spec_claims.remove("exp");
 
@@ -467,7 +470,9 @@ pub fn decode_jwt(token: &String) -> Result<Claims, Box<dyn std::error::Error>> 
 
     let token_data = decode::<Claims>(
         cleaned_token,
-        &DecodingKey::from_secret("d39229:bPjwjc*5).!Y957r7b{B6([5WJFJwKL#?wSf%2rWDq^".as_ref()),
+        
+        &DecodingKey::from_secret(env::var("KEY_TOKEN").expect("KEY_TOKEN must be set").as_ref()),
+
         &validation,
     )?;
 
