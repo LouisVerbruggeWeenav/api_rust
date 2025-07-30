@@ -448,13 +448,13 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
 
         let cors_frontWeb = Cors::default()
-            .allowed_origin("https://web-can-lemon.vercel.app/")
+            .allowed_origin("https://web-can-lemon.vercel.app")
             .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
             .allowed_methods(vec!["GET", "POST"])
             .max_age(3600);
 
         let cors_firebase = Cors::default()
-            .allowed_origin("https://web-can-lemon.vercel.app/")
+            .allowed_origin("https://web-can-lemon.vercel.app")
             .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
             .allowed_methods(vec!["GET", "POST"])
             .max_age(3600);
