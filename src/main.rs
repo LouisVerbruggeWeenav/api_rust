@@ -1,7 +1,7 @@
 
 
 
-use actix_web::{get, post, web, App, HttpServer, HttpResponse, Responder, web::Json};
+use actix_web::{get, post, web, App, HttpServer, HttpResponse, HttpRequest, Responder, web::Json};
 use serde_json;
 
 use pyo3::prelude::*;
@@ -143,92 +143,143 @@ async fn get_boat_by_id_post(data: web::Data<AppState>, info: web::Json<InfoFron
 }
 
 
-#[get("/firebase/getData")]
-async fn get_firebase_data() -> impl Responder {
+#[get("/data")]
+async fn get_firebase_data(req: HttpRequest) -> impl Responder {
 
-    Json(serde_json::json!({
-        "data": [
-            {
-                "name": "Boat1",
-                "startRecord": "2023-01-01T00:00:00Z",
-                "endRecord": "2023-01-02T00:00:00Z"
-            },
-            {
-                "name": "Boat2",
-                "startRecord": "2023-01-03T00:00:00Z",
-                "endRecord": "2023-01-04T00:00:00Z"
-            }
-        ]
-    }))
+    // recuperer les headers pour le token JWT
+    let auth_header = req.headers().get("Authorization");
+    let token = match auth_header {
+        Some(header_value) => header_value.to_str().unwrap_or(""),
+        None => "",
+    };
+    if token.is_empty() {
+        return Json(serde_json::json!({ "error": "Token JWT manquant" }));
+    }
+
+
+    let claims = match decode_jwt(&token.to_string()) {
+        Ok(claims) => claims,
+        Err(e) => {
+            eprintln!("Erreur de décodage JWT: {}", e);
+            return Json(serde_json::json!({ "error": "Token JWT invalide" }));
+        }
+    };
+
+
+    Json(serde_json::json!(
+        {
+    "vesselData": {
+      "speed": {
+        "kmh": 250,
+        "knots": 0
+      },
+      "distance": {
+        "sinceLastCharge": {
+          "km": 0,
+          "consumptionAverage": 0
+        },
+        "sinceReset": {
+          "km": 0,
+          "consumptionAverage": 0
+        },
+        "currentTrip": {
+          "km": 0,
+          "consumptionAverage": 0
+        }
+      },
+      "heading": 0,
+      "location": {
+        "longitude": 0,
+        "latitude": 0
+      },
+      "system1": {
+        "motor": {
+          "temperature": 0,
+          "rpm": 0,
+          "instantaneousTorque": 0,
+          "status": "off"
+        },
+        "variator": {
+          "temperature": 0
+        },
+        "battery": {
+          "temperature": 0,
+          "SOC": 0,
+          "SOH": 0,
+          "voltage": 0,
+          "current": 0,
+          "instantaneousPower": 0,
+          "precharge": "ok",
+          "auxiliaryVoltage": 0,
+          "remainingTimeAtCurrentSpeed": 0
+        },
+        "OBC": {
+          "temperature": 0,
+          "remainingChargingTime": 0,
+          "outputVoltage": 0,
+          "chargingPower": 0,
+          "superchargePower": 0
+        },
+        "communication": {
+          "J1939": "ok",
+          "state": "connected"
+        }
+      },
+      "system2": {
+        "motor": {
+          "temperature": 0,
+          "rpm": 0,
+          "instantaneousTorque": 0,
+          "status": "off"
+        },
+        "variator": {
+          "temperature": 0
+        },
+        "battery": {
+          "temperature": 0,
+          "SOC": 0,
+          "SOH": 0,
+          "voltage": 0,
+          "current": 0,
+          "instantaneousPower": 0,
+          "precharge": "ok",
+          "auxiliaryVoltage": 0,
+          "remainingTimeAtCurrentSpeed": 0
+        },
+        "OBC": {
+          "temperature": 0,
+          "remainingChargingTime": 0,
+          "outputVoltage": 0,
+          "chargingPower": 0,
+          "superchargePower": 0
+        },
+        "communication": {
+          "J1939": "ok",
+          "state": "connected"
+        }
+      },
+      "lighting": {
+        "navigationLights": "off",
+        "sternLight": "off",
+        "interiorLights": "off"
+      },
+      "pumps": {
+        "coolingPump": "off",
+        "circulationPump": "off",
+        "bilgePump": "off"
+      },
+      "trim": {
+        "height": 0
+      },
+      "seaWater": {
+        "temperature": 0,
+        "depth": 0
+      },
+      "totalEngineTime": 0
+    }
+  }))
 }
 
-
-#[get("/test")]
-async fn test() -> impl Responder {
-
-let data = serde_json::json!([
-    {
-        "timestamp": "126.5",
-        "id": 403105268,
-        "length": "8",
-        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
-    },
-    {
-        "timestamp": "176.5",
-        "id": 403105268,
-        "length": "8",
-        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
-    },
-    {
-        "timestamp": "181.5",
-        "id": 403105268,
-        "length": "8",
-        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
-    },
-    {
-        "timestamp": "181.8",
-        "id": 403105268,
-        "length": "8",
-        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
-    },
-    {
-        "timestamp": "182.1",
-        "id": 403105268,
-        "length": "8",
-        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
-    },
-    {
-        "timestamp": "281.5",
-        "id": 403105268,
-        "length": "8",
-        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
-    },
-    {
-        "timestamp": "426.4",
-        "id": 403105268,
-        "length": "8",
-        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
-    },
-    {
-        "timestamp": "431.4",
-        "id": 403105268,
-        "length": "8",
-        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
-    },
-    {
-        "timestamp": "431.8",
-        "id": 403105268,
-        "length": "8",
-        "message": "b'\\x11\\x01\\x00\\x00\\x00\\x00\\x00\\x00'"
-    }
-    ]
-    );
-
-    match function_decrypt_cpp(data.to_string()) {
-        Ok(value) => HttpResponse::Ok().json(value),
-        Err(e) => HttpResponse::InternalServerError().body(format!("Erreur: {}", e)),
-    }
-}
 
 
 #[post("/boats/concatOne")]
@@ -396,11 +447,7 @@ fn functionConcatPython(listPath: Vec<String>) -> Result<serde_json::Value, Box<
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
-    pub sub: String,
-    pub name: Option<String>,
-    pub admin: Option<bool>,
-    pub iat: Option<usize>,
-    pub exp: Option<usize>,
+    pub idBoat: String,
 }
 
 
@@ -409,19 +456,23 @@ use jsonwebtoken::errors::ErrorKind;
 use jsonwebtoken::decode;
 
 
+    
 pub fn decode_jwt(token: &String) -> Result<Claims, Box<dyn std::error::Error>> {
     let mut validation = Validation::default();
-    validation.required_spec_claims.remove("exp"); // Désactive l'obligation du champ exp
+    validation.required_spec_claims.remove("exp");
 
-    let token_data = jsonwebtoken::decode::<Claims>(
-        token,
-        &DecodingKey::from_secret("your-jwt-secret-dsdsdssssssssssskey".as_ref()),
+
+    // Retirer le préfixe "Bearer ", s’il existe
+    let cleaned_token = token.trim().trim_start_matches("Bearer ").trim();
+
+    let token_data = decode::<Claims>(
+        cleaned_token,
+        &DecodingKey::from_secret("d39229:bPjwjc*5).!Y957r7b{B6([5WJFJwKL#?wSf%2rWDq^".as_ref()),
         &validation,
     )?;
+
     Ok(token_data.claims)
 }
-
-
 
 
 #[actix_web::main]
@@ -454,7 +505,7 @@ async fn main() -> std::io::Result<()> {
             .max_age(3600);
 
         let cors_firebase = Cors::default()
-            .allowed_origin("https://web-can-lemon.vercel.app")
+            .allowed_origin("https://europe-west9-weenav-mobile-app.cloudfunctions.net")
             .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
             .allowed_methods(vec!["GET", "POST"])
             .max_age(3600);
@@ -487,7 +538,6 @@ async fn main() -> std::io::Result<()> {
                 .service(get_boat_one)
                 .service(get_grouped_boats)
                 .service(get_boat_by_id_post)
-                .service(test)
                 .service(concatOne)
         )
 
