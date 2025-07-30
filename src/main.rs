@@ -475,6 +475,8 @@ async fn main() -> std::io::Result<()> {
                 .wrap(Compress::default())
                 .wrap(cors_raspberrypi)
 
+                .service(raspberryData)
+
         )
 
         .service(
@@ -503,5 +505,7 @@ async fn main() -> std::io::Result<()> {
     .run()
     .await
 }
+
+
 
 
