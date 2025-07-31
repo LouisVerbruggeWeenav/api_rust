@@ -422,7 +422,7 @@ int main() {
 
         json json_result = convertToJson(result);
 
-        std::cout << json_result.dump(4); // dump indenté pour lisibilité
+        std::cout << json_result.dump();
 
 
     } catch (const exception& e) {

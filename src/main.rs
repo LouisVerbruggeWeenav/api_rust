@@ -370,8 +370,6 @@ fn function_decrypt_cpp(tram_can: String) -> Result<Value, Box<dyn std::error::E
         return Err("Erreur de l'exécutable C++".into());
     }
 
-    println!("Sortie C++:\n{}", stdout_str);
-
     let value: Value = serde_json::from_str(&stdout_str)?;
     Ok(value)
 }
