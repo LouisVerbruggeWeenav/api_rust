@@ -291,7 +291,6 @@ async fn get_firebase_data(req: HttpRequest) -> impl Responder {
 }
 
 
-
 #[post("/boats/concatOne")]
 async fn concatOne(data: web::Data<AppState>, info: web::Json<InfoFrontConcatOne>) -> impl Responder {
 
