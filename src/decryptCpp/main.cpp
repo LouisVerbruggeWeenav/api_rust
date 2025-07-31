@@ -342,24 +342,33 @@ extern "C" const typeDataStructData decrypt_cpp(json tram_can_json)
 }
 
 
-int main(int argc, char* argv[]) {
+int main() {
 
-    if (argc < 2) {
-        cerr << "Usage: ./main <tram>" << endl;
+    ostringstream ss;
+    ss << cin.rdbuf();
+    string input = ss.str();
+
+    if (input.empty()) {
+        cerr << "Entrée vide sur stdin" << endl;
         return 1;
     }
 
+    try {
+        const typeDataStructData result = decrypt_cpp(json::parse(input));
 
-    const typeDataStructData result = decrypt_cpp(json::parse(argv[1]));
+        json json_result = json::array({ result });
 
-    json json_result = json::array({ result });
+        // pour envoyer les données vers le rust, je dois les afficher, sauf que je perds du temps,
+        // donc je désactive le print, je l'envoie et le réactive
+        //#ifndef DISABLE_OUTPUT
+        std::cout << json_result.dump();
+        // #endif   gi
 
-    // pour envoyer les données vers le rust, je dois les afficher, sauf que je perds du temps,
-    // donc je désactive le print, je l'envoie et le réactive
+    } catch (const exception& e) {
+        cerr << "❌ Erreur lors du décryptage : " << e.what() << endl;
+        return 1;
+    }
 
-    // #ifndef DISABLE_OUTPUT
-    std::cout << json_result.dump();
-    // #endif
 
 
     return 0;
