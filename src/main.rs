@@ -24,7 +24,7 @@ use actix_cors::Cors;
 use actix_web::http::header;
 
 use std::process::{Command, Stdio};
-
+use rand::Rng;
 
 
 
@@ -146,8 +146,12 @@ async fn get_boat_by_id_post(data: web::Data<AppState>, info: web::Json<InfoFron
 }
 
 
+
+
 #[get("/data")]
 async fn get_firebase_data(req: HttpRequest) -> impl Responder {
+
+
 
     // recuperer les headers pour le token JWT
     let auth_header = req.headers().get("Authorization");
@@ -158,6 +162,9 @@ async fn get_firebase_data(req: HttpRequest) -> impl Responder {
     if token.is_empty() {
         return Json(serde_json::json!({ "error": "Token JWT manquant" }));
     }
+
+    let mut rng = rand::thread_rng();
+    let random_number: u32 = rng.gen();
 
 
     let claims = match decode_jwt(&token.to_string()) {
@@ -173,112 +180,112 @@ async fn get_firebase_data(req: HttpRequest) -> impl Responder {
         {
     "vesselData": {
       "speed": {
-        "kmh": 250,
-        "knots": 0
+        "kmh": random_number,
+        "knots": random_number
       },
       "distance": {
         "sinceLastCharge": {
-          "km": 0,
-          "consumptionAverage": 0
+          "km": random_number,
+          "consumptionAverage": random_number
         },
         "sinceReset": {
-          "km": 0,
-          "consumptionAverage": 0
+          "km": random_number,
+          "consumptionAverage": random_number
         },
         "currentTrip": {
-          "km": 0,
-          "consumptionAverage": 0
+          "km": random_number,
+          "consumptionAverage": random_number
         }
       },
-      "heading": 0,
+      "heading": random_number,
       "location": {
-        "longitude": 0,
-        "latitude": 0
+        "longitude": random_number,
+        "latitude": random_number
       },
       "system1": {
         "motor": {
-          "temperature": 0,
-          "rpm": 0,
-          "instantaneousTorque": 0,
-          "status": "off"
+          "temperature": random_number,
+          "rpm": random_number,
+          "instantaneousTorque": random_number,
+          "status": format!("off: {}", random_number.to_string())
         },
         "variator": {
-          "temperature": 0
+          "temperature": random_number
         },
         "battery": {
-          "temperature": 0,
-          "SOC": 0,
-          "SOH": 0,
-          "voltage": 0,
-          "current": 0,
-          "instantaneousPower": 0,
-          "precharge": "ok",
-          "auxiliaryVoltage": 0,
-          "remainingTimeAtCurrentSpeed": 0
+          "temperature": random_number,
+          "SOC": random_number,
+          "SOH": random_number,
+          "voltage": random_number,
+          "current": random_number,
+          "instantaneousPower": random_number,
+          "precharge": format!("off: {}", random_number.to_string()),
+          "auxiliaryVoltage": random_number,
+          "remainingTimeAtCurrentSpeed": random_number
         },
         "OBC": {
-          "temperature": 0,
-          "remainingChargingTime": 0,
-          "outputVoltage": 0,
-          "chargingPower": 0,
-          "superchargePower": 0
+          "temperature": random_number,
+          "remainingChargingTime": random_number,
+          "outputVoltage": random_number,
+          "chargingPower": random_number,
+          "superchargePower": random_number
         },
         "communication": {
-          "J1939": "ok",
-          "state": "connected"
+          "J1939": format!("off: {}", random_number.to_string()),
+          "state": format!("connected: {}", random_number.to_string())
         }
       },
       "system2": {
         "motor": {
-          "temperature": 0,
-          "rpm": 0,
-          "instantaneousTorque": 0,
-          "status": "off"
+          "temperature": random_number,
+          "rpm": random_number,
+          "instantaneousTorque": random_number,
+          "status": format!("off: {}", random_number.to_string())
         },
         "variator": {
-          "temperature": 0
+          "temperature": random_number
         },
         "battery": {
-          "temperature": 0,
-          "SOC": 0,
-          "SOH": 0,
-          "voltage": 0,
-          "current": 0,
-          "instantaneousPower": 0,
-          "precharge": "ok",
-          "auxiliaryVoltage": 0,
-          "remainingTimeAtCurrentSpeed": 0
+          "temperature": random_number,
+          "SOC": random_number,
+          "SOH": random_number,
+          "voltage": random_number,
+          "current": random_number,
+          "instantaneousPower": random_number,
+          "precharge": format!("ok: {}", random_number.to_string()),
+          "auxiliaryVoltage": random_number,
+          "remainingTimeAtCurrentSpeed": random_number
         },
         "OBC": {
-          "temperature": 0,
-          "remainingChargingTime": 0,
-          "outputVoltage": 0,
-          "chargingPower": 0,
-          "superchargePower": 0
+          "temperature": random_number,
+          "remainingChargingTime": random_number,
+          "outputVoltage": random_number,
+          "chargingPower": random_number,
+          "superchargePower": random_number
         },
         "communication": {
-          "J1939": "ok",
-          "state": "connected"
+          "J1939": format!("ok: {}", random_number.to_string()),
+          "state": format!("connected: {}", random_number.to_string())
         }
       },
       "lighting": {
-        "navigationLights": "off",
-        "sternLight": "off",
-        "interiorLights": "off"
+        "navigationLights": format!("off: {}", random_number.to_string()),
+        "sternLight": format!("off: {}", random_number.to_string()),
+        "interiorLights": format!("off: {}", random_number.to_string())
       },
       "pumps": {
-        "coolingPump": "off",
-        "circulationPump": "off",
-        "bilgePump": "off"
+        "coolingPump": format!("off: {}", random_number.to_string()),
+        "circulationPump": format!("off: {}", random_number.to_string()),
+        "bilgePump": format!("off: {}", random_number.to_string())
       },
       "trim": {
-        "height": 0
+        "height": random_number
       },
       "seaWater": {
-        "temperature": 0,
-        "depth": 0
+        "temperature": random_number,
+        "depth": random_number
       },
-      "totalEngineTime": 0
+      "totalEngineTime": random_number
     }
   }))
 }
