@@ -23,6 +23,9 @@ use std::io::Write;
 use actix_cors::Cors;
 use actix_web::http::header;
 
+use std::process::{Command, Stdio};
+
+
 
 
 // Ensure the database module is declared
@@ -77,7 +80,7 @@ struct InfoFrontByName {
 async fn raspberryData(data: web::Data<AppState>, info: web::Json<InfoRaspberrypi>) ->  impl Responder {
     let data_struct: Value = function_decrypt_cpp(info.structData.clone()).expect("Erreur l'hors de l'execution du script python 'decryp'");
     
-    let mut boat = data.boat.lock().unwrap();
+    let mut boat: std::sync::MutexGuard<'_, Boat> = data.boat.lock().unwrap();
     boat.add_boat(info.infoBoat.name.clone(), info.infoBoat.startRecord.clone(), info.infoBoat.endRecord.clone(), data_struct);
     "Succes"
 }
@@ -341,14 +344,23 @@ async fn get_boat_one(data: web::Data<AppState>, info: web::Json<InfoFrontOne>) 
 
 
 
-use std::process::Command;
+// use std::process::Command;
 
 fn function_decrypt_cpp(tram_can: String) -> Result<Value, Box<dyn std::error::Error>> {
 
-    let output = Command::new("./src/decryptCpp/main")
-        .arg(&tram_can)
+    let mut child = Command::new("./src/decryptCpp/main")
         .env("LD_LIBRARY_PATH", "./src/decryptCpp/dbcppp/build")
-        .output()?;
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()?;
+
+    // Écrire tram_can dans stdin du processus
+    if let Some(mut stdin) = child.stdin.take() {
+        stdin.write_all(tram_can.as_bytes())?;
+    }
+
+    let output = child.wait_with_output()?;
 
     let stdout_str = String::from_utf8_lossy(&output.stdout);
     let stderr_str = String::from_utf8_lossy(&output.stderr);
@@ -498,9 +510,8 @@ async fn main() -> std::io::Result<()> {
 
     let mut boat = Boat::new(Ok(pool));
     let config = web::Data::new(AppState { boat: Mutex::new(boat), });
-   
 
-    
+
     HttpServer::new(move || {
 
         let cors_frontWeb = Cors::default()

@@ -39,7 +39,10 @@ long long getTimeDifferenceMs(const std::chrono::steady_clock::time_point& t1,
     return std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 }
 
-using FastSignalMap = std::unordered_map<std::string, std::vector<std::vector<std::string>>>;
+
+using Value = std::variant<std::string, double>;
+using FastSignalMap = std::unordered_map<std::string, std::vector<std::vector<Value>>>;
+
 
 struct typeStructNode {
     string name;
@@ -80,16 +83,79 @@ std::vector<std::string> split(const std::string& str) {
     return tokens;
 }
 
-void to_json(json& j, const typeStructNode& node) {
-    json signals_json = json::array();
-    for (const auto& [signalName, values] : node.signals) {
-        signals_json.push_back({ {signalName, values} });
+
+
+json convertToJson(const typeDataStructData& dataStruct)
+{
+    json final_array = json::array();
+
+    // Parcours des catégories, par ex. "BMS"
+    for (const auto& [category_name, nodes] : dataStruct)
+    {
+        json category_json = json::array();
+
+        // Parcours des noeuds dans la catégorie
+        for (const auto& node : nodes)
+        {
+            json signals_json = json::array();
+
+            // Parcours des signaux dans le noeud
+            for (const auto& [signal_name, value_time_pairs] : node.signals)
+            {
+                json values = json::array();
+                json timestamps = json::array();
+
+                if (value_time_pairs.size() == 2) 
+                {
+                    const auto& vals = value_time_pairs[0];
+                    const auto& times = value_time_pairs[1];
+
+                    if (vals.size() == times.size())
+                    {
+                        for (size_t i = 0; i < vals.size(); ++i) {
+                            const auto& val = vals[i];
+                            const auto& ts = times[i];
+
+                            // Conserver double ou string pour la valeur
+                            if (std::holds_alternative<double>(val)) {
+                                values.push_back(std::get<double>(val));
+                            } else if (std::holds_alternative<std::string>(val)) {
+                                values.push_back(std::get<std::string>(val));
+                            }
+
+                            // Pour le timestamp, on suppose une string (sinon convertit en string)
+                            if (std::holds_alternative<std::string>(ts)) {
+                                timestamps.push_back(std::get<std::string>(ts));
+                            } else if (std::holds_alternative<double>(ts)) {
+                                timestamps.push_back(std::to_string(std::get<double>(ts)));
+                            }
+                        }
+                    }
+                }
+
+                json signal_json = json::array({ values, timestamps });
+
+                signals_json.push_back({ { signal_name, signal_json } });
+            }
+
+            json node_json = { { node.name, signals_json } };
+
+            category_json.push_back(node_json);
+        }
+
+        final_array.push_back({ { category_name, category_json } });
     }
 
-    j = {
-        { node.name, signals_json }  // ici on force un tableau
-    };
+    return final_array;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -146,11 +212,16 @@ void addSignal(FastSignalMap& signalMap,
 {
     // Si le signal n'existe pas encore, on initialise avec 2 vecteurs vides
     if (signalMap.find(nameDecode) == signalMap.end()) {
-        signalMap[nameDecode] = std::vector<std::vector<std::string>>(2);
+        signalMap[nameDecode] = std::vector<std::vector<Value>>(2);
     }
 
-    signalMap[nameDecode][0].push_back(valuesDecode);
-    signalMap[nameDecode][1].push_back(dateTime); 
+    try {
+        signalMap[nameDecode][0].push_back(std::stof(valuesDecode));
+    } catch (...) {
+        signalMap[nameDecode][0].push_back(valuesDecode);
+    }
+
+    signalMap[nameDecode][1].push_back(dateTime);
 }
 
 
@@ -310,21 +381,14 @@ extern "C" const typeDataStructData decrypt_cpp(json tram_can_json)
 
             std::vector<uint8_t> raw_bytes = parse_escaped_bytes(message_str);
 
-            // std::istringstream stream(message_str);
-            // std::string byte_str;
-            // while (stream >> byte_str) {
-            //     raw_bytes.push_back(static_cast<uint8_t>(std::stoul(byte_str, nullptr, 16)));
-            // }
-
 
             int index = structInList(data, "0x"+to_string(idCan));
             if (index >= 0) {
                 
                 decodeTram(idCan, messages_map, raw_bytes, data[index].signals, timee);
 
-            } else {
-            
-            // cout << "il y a un ID inconnu..." ;
+            } else {            
+                // cout << "il y a un ID inconnu..." ;
             }
             
         }
@@ -356,16 +420,13 @@ int main() {
     try {
         const typeDataStructData result = decrypt_cpp(json::parse(input));
 
-        json json_result = json::array({ result });
+        json json_result = convertToJson(result);
 
-        // pour envoyer les données vers le rust, je dois les afficher, sauf que je perds du temps,
-        // donc je désactive le print, je l'envoie et le réactive
-        //#ifndef DISABLE_OUTPUT
-        std::cout << json_result.dump();
-        // #endif   gi
+        std::cout << json_result.dump(4); // dump indenté pour lisibilité
+
 
     } catch (const exception& e) {
-        cerr << "❌ Erreur lors du décryptage : " << e.what() << endl;
+        cerr << "Erreur lors du décryptage : " << e.what() << endl;
         return 1;
     }
 
